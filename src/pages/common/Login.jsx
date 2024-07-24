@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import Logo from '../logo/Logo';
+import Logo from '../../logo/Logo';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showEyeIcon, setShowEyeIcon] = useState('hidden');
+
+    // Eye icon toggle fuction for password visibility
+    const handleMouseDown = (e) => {
+        // Prevents losing focus on the input field
+        e.preventDefault();
+        setShowPassword(!showPassword);
+    };
+
+
     return (
         <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
             <div className='flex flex-col gap-5 justify-center items-center'>
@@ -20,21 +33,23 @@ const Login = () => {
                             className='border focus:border-gray-500 w-full outline-none p-2 text-sm rounded-md' />
                     </div>
                     <div className='flex border focus-within:border-gray-500 items-center text-sm rounded-md'>
-                        <input type="password"
+                        <input type={showPassword ? 'text' : 'password'}
                             placeholder='Password'
+                            onFocus={() => setShowEyeIcon('')}
+                            onBlur={() => setShowEyeIcon('hidden')}
                             className='w-full outline-none p-2 text-sm rounded-md' />
-                        <div className='p-2 cursor-pointer'>
+                        <div className={`p-2 cursor-pointer ${showEyeIcon}`} onMouseDown={handleMouseDown}>
                             <span className='text-gray-500'>
-                                <FaEye />
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </span>
                         </div>
                     </div>
                     <div>
-                        <p className='text-primaryColor text-end font-semibold text-sm'>Forgot Password ?</p>
+                        <Link to={'/forgot-password'}><p className='text-primaryColor text-end font-semibold text-sm'>Forgot Password ?</p></Link>
                     </div>
                     <button className='bg-primaryColor text-white py-1.5 rounded-md'>Sign In</button>
                     <div className='text-sm pb-14'>
-                        <p className='text-end font-semibold text-gray-500'>Don't have an account ? <span className='text-primaryColor'>Get Started</span></p>
+                        <p className='text-center font-semibold text-gray-500'>Don't have an account ? <Link to={'/register'}><span className='text-primaryColor'>Get Started</span></Link></p>
                     </div>
                 </form>
             </div>

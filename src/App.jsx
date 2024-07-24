@@ -1,11 +1,15 @@
-import Login from "./pages/Login"
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/routes";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
   return (
-    <div>
-      <Login/>
-    </div>
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer position="top-center" toastStyle={{ backgroundColor: "white" , color: "black" , fontSize: "14px"}} />
+    </>
   )
 }
 
