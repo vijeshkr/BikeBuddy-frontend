@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Home from '../pages/common/Home';
 import Login from '../pages/common/Login';
-import SignUp from '../pages/common/SignUp';
+import SignUp from '../pages/customer/SignUp';
 import ForgotPassword from '../pages/common/ForgotPassword';
 import VerificationMail from '../pages/common/VerificatioMail';
+import VerifiedStatus from '../pages/common/VerifiedStatus';
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
     {
         path: '/register-success',
         element: <VerificationMail/>
+    },
+    {
+        path: '/verify-email/:token',
+        element: <VerifiedStatus/>
     },
 ]);
 

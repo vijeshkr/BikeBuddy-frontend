@@ -196,7 +196,7 @@ const SignUp = () => {
 
                         <button className='bg-primaryColor text-white py-1.5 rounded-md'>Sign Up</button>
                         <div className='text-sm pb-14'>
-                            <p className='text-center font-semibold text-gray-500'>Already have an account ? <Link><span className='text-primaryColor'>Login Now</span></Link></p>
+                            <p className='text-center font-semibold text-gray-500'>Already have an account ? <Link to={'/login'}><span className='text-primaryColor'>Login Now</span></Link></p>
                         </div>
                     </form>
                 </div>
