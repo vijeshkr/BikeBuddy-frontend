@@ -5,31 +5,41 @@ import SignUp from '../pages/customer/SignUp';
 import ForgotPassword from '../pages/common/ForgotPassword';
 import VerificationMail from '../pages/common/VerificatioMail';
 import VerifiedStatus from '../pages/common/VerifiedStatus';
+import ResetPassword from '../pages/common/ResetPassword';
+import ResetSuccess from '../pages/common/ResetSuccess';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home/>
+        element: <Home />
     },
     {
         path: '/login',
-        element: <Login/>
+        element: <Login />
     },
     {
         path: '/register',
-        element: <SignUp/>
+        element: <SignUp />
     },
     {
         path: '/forgot-password',
-        element: <ForgotPassword/>
+        element: <ForgotPassword />
+    },
+    {
+        path: '/reset-password/:token',
+        element: <ResetPassword />
     },
     {
         path: '/register-success',
-        element: <VerificationMail/>
+        element: <VerificationMail />
     },
     {
         path: '/verify-email/:token',
-        element: <VerifiedStatus/>
+        element: <VerifiedStatus />
+    },
+    {
+        path: '/reset-success',
+        element: <ResetSuccess />
     },
 ]);
 

@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../../logo/Logo';
 import successLogo from '../../assets/Confirmed-bro.png';
+import { Link, useNavigate } from 'react-router-dom';
 
-const ResetSucess = () => {
+const ResetSuccess = () => {
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Navigate to login after 3 seconds
+        const timer = setTimeout(() => {
+            navigate('/login');
+        }, 3000);
+
+        // Cleanup the timer if the component unmounts
+        return () => clearTimeout(timer);
+    }, [navigate]);
     return (
         <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
             <div className='flex flex-col gap-5 justify-center items-center'>
@@ -16,7 +28,7 @@ const ResetSucess = () => {
                     <div>
                         <img className='object-cover' src={successLogo} alt="" />
                     </div>
-                    <button className='bg-primaryColor text-white py-1.5 rounded-md'>Back to Login</button>
+                    <Link to={'/login'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
 
                 </div>
             </div>
@@ -24,4 +36,4 @@ const ResetSucess = () => {
     )
 }
 
-export default ResetSucess;
+export default ResetSuccess;
