@@ -7,23 +7,41 @@ import VerificationMail from '../pages/common/VerificatioMail';
 import VerifiedStatus from '../pages/common/VerifiedStatus';
 import ResetPassword from '../pages/common/ResetPassword';
 import ResetSuccess from '../pages/common/ResetSuccess';
+import ProtectedRoute from './ProtectedRoute';
+import AuthGuard from './AuthGuard';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />
+        element: (
+            <ProtectedRoute>
+                <Home />
+            </ProtectedRoute>
+        )
     },
     {
         path: '/login',
-        element: <Login />
+        element: (
+            <AuthGuard>
+                <Login />
+            </AuthGuard>
+        )
     },
     {
         path: '/register',
-        element: <SignUp />
+        element: (
+            <AuthGuard>
+                <SignUp />
+            </AuthGuard>
+        )
     },
     {
         path: '/forgot-password',
-        element: <ForgotPassword />
+        element: (
+            <AuthGuard>
+                <ForgotPassword />
+            </AuthGuard>
+        )
     },
     {
         path: '/reset-password/:token',

@@ -7,6 +7,9 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import { validateEmail, validatePassword } from '../../common/validations';
 import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../redux/features/loadingSlice';
+import { userDetails } from '../../redux/features/userSlice';
 
 const Login = () => {
 
@@ -45,7 +48,9 @@ const Login = () => {
     }
 
     // State to manage loading
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
+    const loading = useSelector((state) => state.loading);
+    const dispatch = useDispatch();
     // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,26 +69,27 @@ const Login = () => {
                     password
                 }
                 // Send data to the server
-                setLoading(true);
+                dispatch(setLoading(true));
                 try {
                     // User registration api call
                     const response = await makeRequest.post('/login', data);
                     // If the registration is success navigate to verification mail page
                     if (response.data.success) {
                         toast.success('Login successful');
+                        dispatch(userDetails({ user: response.data.result.user }));
                         navigate('/');
-                    } 
+                    }
                 } catch (error) {
                     console.error('Error during logged in : ', error);
                     // If the logged in fails display the error message using toast
-                    if(error.response.data.pendingVerification) {
+                    if (error.response.data.pendingVerification) {
                         toast.error('Email is not verified');
                         navigate('/register-success');
-                    }else if(!error.response.data.success) {
+                    } else if (!error.response.data.success) {
                         toast.error(error?.response?.data?.message || 'Error during logged in');
                     }
                 } finally {
-                    setLoading(false);
+                    dispatch(setLoading(false));
                 }
             }
         }
