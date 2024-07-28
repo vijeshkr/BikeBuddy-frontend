@@ -10,6 +10,7 @@ import { FaHistory } from "react-icons/fa";
 import { HiShoppingBag } from "react-icons/hi2";
 import { CgProfile } from "react-icons/cg";
 import { Outlet } from 'react-router-dom';
+import NavBar from '../../components/NavBar';
 
 const AdminHome = () => {
 
@@ -27,7 +28,7 @@ const AdminHome = () => {
   ];
 
   return (
-    <div className='h-screen w-full bg-slate-500 flex'>
+    <div className='h-screen w-full bg-slate-100 flex'>
       {/* Sidebar for navigation */}
         <aside>
           <SideBar sidebarData={adminSidebar}/>
@@ -35,11 +36,11 @@ const AdminHome = () => {
 
         <div className='w-full'>
 
-            <nav className='bg-white h-16'>
-                Navbar
+            <nav >
+                <NavBar/>
             </nav>
 
-            <div className='bg-gray-200 w-full h-full flex p-5 gap-5'>
+            <div className=' w-full h-h-calc flex p-5 gap-5'>
               {/* Outlet */}
                 <main className='h-full flex-1'>
                 <Outlet/>

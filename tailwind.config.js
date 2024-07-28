@@ -11,7 +11,10 @@ export default {
       },
       screens: {
         'xs': '475px',
-      }
+      },
+      height: {
+        'h-calc': 'calc(100vh - 56px)',
+      },
     },
   },
   plugins: [

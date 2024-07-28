@@ -24,7 +24,7 @@ const SideBar = ({ sidebarData }) => {
             ${!open && 'rotate-180'}
         bg-white text-primaryColor text-3xl rounded-full absolute -right-3 top-9 border border-primaryColor cursor-pointer`} />
       {sidebarData.map((item, index) => (
-        <NavLink to={item.link} key={index} end className={`flex items-center gap-4 p-2 rounded-md mt-2 duration-200`} >
+        <NavLink to={item.link} key={index} end className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md mt-2 duration-200 ${isActive ? 'active' : ''}`} >
           <span className='text-2xl'>
             {item.icon}
           </span>
