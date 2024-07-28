@@ -14,5 +14,13 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addComponents }) {
+      addComponents({
+        '.active': {
+          '@apply text-black bg-white': {},
+        },
+      });
+    },
+  ],
 }
