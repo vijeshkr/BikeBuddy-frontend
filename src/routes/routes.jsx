@@ -20,7 +20,7 @@ import AdminMechanicsList from '../pages/admin/AdminMechanicsList';
 import AdminCustomersList from '../pages/admin/AdminCustomersList';
 import AdminSpareParts from '../pages/admin/AdminSpareParts';
 import AdminServiceHistory from '../pages/admin/AdminServiceHistory';
-import AdminProfile from '../pages/admin/AdminProfile';
+import ProfilePage from '../pages/common/ProfilePage';
 
 const router = createBrowserRouter([
     {
@@ -31,18 +31,35 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         ),
         children: [
+            
             {
                 path: '',
-                element: <CustomerHome />
+                element: <CustomerHome />,
+                children: [
+                    {
+                        path: 'profile-page',
+                        element: <ProfilePage />
+                    },
+                ]
             },
             {
                 path: 'mechanic',
-                element: <MechanicHome />
+                element: <MechanicHome />,
+                children: [
+                    {
+                        path: 'profile-page',
+                        element: <ProfilePage />
+                    },
+                ]
             },
             {
                 path: 'admin',
                 element: <AdminHome />,
                 children: [
+                    {
+                        path: 'profile-page',
+                        element: <ProfilePage />
+                    },
                     {
                         path: '',
                         element: <AdminDashboard />
@@ -74,10 +91,6 @@ const router = createBrowserRouter([
                     {
                         path: 'admin-service-history',
                         element: <AdminServiceHistory />
-                    },
-                    {
-                        path: 'admin-profile',
-                        element: <AdminProfile />
                     },
                 ]
             }

@@ -24,7 +24,7 @@ const AdminHome = () => {
     {label: 'Customers', icon: <IoIosPeople/>, link:'admin-customers'},
     {label: 'Spare Parts', icon: <HiShoppingBag/>, link:'admin-spare-parts'},
     {label: 'Services History', icon: <FaHistory/>, link:'admin-service-history'},
-    {label: 'Profile', icon: <CgProfile/>, link:'admin-profile'},
+    {label: 'Profile', icon: <CgProfile/>, link:'profile-page'},
   ];
 
   return (
@@ -42,7 +42,7 @@ const AdminHome = () => {
 
             <div className=' w-full h-h-calc flex p-5 gap-5'>
               {/* Outlet */}
-                <main className='h-full flex-1 overflow-y-auto bg-white p-5'>
+                <main className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'>
                 <Outlet/>
                 </main>
 

@@ -26,6 +26,13 @@ export default {
         '.active': {
           '@apply text-black bg-white': {},
         },
+        '.scrollbar-none': {
+          '-ms-overflow-style': 'none',  // for Internet Explorer and Edge
+          'scrollbar-width': 'none',     // for Firefox
+        },
+        '.scrollbar-none::-webkit-scrollbar': {
+          'display': 'none',             // for Chrome, Safari, and Opera
+        },
       });
     },
   ],

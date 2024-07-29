@@ -6,7 +6,7 @@ import { IoMailOutline } from "react-icons/io5";
 import { FaMobileAlt } from "react-icons/fa";
 import { TbCurrentLocation } from "react-icons/tb";
 
-const AdminProfile = () => {
+const ProfilePage = () => {
   const user = useSelector((state) => state.user.user);
 
   // State for update photo toggle
@@ -114,4 +114,4 @@ const AdminProfile = () => {
   )
 }
 
-export default AdminProfile;
+export default ProfilePage;
