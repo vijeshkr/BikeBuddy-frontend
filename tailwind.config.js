@@ -15,6 +15,9 @@ export default {
       height: {
         'h-calc': 'calc(100vh - 56px)',
       },
+      boxShadow: {
+        'custom': '0px 0px 5px 0px rgba(0,0,0,0.1)',
+      },
     },
   },
   plugins: [

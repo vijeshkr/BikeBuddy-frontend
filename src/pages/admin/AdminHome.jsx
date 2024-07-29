@@ -42,11 +42,11 @@ const AdminHome = () => {
 
             <div className=' w-full h-h-calc flex p-5 gap-5'>
               {/* Outlet */}
-                <main className='h-full flex-1'>
+                <main className='h-full flex-1 overflow-y-auto bg-white p-5'>
                 <Outlet/>
                 </main>
 
-                <aside className='h-full bg-green-700'>Rightbar</aside>
+                {/* <aside className='h-full w-72 bg-white p-5'>Rightbar</aside> */}
             </div>
 
 
