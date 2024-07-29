@@ -58,7 +58,7 @@ const ProfilePage = () => {
 
 
         {/* Update profile */}
-        <form className='flex flex-col gap-5 shadow-custom flex-1 p-4 md:h-[470px]'>
+        <form className='flex flex-col gap-5 shadow-custom flex-1 p-4 md:h-[470px] xs:min-w-[360px]'>
 
 
 
@@ -75,7 +75,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Profile pic update or remove */}
-            <div className={`flex justify-center items-center gap-2 p-2 text-xs ${!updatePhoto ? `hidden` : ``}`}>
+            <div className={`flex flex-col xs:flex-row justify-center items-center gap-2 p-2 text-xs ${!updatePhoto ? `hidden` : ``}`}>
 
               <label className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Update photo
                 <input type="file" className='hidden' />

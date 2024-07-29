@@ -11,6 +11,7 @@ import { HiShoppingBag } from "react-icons/hi2";
 import { CgProfile } from "react-icons/cg";
 import { Outlet } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
+import SmallSideBar from '../../components/SmallSideBar';
 
 const AdminHome = () => {
 
@@ -31,6 +32,9 @@ const AdminHome = () => {
     <div className='h-screen w-full bg-slate-100 flex'>
       {/* Sidebar for navigation */}
         <aside>
+          <div >
+          <SmallSideBar sidebarData={adminSidebar} />
+          </div>
           <SideBar sidebarData={adminSidebar}/>
         </aside>
 

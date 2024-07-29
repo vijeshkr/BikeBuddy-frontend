@@ -10,7 +10,7 @@ const SideBar = ({ sidebarData }) => {
 
   return (
     <div className={`${open ? 'w-60' : 'w-20'}
-     duration-300 h-screen flex flex-col justify-center p-5 bg-primaryColor text-white relative`}>
+     hidden duration-300 h-screen md:flex flex-col justify-center p-5 bg-primaryColor text-white relative`}>
       <div className={`${open && 'hidden'} absolute top-[42px] left-5`}>
         <Logo width={'35'} height={'18'} />
       </div>

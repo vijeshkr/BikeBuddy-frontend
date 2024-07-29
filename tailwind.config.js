@@ -17,6 +17,7 @@ export default {
       },
       boxShadow: {
         'custom': '0px 0px 5px 0px rgba(0,0,0,0.1)',
+        'sidebar': '200px 61px 176px 200px rgba(0,0,0,0.66)',
       },
     },
   },
