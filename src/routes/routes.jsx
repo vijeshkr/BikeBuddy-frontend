@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Home from '../pages/common/Home';
 import Login from '../pages/common/Login';
 import SignUp from '../pages/customer/SignUp';
 import ForgotPassword from '../pages/common/ForgotPassword';
@@ -24,76 +23,77 @@ import ProfilePage from '../pages/common/ProfilePage';
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: '',
         element: (
-            <ProtectedRoute>
-                <Home />
+            <ProtectedRoute role='customer'>
+                <CustomerHome />
             </ProtectedRoute>
         ),
         children: [
-            
+            {
+                path: 'profile-page',
+                element: <ProfilePage />
+            },
+        ]
+    },
+    {
+        path: 'mechanic',
+        element: (
+            <ProtectedRoute roler='mechanic'>
+                <MechanicHome />
+            </ProtectedRoute>
+        ),
+        children: [
+            {
+                path: 'profile-page',
+                element: <ProfilePage />
+            },
+        ]
+    },
+    {
+        path: 'admin',
+        element: (
+            <ProtectedRoute role='admin'>
+                <AdminHome />
+            </ProtectedRoute>
+        ),
+        children: [
+            {
+                path: 'profile-page',
+                element: <ProfilePage />
+            },
             {
                 path: '',
-                element: <CustomerHome />,
-                children: [
-                    {
-                        path: 'profile-page',
-                        element: <ProfilePage />
-                    },
-                ]
+                element: <AdminDashboard />
             },
             {
-                path: 'mechanic',
-                element: <MechanicHome />,
-                children: [
-                    {
-                        path: 'profile-page',
-                        element: <ProfilePage />
-                    },
-                ]
+                path: 'admin-booking',
+                element: <AdminBookingPage />
             },
             {
-                path: 'admin',
-                element: <AdminHome />,
-                children: [
-                    {
-                        path: 'profile-page',
-                        element: <ProfilePage />
-                    },
-                    {
-                        path: '',
-                        element: <AdminDashboard />
-                    },
-                    {
-                        path: 'admin-booking',
-                        element: <AdminBookingPage />
-                    },
-                    {
-                        path: 'admin-breakdown',
-                        element: <AdminBreakDown />
-                    },
-                    {
-                        path: 'admin-service',
-                        element: <AdminServices />
-                    },
-                    {
-                        path: 'admin-mechanics',
-                        element: <AdminMechanicsList />
-                    },
-                    {
-                        path: 'admin-customers',
-                        element: <AdminCustomersList />
-                    },
-                    {
-                        path: 'admin-spare-parts',
-                        element: <AdminSpareParts />
-                    },
-                    {
-                        path: 'admin-service-history',
-                        element: <AdminServiceHistory />
-                    },
-                ]
-            }
+                path: 'admin-breakdown',
+                element: <AdminBreakDown />
+            },
+            {
+                path: 'admin-service',
+                element: <AdminServices />
+            },
+            {
+                path: 'admin-mechanics',
+                element: <AdminMechanicsList />
+            },
+            {
+                path: 'admin-customers',
+                element: <AdminCustomersList />
+            },
+            {
+                path: 'admin-spare-parts',
+                element: <AdminSpareParts />
+            },
+            {
+                path: 'admin-service-history',
+                element: <AdminServiceHistory />
+            },
         ]
     },
     {

@@ -6,6 +6,7 @@ import profilePlaceholder from '../assets/profile.png';
 import { useNavigate } from 'react-router-dom';
 import makeRequest from '../common/axios';
 import { toast } from 'react-toastify';
+import { logout } from '../redux/features/userSlice';
 
 const NavBar = () => {
     const user = useSelector((state) => state.user.user);
@@ -26,8 +27,8 @@ const NavBar = () => {
             const response = await makeRequest.post('/logout');
             if(response.data.success){
                 toast.success(response.data.message);
-                navigate('/');
                 dispatch(logout());
+                navigate('/');
             }
         } catch (error) {
             console.log(error)

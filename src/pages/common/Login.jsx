@@ -77,7 +77,13 @@ const Login = () => {
                     if (response.data.success) {
                         toast.success('Login successful');
                         dispatch(userDetails({ user: response.data.result.user }));
-                        navigate('/');
+                        if(response.data.result.user.role === 'customer'){
+                            navigate('/');
+                        }else if(response.data.result.user.role === 'mechanic'){
+                            navigate('/mechanic');
+                        }else if(response.data.result.user.role === 'admin'){
+                            navigate('/admin');
+                        }
                     }
                 } catch (error) {
                     console.error('Error during logged in : ', error);
