@@ -50,28 +50,28 @@ const SignUp = () => {
         const newName = e.target.value;
         setName(newName);
         const errors = validateName(newName);
-        setNameErrors(errors);
+        e.target.value ? setNameErrors(errors) : setNameErrors({});
     };
     // Email validation
     const handleEmailChange = (e) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
         const errors = validateEmail(newEmail) ? '' : 'Invalid email address';
-        setEmailError(errors);
+        e.target.value ? setEmailError(errors): setEmailError('');
     }
     // Password validation
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
         const errors = validatePassword(newPassword);
-        setPasswordErrors(errors);
+        e.target.value ? setPasswordErrors(errors) : setPasswordErrors({});
     }
     // Confirm password validation
     const handleConfirmPasswordChange = (e) => {
         const cPassword = e.target.value;
         setConfirmPassword(cPassword);
         const confirmPasswordError = password === cPassword ? '' : 'Passwords do not match';
-        setConfirmPasswordError(confirmPasswordError);
+        e.target.value ? setConfirmPasswordError(confirmPasswordError) : setConfirmPasswordError('');
     }
 
     // State to manage loading

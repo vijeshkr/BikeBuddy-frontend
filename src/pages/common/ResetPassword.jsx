@@ -43,14 +43,14 @@ const ResetPassword = () => {
         const newPassword = e.target.value;
         setPassword(newPassword);
         const errors = validatePassword(newPassword);
-        setPasswordErrors(errors);
+        e.target.value ? setPasswordErrors(errors) : setPasswordErrors({});
     }
     // Confirm password validation
     const handleConfirmPasswordChange = (e) => {
         const cPassword = e.target.value;
         setConfirmPassword(cPassword);
         const confirmPasswordError = password === cPassword ? '' : 'Passwords do not match';
-        setConfirmPasswordError(confirmPasswordError);
+        e.target.value ? setConfirmPasswordError(confirmPasswordError) : setConfirmPasswordError('');
     }
 
     // State to handle loading

@@ -36,15 +36,15 @@ const Login = () => {
     const handleEmailChange = (e) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
-        const errors = validateEmail(newEmail) ? '' : 'Invalid email address';
-        setEmailError(errors);
+        const errors = validateEmail(email) ? '' : 'Invalid email address';
+        e.target.value ? setEmailError(errors) : setEmailError('');
     }
     // Password validation
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
         const errors = validatePassword(newPassword);
-        setPasswordErrors(errors);
+        e.target.value ? setPasswordErrors(errors) : setPasswordErrors({});
     }
 
     // State to manage loading

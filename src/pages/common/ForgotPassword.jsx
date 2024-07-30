@@ -17,7 +17,7 @@ const ForgotPassword = () => {
         const newEmail = e.target.value;
         setEmail(newEmail);
         const errors = validateEmail(newEmail) ? '' : 'Invalid email address';
-        setEmailError(errors);
+        e.target.value ? setEmailError(errors) : setEmailError('');
     }
 
     // State to manage loading
