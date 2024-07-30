@@ -19,7 +19,7 @@ const SmallSideBar = ({ sidebarData }) => {
 
   return (
     <div className={`${smallSidebar ? '' : 'shadow-sidebar'} ${smallSidebar ? '-left-full' : 'left-0'} w-60
-     md:hidden duration-300 h-screen flex flex-col justify-between p-5 bg-primaryColor text-white absolute z-10 `}>
+     md:hidden duration-300 h-screen flex flex-col justify-evenly p-5 bg-primaryColor text-white absolute z-10 `}>
 
       <div className='relative'>
         <BsArrowLeftShort
@@ -32,7 +32,7 @@ const SmallSideBar = ({ sidebarData }) => {
         <h1 className='text-xl font-semibold'>Bike<span className='text-black'>Buddy</span></h1>
       </div>
 
-      <div className='mb-10'>
+      <div>
         {sidebarData.map((item, index) => (
           <NavLink onClick={() => dispatch(setOpenSideBar(!smallSidebar))} to={item.link} key={index} end className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md mt-2 duration-200 ${isActive ? 'active' : ''}`} >
             <span className='text-2xl'>

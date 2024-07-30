@@ -10,10 +10,15 @@ const AuthGuard = ({ children }) => {
     if (loading) {
         return <LoadingIndicator />;
     }
-    
+
     if (user) {
         // Redirect based on user role
-        return <Navigate to={`/${user.role}`} />;
+        if (user.role === 'customer') {
+            return <Navigate to={`/`} />;
+        } else {
+            return <Navigate to={`/${user.role}`} />;
+        }
+
     } else {
         return children;
     }

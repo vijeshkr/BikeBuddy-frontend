@@ -41,7 +41,7 @@ const NavBar = () => {
         <div className='h-14 p-4 bg-white shadow-sm'>
             {/* navbar for smaller devices */}
             <div className='md:hidden flex justify-between items-center'>
-                <div onClick={()=> dispatch(setOpenSideBar(!smallSidebar))} className='text-xl'>
+                <div onClick={()=> dispatch(setOpenSideBar(!smallSidebar))} className='text-xl cursor-pointer'>
                     <IoReorderThreeSharp />
                 </div>
                 <div onClick={()=> navigate('/')}>

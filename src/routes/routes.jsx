@@ -20,10 +20,13 @@ import AdminCustomersList from '../pages/admin/AdminCustomersList';
 import AdminSpareParts from '../pages/admin/AdminSpareParts';
 import AdminServiceHistory from '../pages/admin/AdminServiceHistory';
 import ProfilePage from '../pages/common/ProfilePage';
+import CustomerServiceBooking from '../pages/customer/CustomerServiceBooking';
+import CustomerServiceHistory from '../pages/customer/CustomerServiceHistory';
+import CustomerVehicle from '../pages/customer/CustomerVehicle';
 
 const router = createBrowserRouter([
     {
-        path: '',
+        path: '/',
         element: (
             <ProtectedRoute role='customer'>
                 <CustomerHome />
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
             {
                 path: 'profile-page',
                 element: <ProfilePage />
+            },
+            {
+                path: '',
+                element: <CustomerServiceBooking />
+            },
+            {
+                path: 'user-service-history',
+                element: <CustomerServiceHistory />
+            },
+            {
+                path: 'user-vehicle',
+                element: <CustomerVehicle />
             },
         ]
     },
