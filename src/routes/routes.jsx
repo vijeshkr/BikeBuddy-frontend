@@ -23,6 +23,11 @@ import ProfilePage from '../pages/common/ProfilePage';
 import CustomerServiceBooking from '../pages/customer/CustomerServiceBooking';
 import CustomerServiceHistory from '../pages/customer/CustomerServiceHistory';
 import CustomerVehicle from '../pages/customer/CustomerVehicle';
+import PageNotFound from '../pages/common/PageNotFound';
+import MechanicDashboard from '../pages/mechanic/MechanicDashboard';
+import MechanicServiceHistory from '../pages/mechanic/MechanicServiceHistory';
+import MechanicSpareParts from '../pages/mechanic/MechanicSpareParts';
+import MechanicLeave from '../pages/mechanic/MechanicLeave';
 
 const router = createBrowserRouter([
     {
@@ -54,7 +59,7 @@ const router = createBrowserRouter([
     {
         path: 'mechanic',
         element: (
-            <ProtectedRoute roler='mechanic'>
+            <ProtectedRoute role='mechanic'>
                 <MechanicHome />
             </ProtectedRoute>
         ),
@@ -62,6 +67,22 @@ const router = createBrowserRouter([
             {
                 path: 'profile-page',
                 element: <ProfilePage />
+            },
+            {
+                path: '',
+                element: <MechanicDashboard />
+            },
+            {
+                path: 'mechanic-leave',
+                element: <MechanicLeave />
+            },
+            {
+                path: 'mechanic-service-history',
+                element: <MechanicServiceHistory />
+            },
+            {
+                path: 'mechanic-spare-parts',
+                element: <MechanicSpareParts />
             },
         ]
     },
@@ -150,6 +171,10 @@ const router = createBrowserRouter([
     {
         path: '/reset-success',
         element: <ResetSuccess />
+    },
+    {
+        path: '/*',
+        element: <PageNotFound />
     },
 ]);
 
