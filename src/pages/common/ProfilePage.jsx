@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import profilePlaceholder from '../../assets/profile.png';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
@@ -7,13 +7,16 @@ import { FaMobileAlt } from "react-icons/fa";
 import { TbCurrentLocation } from "react-icons/tb";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { validatePassword } from '../../common/validations';
+import { validateEmail, validateName, validatePassword, validatePhone } from '../../common/validations';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import makeRequest from '../../common/axios';
+import { handleImageUpload } from '../../common/utils';
+import { userDetails } from '../../redux/features/userSlice';
 
 const ProfilePage = () => {
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
 
   // Hooks for manage password change
@@ -122,6 +125,125 @@ const ProfilePage = () => {
   const openUpdatePhoto = () => {
     setUpdatePhoto(!updatePhoto);
   }
+
+  // Profile update section
+  // Hooks for manage form data
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [place, setPlace] = useState(user.place);
+  const [phone, setPhone] = useState(user.phone);
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  // Hooks for manage errors
+  const [nameError, setNameError] = useState({});
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState({});
+
+  // Name validation
+  const handleNameChange = (e) => {
+    const newName = e.target.value;
+    setName(newName);
+    const errors = validateName(newName);
+    e.target.value ? setNameError(errors) : setNameError({});
+  };
+  // Email validation
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    const errors = validateEmail(newEmail) ? '' : 'Invalid email address';
+    e.target.value ? setEmailError(errors) : setEmailError('');
+  }
+  // Phone validation
+  const handlePhoneChange = (e) => {
+    const newPhone = e.target.value;
+    setPhone(newPhone);
+    const errors = validatePhone(newPhone);
+    e.target.value ? setPhoneError(errors) : setPhoneError({});
+  }
+
+  // Profile picture change
+  const handleProfilePictureChange = (e) => {
+    if (e.target.files.length > 0) {
+      setProfilePicture(e.target.files[0]);
+    } else {
+      setProfilePicture(null);
+    }
+  }
+
+  // Form submission handler for profile update
+  const handleSubmitUpdateProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let profilePictureUrl = user.profilePicture;
+
+    try {
+      if (profilePicture) profilePictureUrl = await handleImageUpload(profilePicture);
+      const updatedUserData = { name, email, place, phone, profilePicture: profilePictureUrl };
+
+      // Function to check if there any changes
+      const hasChanges = (
+        user.name !== updatedUserData.name ||
+        user.email !== updatedUserData.email ||
+        user.place !== updatedUserData.place ||
+        user.phone !== updatedUserData.phone ||
+        user.profilePicture !== updatedUserData.profilePicture
+      );
+
+      if (!hasChanges) {
+        toast.info('No changes detected.');
+        setLoading(false);
+        return;
+      }
+
+      // Api call for update profile
+      const response = await makeRequest.put('/update-profile', updatedUserData);
+      if (response.data.success) {
+        toast.success('Profile updated successfully');
+        // Set data in redux
+        dispatch(userDetails({ user: response.data.data }));
+      }
+
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+
+  }
+
+  // Profile picture remove reset input
+  const fileInputRef = React.useRef(null);
+
+  // Remove profile picture only
+  const removePhoto = async () => {
+    setLoading(true);
+    try {
+      if (profilePicture) {
+        setProfilePicture(null)
+      } else if (user.profilePicture !== null) {
+        const response = await makeRequest.patch('/remove-profile-picture');
+        if (response.data.success) {
+          toast.success('Profile picture removed');
+          setProfilePicture(null);
+          dispatch(userDetails({ user: response.data.data }));
+
+          // Reset the file input
+          if (fileInputRef.current) {
+            fileInputRef.current.value = null;
+          }
+        }
+      } else {
+        toast.error('Profile picture not found');
+      }
+    } catch (error) {
+      console.error('Error while removing profile picture', error)
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div>
       {loading && <LoadingIndicator />}
@@ -132,10 +254,14 @@ const ProfilePage = () => {
 
         {/* Current user details  */}
 
-
-        <div className='shadow-custom flex flex-col gap-4 flex-1 p-4 md:h-[470px]'>
+        <div className='shadow-custom flex flex-col gap-4 flex-1 p-4 md:h-[470px] min-w-[300px] '>
           <div>
-            <img className='h-36 w-36 object-cover rounded-full border' src={profilePlaceholder} alt="" />
+            <img className='h-36 w-36 object-cover rounded-full border'
+              src={
+                user.profilePicture
+                  ? `${import.meta.env.VITE_BACKEND_URL}/images/${user.profilePicture}`
+                  :
+                  profilePlaceholder} alt="" />
           </div>
 
           <div className='flex flex-col gap-4'>
@@ -148,31 +274,34 @@ const ProfilePage = () => {
               <p className='text-sm'>{user.email}</p>
             </div>
 
-            <div className='flex items-center gap-2'>
+            {user.phone && <div className='flex items-center gap-2'>
               <span className='pt-1 text-lg'><FaMobileAlt /></span>
-              <p className='text-sm'>{user.phone || '+9100000000000'}</p>
-            </div>
+              <p className='text-sm'>{user.phone}</p>
+            </div>}
 
-            <div className='flex items-center gap-2'>
+            {user.place && <div className='flex items-center gap-2'>
               <span className='pt-1 text-lg'><TbCurrentLocation /></span>
-              <p className='text-sm'>{user.location || 'Location'}</p>
-            </div>
-
-
+              <p className='text-sm'>{user.place}</p>
+            </div>}
           </div>
 
         </div>
 
-
         {/* Update profile */}
-        <form className='flex flex-col gap-5 shadow-custom flex-1 p-4 md:h-[470px] min-w-[300px]'>
-
-
+        <form onSubmit={handleSubmitUpdateProfile} encType="multipart/form-data" className='flex flex-col gap-5 flex-1 shadow-custom  p-4 md:h-[470px] min-w-[300px]'>
 
           <div className='relative flex'>
 
             <div className='relative inline-block'>
-              <img className='h-36 w-36 object-cover rounded-full border' src={profilePlaceholder} alt="" />
+              <img className='h-36 w-36 object-cover rounded-full border'
+                src={
+                  profilePicture
+                    ? URL.createObjectURL(profilePicture)
+                    :
+                    user.profilePicture
+                      ? `${import.meta.env.VITE_BACKEND_URL}/images/${user.profilePicture}`
+                      : profilePlaceholder
+                } alt="" />
 
               <span
                 onClick={openUpdatePhoto}
@@ -182,29 +311,60 @@ const ProfilePage = () => {
             </div>
 
             {/* Profile pic update or remove */}
-            <div className={`flex flex-col xs:flex-row justify-center items-center gap-2 p-2 text-xs ${!updatePhoto ? `hidden` : ``}`}>
+            <div className={`flex flex-col justify-center items-center gap-2 p-2 text-xs ${!updatePhoto ? `hidden` : ``}`}>
 
               <label className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Update photo
-                <input type="file" className='hidden' />
+                <input ref={fileInputRef} onChange={(e) => handleProfilePictureChange(e)} type="file" className='hidden' />
               </label>
-              <span className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Remove photo</span>
+              <span onClick={removePhoto} className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Remove photo</span>
             </div>
-
           </div>
 
+          <input
+            value={name}
+            onChange={(e) => handleNameChange(e)}
+            className={`border-b border-black p-2 outline-none text-sm 
+          ${Object.keys(nameError).length ? 'border-red-500' : `${name && Object.keys(nameError).length === 0 ? 'border-green-500' : ''}`}`}
+            type="text"
+            placeholder='Name' />
+          {/* Display name errors if any */}
+          {nameError.length && <p className='text-red-500 text-xs'>{nameError.length}</p>}
+          {nameError.alphabet && <p className='text-red-500 text-xs'>{nameError.alphabet}</p>}
 
 
+          <input
+            value={email}
+            onChange={(e) => handleEmailChange(e)}
+            className={`border-b border-black p-2 outline-none text-sm 
+            ${emailError ? 'border-red-500' : `${email && !emailError ? 'border-green-500' : ''}`}`}
+            type="text"
+            placeholder='Email' />
+          {/* Display email-specific error */}
+          {emailError && <p className='text-red-500 text-xs'>{emailError}</p>}
 
+          <input
+            value={phone}
+            onChange={(e) => handlePhoneChange(e)}
+            className={`border-b border-black p-2 outline-none text-sm 
+          ${Object.keys(phoneError).length ? 'border-red-500' : `${phone && Object.keys(phoneError).length === 0 ? 'border-green-500' : ''}`}`}
+            type="text"
+            placeholder='Phone' />
+          {/* Display phone errors if any */}
+          {phoneError.invalid && <p className='text-red-500 text-xs'>{phoneError.invalid}</p>}
+          {phoneError.length && <p className='text-red-500 text-xs'>{phoneError.length}</p>}
+          {phoneError.greater && <p className='text-red-500 text-xs'>{phoneError.greater}</p>}
 
-
-          <input value={user.name} className='border-b border-black p-2 outline-none text-sm' type="text" placeholder='Name' />
-          <input value={user.email} className='border-b border-black p-2 outline-none text-sm' type="text" placeholder='Email' />
-          <input value={user.phone} className='border-b border-black p-2 outline-none text-sm' type="text" placeholder='Phone' />
-          <input value={user.location} className='border-b border-black p-2 outline-none text-sm' type="text" placeholder='Location' />
+          <input
+            value={place}
+            onChange={(e) => { setPlace(e.target.value) }}
+            className={`border-b border-black p-2 outline-none text-sm ${place ? 'border-green-500' : ''}`}
+            type="text"
+            placeholder='Location' />
 
           <button className='border hover:bg-opacity-95 active:bg-primaryColor p-1 rounded-sm text-sm bg-primaryColor text-white'>Update profile</button>
 
         </form>
+
 
 
         {/* Reset password */}
@@ -282,7 +442,7 @@ const ProfilePage = () => {
         </form>
       </div>
 
-    </div>
+    </div >
   )
 }
 

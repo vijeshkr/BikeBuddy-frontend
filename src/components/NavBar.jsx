@@ -41,10 +41,10 @@ const NavBar = () => {
         <div className='h-14 p-4 bg-white shadow-sm'>
             {/* navbar for smaller devices */}
             <div className='md:hidden flex justify-between items-center'>
-                <div onClick={()=> dispatch(setOpenSideBar(!smallSidebar))} className='text-xl cursor-pointer'>
+                <div onClick={() => dispatch(setOpenSideBar(!smallSidebar))} className='text-xl cursor-pointer'>
                     <IoReorderThreeSharp />
                 </div>
-                <div onClick={()=> navigate('/')}>
+                <div onClick={() => navigate('/')}>
                     <h1>BikeBuddy</h1>
                 </div>
                 <div onClick={handleLogout} className='text-xs text-red-500 px-2 py-1 rounded-sm active:bg-gray-200'>
@@ -67,7 +67,10 @@ const NavBar = () => {
                         <div className='bg-red-600 h-1.5 w-1.5 rounded-full absolute top-0 right-0'></div>
                     </div>
                     <div onClick={toggleLogoutSection} className='cursor-pointer flex gap-2 text-sm relative'>
-                        <img className='h-7 w-7 rounded-full object-cover' src={profilePlaceholder} alt="" />
+                        <img className='h-7 w-7 rounded-full object-cover'
+                            src={user.profilePicture
+                                ? `${import.meta.env.VITE_BACKEND_URL}/images/${user.profilePicture}`
+                                : profilePlaceholder} alt="" />
                         {user.name}
                         <div className={`${!openLogout ? 'hidden' : ''} flex flex-col absolute -bottom-24 -right-3 gap-1 shadow-sm bg-white p-2 w-32 rounded-sm`}>
                             <span onClick={() => navigate('profile-page')} className='hover:bg-gray-100 active:bg-gray-200 p-2 rounded-sm'>My profile</span>

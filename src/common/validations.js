@@ -35,3 +35,17 @@ export const validatePassword = (password) => {
     }
     return errors;
 };
+
+// Phone number validation
+export const validatePhone = (phone) => {
+    const errors = {}
+    let phoneRegex = /^(?=[6-9])[0-9]+$/;
+     if(!phoneRegex.test(phone)){
+        errors.invalid = 'Invalid phone number';
+    }else if(phone.length < 10){
+        errors.length = 'Phone number must have 10 numbers'
+    }else if(phone.length > 10){
+        errors.greater = "Phone number must be less than 11 numbers";
+    }
+    return errors;
+}
