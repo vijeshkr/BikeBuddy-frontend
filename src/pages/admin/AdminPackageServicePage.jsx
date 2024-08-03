@@ -5,6 +5,7 @@ import CreatePackagePopup from '../../components/admin/CreatePackagePopup';
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import swal from 'sweetalert';
+import { toast } from 'react-toastify';
 
 const AdminPackageServicePage = () => {
     // State to manage service packages 
@@ -146,6 +147,36 @@ const AdminPackageServicePage = () => {
             });
         }
     };
+
+    // Create new package section
+    // State for manage form data
+    const [data, setData] = useState({
+        packageName: '',
+        description: '',
+        suitable: '',
+        price: 0,
+    });
+
+    // Handle change in the form
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setData({ ...data, [name]: value });
+    }
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await makeRequest.post('/add-package', data);
+            if (response.data.success) {
+                toast.success('Package added successfully');
+                fetchServicePackages();
+            }
+        } catch (error) {
+            console.error('Error while creating new package: ', error);
+        }
+    }
     return (
         <div>
             <div className='flex py-2 gap-2 flex-wrap'>
@@ -219,18 +250,35 @@ const AdminPackageServicePage = () => {
                     }
                 </div>
                 {/* Create new package section */}
-                <div className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
                     <h1 className='p-3 font-semibold text-lg'>Create New Package</h1>
-                    <input className='text-sm outline-none border p-2 rounded-md' placeholder='Package name' type="text" />
-                    <textarea className='text-sm outline-none border p-2 rounded-md' placeholder='Description' type="text" />
-                    <input className='text-sm outline-none border p-2 rounded-md' placeholder='Price' type="number" />
-                    <select className='text-sm outline-none bg-gray-100 p-2 rounded-md' name="" id="">
+                    <input
+                        onChange={handleOnChange}
+                        name='packageName'
+                        className='text-sm outline-none border p-2 rounded-md' placeholder='Package name' type="text" />
+                    <textarea
+                        onChange={handleOnChange}
+                        name='description'
+                        className='text-sm outline-none border p-2 rounded-md' placeholder='Description' type="text" />
+                    <input
+                        onChange={handleOnChange}
+                        name='price'
+                        className='text-sm outline-none border p-2 rounded-md' placeholder='Price' type="number" />
+                    <select
+                        onChange={handleOnChange}
+                        name='suitable'
+                        className='text-sm outline-none bg-gray-100 p-2 rounded-md'>
+                        <option value="">Select an option</option>
                         <option value="Scooter">Scooter</option>
                         <option value="Bike">Bike</option>
                         <option value="Both">Both</option>
                     </select>
                     <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
-                </div>
+                </form>
+
                 {openAdd && <CreatePackagePopup close={handleClose} />}
             </div>
         </div>
