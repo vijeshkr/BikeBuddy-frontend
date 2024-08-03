@@ -28,6 +28,8 @@ import MechanicDashboard from '../pages/mechanic/MechanicDashboard';
 import MechanicServiceHistory from '../pages/mechanic/MechanicServiceHistory';
 import MechanicSpareParts from '../pages/mechanic/MechanicSpareParts';
 import MechanicLeave from '../pages/mechanic/MechanicLeave';
+import AdminPackageServicePage from '../pages/admin/AdminPackageServicePage';
+import AdminIndividualWorksPage from '../pages/admin/AdminIndividualWorksPage';
 
 const router = createBrowserRouter([
     {
@@ -112,7 +114,17 @@ const router = createBrowserRouter([
             },
             {
                 path: 'admin-service',
-                element: <AdminServices />
+                element: <AdminServices />,
+                children:  [
+                    {
+                        path: '',
+                        element: <AdminPackageServicePage/>
+                    },
+                    {
+                        path: 'individual-works',
+                        element: <AdminIndividualWorksPage/>
+                    },
+                ]
             },
             {
                 path: 'admin-mechanics',

@@ -34,7 +34,7 @@ const SmallSideBar = ({ sidebarData }) => {
 
       <div>
         {sidebarData.map((item, index) => (
-          <NavLink onClick={() => dispatch(setOpenSideBar(!smallSidebar))} to={item.link} key={index} end className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md mt-2 duration-200 ${isActive ? 'active' : ''}`} >
+          <NavLink onClick={() => dispatch(setOpenSideBar(!smallSidebar))} to={item.link} key={index} end={index === 0}  className={({ isActive }) => `flex items-center gap-4 p-2 rounded-md mt-2 duration-200 ${isActive ? 'active' : ''}`} >
             <span className='text-2xl'>
               {item.icon}
             </span>

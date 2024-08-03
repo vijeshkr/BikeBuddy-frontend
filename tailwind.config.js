@@ -22,7 +22,7 @@ export default {
     },
   },
   plugins: [
-    function({ addComponents }) {
+    function ({ addComponents }) {
       addComponents({
         '.active': {
           '@apply text-black bg-white': {},
@@ -34,6 +34,20 @@ export default {
         '.scrollbar-none::-webkit-scrollbar': {
           'display': 'none',             // for Chrome, Safari, and Opera
         },
+        '.child-nav': {
+          '@apply bg-primaryColor p-2 rounded-sm text-white': {},
+        },
+        // Sweet alert styles
+        '.swal-title' : {
+          '@apply text-xl font-semibold text-black': {} /* Tailwind utility for text size and weight */
+      },
+        '.swal-text' : {
+          '@apply text-sm': {} /* Tailwind utility for text size and weight */
+      },
+        '.swal-button--confirm' : {
+          '@apply text-sm bg-red-500 font-semibold': {} /* Tailwind utility for text size and weight */
+      },
+      
       });
     },
   ],
