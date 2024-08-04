@@ -38,16 +38,16 @@ export default {
           '@apply bg-primaryColor p-2 rounded-sm text-white': {},
         },
         // Sweet alert styles
-        '.swal-title' : {
+        '.swal-title': {
           '@apply text-xl font-semibold text-black': {} /* Tailwind utility for text size and weight */
-      },
-        '.swal-text' : {
+        },
+        '.swal-text': {
           '@apply text-sm': {} /* Tailwind utility for text size and weight */
-      },
-        '.swal-button--confirm' : {
+        },
+        '.swal-button--confirm': {
           '@apply text-sm bg-red-500 font-semibold': {} /* Tailwind utility for text size and weight */
-      },
-      
+        },
+
       });
     },
   ],

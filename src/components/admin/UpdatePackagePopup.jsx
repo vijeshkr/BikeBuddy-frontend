@@ -3,14 +3,15 @@ import { IoMdClose } from "react-icons/io";
 import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
 
-const CreatePackagePopup = ({ close, fetchPackage }) => {
+const UpdatePackagePopup = ({ close, pkg, fetchPackage }) => {
 
   // State for manage form data
   const [data, setData] = useState({
-    packageName: '',
-    description: '',
-    suitable: '',
-    price: 0,
+    _id: pkg._id,
+    packageName: pkg.packageName,
+    description: pkg.description,
+    suitable: pkg.suitable,
+    price: pkg.price,
   });
 
   // Handle change in the form
@@ -24,14 +25,16 @@ const CreatePackagePopup = ({ close, fetchPackage }) => {
     e.preventDefault();
 
     try {
-      const response = await makeRequest.post('/add-package', data);
+      const response = await makeRequest.put('/update-package', data);
       if (response.data.success) {
-        toast.success('Package added successfully');
+        toast.success('Package updated successfully');
         fetchPackage();
         close();
+      }else{
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.error('Error while creating new package: ', error);
+      console.error('Error while updating package: ', error);
       toast.error(error.response.data.message);
     }
   }
@@ -39,7 +42,7 @@ const CreatePackagePopup = ({ close, fetchPackage }) => {
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-60'>
       <div className='bg-white p-4 rounded-md shadow-lg max-w-[340px]'>
         <div className='flex items-center justify-between'>
-          <h1 className='py-3 font-semibold text-lg'>Create New Package</h1>
+          <h1 className='py-3 font-semibold text-lg'>Update Package</h1>
           <button
             onClick={close}
             className='pt-2'>
@@ -48,31 +51,35 @@ const CreatePackagePopup = ({ close, fetchPackage }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <input
+            value={data.packageName}
             onChange={handleOnChange}
             name='packageName'
             className='text-sm outline-none border p-2 rounded-md mb-2 w-full' placeholder='Package name' type="text" />
           <textarea
+            value={data.description}
             onChange={handleOnChange}
             name='description'
             className='h-24 text-sm outline-none border p-2 rounded-md mb-2 w-full' placeholder='Description' type="text" />
           <input
+            value={data.price}
             onChange={handleOnChange}
             name='price'
             className='text-sm outline-none border p-2 rounded-md mb-2 w-full' placeholder='Price' type="number" />
           <select
+            value={data.suitable}
             onChange={handleOnChange}
             name='suitable'
             className='text-sm outline-none bg-gray-100 p-2 rounded-md mb-2 w-full'>
-            <option value="Scooter">Select an option</option>
-            <option value="Scooter">Scooter</option>
-            <option value="Bike">Bike</option>
-            <option value="Both">Both</option>
+            <option value={data.suitable}>{data.suitable}</option>
+            {data.suitable !== 'Scooter' && <option value="Scooter">Scooter</option>}
+            {data.suitable !== 'Bike' && <option value="Bike">Bike</option>}
+            {data.suitable !== 'Both' && <option value="Both">Both</option>}
           </select>
-          <button className='text-sm bg-primaryColor p-2 rounded-sm text-white w-full'>Create</button>
+          <button className='text-sm bg-primaryColor p-2 rounded-sm text-white w-full'>Update</button>
         </form>
       </div>
     </div>
   )
 }
 
-export default CreatePackagePopup
+export default UpdatePackagePopup

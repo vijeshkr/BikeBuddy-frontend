@@ -6,6 +6,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import swal from 'sweetalert';
 import { toast } from 'react-toastify';
+import UpdatePackagePopup from '../../components/admin/UpdatePackagePopup';
 
 const AdminPackageServicePage = () => {
     // State to manage service packages 
@@ -14,6 +15,21 @@ const AdminPackageServicePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     // Add package open close
     const [openAdd, setOpenAdd] = useState(false);
+    // Update package open close
+    const [openUpdate, setOpenUpdate] = useState(false);
+    // State to manage current package
+    const [currentPackage, setCurrentPackage] = useState({});
+
+    // Handle current package and open update popup
+    const handleUpdateOpen = (pkg) => {
+        setOpenUpdate(!openUpdate);
+        setCurrentPackage(pkg);
+    }
+
+    // Handle close function for set open update false 
+    const handleCloseUpdate = () => {
+        setOpenUpdate(prevOpenUpdate => !prevOpenUpdate);
+    }
 
     // Handle search term
     const handleSearch = (e) => {
@@ -172,6 +188,12 @@ const AdminPackageServicePage = () => {
             if (response.data.success) {
                 toast.success('Package added successfully');
                 fetchServicePackages();
+                setData({
+                    packageName: '',
+                    description: '',
+                    suitable: '',
+                    price: 0,
+                });
             }
         } catch (error) {
             console.error('Error while creating new package: ', error);
@@ -204,37 +226,39 @@ const AdminPackageServicePage = () => {
                                         className='xl:hidden text-sm bg-primaryColor text-white px-2 rounded-md'>Create Package</button>
                                 </div>
                                 <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
-                                <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
-                                    <thead>
-                                        <tr className='bg-primaryColor text-white text-sm'>
-                                            <th className='font-normal'>Name</th>
-                                            <th className='font-normal'>Description</th>
-                                            <th className='font-normal'>Suitable</th>
-                                            <th className='font-normal'>Price</th>
-                                            <th className='font-normal'>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            searchData.map((pkg, index) => (
-                                                <tr key={index} className='border text-sm text-start '>
-                                                    <td className='border p-2'>{pkg.packageName}</td>
-                                                    <td className='border p-2 max-w-[350px]'>{pkg.description}</td>
-                                                    <td className='border p-2'>{pkg.suitable}</td>
-                                                    <td className='border p-2'>{pkg.price}</td>
-                                                    <td className='border p-2'>
-                                                        <div className='flex justify-evenly'>
-                                                            <button className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
-                                                            <button
-                                                                onClick={() => handleDelete(pkg._id)}
-                                                                className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
+                                    <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
+                                        <thead>
+                                            <tr className='bg-primaryColor text-white text-sm'>
+                                                <th className='font-normal'>Name</th>
+                                                <th className='font-normal'>Description</th>
+                                                <th className='font-normal'>Suitable</th>
+                                                <th className='font-normal'>Price</th>
+                                                <th className='font-normal'>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                searchData.map((pkg, index) => (
+                                                    <tr key={index} className='border text-sm text-start '>
+                                                        <td className='border p-2'>{pkg.packageName}</td>
+                                                        <td className='border p-2 max-w-[350px]'>{pkg.description}</td>
+                                                        <td className='border p-2'>{pkg.suitable}</td>
+                                                        <td className='border p-2'>{pkg.price}</td>
+                                                        <td className='border p-2'>
+                                                            <div className='flex justify-evenly'>
+                                                                <button
+                                                                    onClick={() => handleUpdateOpen(pkg)}
+                                                                    className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
+                                                                <button
+                                                                    onClick={() => handleDelete(pkg._id)}
+                                                                    className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                                 {/* Small screen device card */}
                                 <div className='sm:hidden'>
@@ -244,7 +268,17 @@ const AdminPackageServicePage = () => {
                                                 <h1 className='font-semibold'>{pkg.packageName}</h1>
                                                 <p className='text-gray-500'>{pkg.description}</p>
                                                 <h3>Suitable for {pkg.suitable}</h3>
-                                                <h3 className='font-medium'>Price : <span>&#8377; </span>{pkg.price}</h3>
+                                                <div className='flex justify-between'>
+                                                    <h3 className='font-medium'>Price : <span>&#8377; </span>{pkg.price}</h3>
+                                                    <div className='flex justify-evenly'>
+                                                        <button
+                                                            onClick={() => handleUpdateOpen(pkg)}
+                                                            className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
+                                                        <button
+                                                            onClick={() => handleDelete(pkg._id)}
+                                                            className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))
                                     }
@@ -259,18 +293,22 @@ const AdminPackageServicePage = () => {
                     className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
                     <h1 className='p-3 font-semibold text-lg'>Create New Package</h1>
                     <input
+                        value={data.packageName}
                         onChange={handleOnChange}
                         name='packageName'
                         className='text-sm outline-none border p-2 rounded-md' placeholder='Package name' type="text" />
                     <textarea
+                        value={data.description}
                         onChange={handleOnChange}
                         name='description'
-                        className='text-sm outline-none border p-2 rounded-md' placeholder='Description' type="text" />
+                        className='h-24 text-sm outline-none border p-2 rounded-md' placeholder='Description' type="text" />
                     <input
+                        value={data.price}
                         onChange={handleOnChange}
                         name='price'
                         className='text-sm outline-none border p-2 rounded-md' placeholder='Price' type="number" />
                     <select
+                        value={data.suitable}
                         onChange={handleOnChange}
                         name='suitable'
                         className='text-sm outline-none bg-gray-100 p-2 rounded-md'>
@@ -283,6 +321,7 @@ const AdminPackageServicePage = () => {
                 </form>
 
                 {openAdd && <CreatePackagePopup close={handleClose} fetchPackage={fetchServicePackages} />}
+                {openUpdate && <UpdatePackagePopup close={handleCloseUpdate} pkg={currentPackage} fetchPackage={fetchServicePackages} />}
             </div>
         </div>
     )
