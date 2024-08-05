@@ -223,7 +223,7 @@ const AdminPackageServicePage = () => {
                                     </div>
                                     <button
                                         onClick={() => setOpenAdd(!openAdd)}
-                                        className='xl:hidden text-sm bg-primaryColor text-white px-2 rounded-md'>Create Package</button>
+                                        className='xl:hidden text-xs xs:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Package</button>
                                 </div>
                                 <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
                                     <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
@@ -263,7 +263,7 @@ const AdminPackageServicePage = () => {
                                 {/* Small screen device card */}
                                 <div className='sm:hidden'>
                                     {
-                                        servicePackages.map((pkg, index) => (
+                                        searchData.map((pkg, index) => (
                                             <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
                                                 <h1 className='font-semibold'>{pkg.packageName}</h1>
                                                 <p className='text-gray-500'>{pkg.description}</p>
