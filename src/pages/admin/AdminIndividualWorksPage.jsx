@@ -226,11 +226,11 @@ const AdminIndividualWorksPage = () => {
                                 <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
                                     <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
                                         <thead>
-                                            <tr className='bg-primaryColor text-white text-sm'>
-                                                <th className='font-normal'>Name</th>
-                                                <th className='font-normal'>Suitable</th>
-                                                <th className='font-normal'>Price</th>
-                                                <th className='font-normal'>Action</th>
+                                            <tr className='bg-primaryColor text-white text-sm text-left'>
+                                                <th className='font-normal px-2'>Name</th>
+                                                <th className='font-normal px-2'>Suitable</th>
+                                                <th className='font-normal px-2'>Price</th>
+                                                <th className='font-normal px-2'>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
