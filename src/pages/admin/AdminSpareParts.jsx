@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 import CreateSparePopup from '../../components/admin/CreateSparePopup';
 import CreateVehiclePopup from '../../components/admin/CreateVehiclePopup';
 import UpdateSparePopup from '../../components/admin/UpdateSparePopup';
+import { ImageView } from '../../components/common/ImageView';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AdminSpareParts = () => {
   // State to manage spare parts data
@@ -41,17 +43,40 @@ const AdminSpareParts = () => {
   const [currentSpare, setCurrentSpare] = useState({});
   // Update work open close
   const [openUpdate, setOpenUpdate] = useState(false);
+  // State to manage filtered data
+  const [filterSuitable, setFilterSuitable] = useState('');
+  // State to manage image viewer open close
+  const [openImg, setOpenImg] = useState(false);
+  // State to manage current image for image view
+  const [currentImg, setCurrentImg] = useState('');
+  
+  // Handle open image viewer
+  const handleOpenImgViewer = (img) => {
+    setOpenImg(!openImg);
+    setCurrentImg(img);
+  }
+  
+  // Handle close image viewer
+  const handleCloseImgViewer = () => {
+    setOpenImg(prev => !prev);
+  }
+
+  // Handle filter change
+  const handleFilterChange = (e) => {
+    setFilterSuitable(e.target.value);
+  };
+
 
   // Handle current work and open update popup
   const handleUpdateOpen = (spare) => {
     setOpenUpdate(!openUpdate);
     setCurrentSpare(spare);
-}
+  }
 
-// Handle close function for set open update false 
-const handleCloseUpdate = () => {
+  // Handle close function for set open update false 
+  const handleCloseUpdate = () => {
     setOpenUpdate(prevOpenUpdate => !prevOpenUpdate);
-}
+  }
 
   // Handle open vehicle
   const handleOpenVehicle = () => {
@@ -315,6 +340,11 @@ const handleCloseUpdate = () => {
     }
 };
 
+  // Search and filter spare
+  const filteredData = spareParts
+    .filter(item => item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(item => filterSuitable === '' || item.suitable._id === filterSuitable);
+
   useEffect(() => {
     fetchSpare();
     fetchVehicles();
@@ -356,7 +386,9 @@ const handleCloseUpdate = () => {
                       <th className='font-normal px-2'>Image</th>
                       <th className='font-normal px-2'>Name</th>
                       <th className='font-normal px-2'>
-                        <select className='bg-primaryColor cursor-pointer'>
+                        <select 
+                        onChange={handleFilterChange}
+                        className='bg-primaryColor cursor-pointer'>
                           <option value="">Suitable</option>
                           {allVehicles.map((vehicle, index) => (
                             <option
@@ -371,14 +403,16 @@ const handleCloseUpdate = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      spareParts.map((spare, index) => (
+                    { filteredData.length === 0 ? <div className='p-5'>No spare parts available</div> :
+                      filteredData.map((spare, index) => (
                         <tr key={index} className='border text-sm text-start'>
-                          <td className='p-2'><img className='h-20 w-32 object-cover rounded-md' src={spare.image} alt="" /></td>
+                          <td className='p-2'><img 
+                          onClick={() => handleOpenImgViewer(spare.image)}
+                          className='h-20 w-32 object-contain rounded-md cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
                           <td className='p-2'>{spare.itemName}</td>
                           <td className='p-2'>{spare.suitable.name}</td>
-                          <td className='p-2'>{spare.stock}</td>
-                          <td className='p-2'>{spare.price}</td>
+                          <td className='p-2'>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : spare.stock}</td>
+                          <td className='p-2'><span>&#8377; </span>{spare.price}</td>
                           <td className='p-2'>
                             <div className='flex gap-5'>
                               <button
@@ -514,6 +548,7 @@ const handleCloseUpdate = () => {
       {openSpare && <CreateSparePopup close={handleClose} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
       {openVehicle && <CreateVehiclePopup close={handleCloseVehicle} fetchVehicle={fetchVehicles} />}
       {openUpdate && <UpdateSparePopup close={handleCloseUpdate} spare={currentSpare} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
+      {openImg && <ImageView close={handleCloseImgViewer} imgUrl={currentImg}/>}
     </div>
   )
 }

@@ -232,7 +232,7 @@ const AdminPackageServicePage = () => {
                                                 <th className='font-normal px-2'>Name</th>
                                                 <th className='font-normal px-2'>Description</th>
                                                 <th className='font-normal px-2'>Suitable</th>
-                                                <th className='font-normal px-2'>Price</th>
+                                                <th className='font-normal px-2 min-w-16'>Price</th>
                                                 <th className='font-normal px-2'>Action</th>
                                             </tr>
                                         </thead>
@@ -243,7 +243,7 @@ const AdminPackageServicePage = () => {
                                                         <td className='border p-2'>{pkg.packageName}</td>
                                                         <td className='border p-2 max-w-[350px]'>{pkg.description}</td>
                                                         <td className='border p-2'>{pkg.suitable}</td>
-                                                        <td className='border p-2'>{pkg.price}</td>
+                                                        <td className='border p-2'><span>&#8377; </span>{pkg.price}</td>
                                                         <td className='border p-2'>
                                                             <div className='flex justify-evenly'>
                                                                 <button

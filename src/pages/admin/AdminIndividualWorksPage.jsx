@@ -239,7 +239,7 @@ const AdminIndividualWorksPage = () => {
                                                     <tr key={index} className='border text-sm text-start '>
                                                         <td className='border p-2'>{wrk.workName}</td>
                                                         <td className='border p-2'>{wrk.suitable}</td>
-                                                        <td className='border p-2'>{wrk.price}</td>
+                                                        <td className='border p-2'><span>&#8377; </span>{wrk.price}</td>
                                                         <td className='border p-2'>
                                                             <div className='flex justify-evenly'>
                                                                 <button
