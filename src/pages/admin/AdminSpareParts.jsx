@@ -7,6 +7,9 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { handleImageUpload } from '../../common/utils';
 import { toast } from 'react-toastify';
+import CreateSparePopup from '../../components/admin/CreateSparePopup';
+import CreateVehiclePopup from '../../components/admin/CreateVehiclePopup';
+import UpdateSparePopup from '../../components/admin/UpdateSparePopup';
 
 const AdminSpareParts = () => {
   // State to manage spare parts data
@@ -30,6 +33,45 @@ const AdminSpareParts = () => {
     stock: '',
     suitable: ''
   });
+  // State to manage open close spare
+  const [openSpare, setOpenSpare] = useState(false);
+  // State to manage open close vehicle
+  const [openVehicle, setOpenVehicle] = useState(false);
+  // State to manage current spare
+  const [currentSpare, setCurrentSpare] = useState({});
+  // Update work open close
+  const [openUpdate, setOpenUpdate] = useState(false);
+
+  // Handle current work and open update popup
+  const handleUpdateOpen = (spare) => {
+    setOpenUpdate(!openUpdate);
+    setCurrentSpare(spare);
+}
+
+// Handle close function for set open update false 
+const handleCloseUpdate = () => {
+    setOpenUpdate(prevOpenUpdate => !prevOpenUpdate);
+}
+
+  // Handle open vehicle
+  const handleOpenVehicle = () => {
+    setOpenVehicle(!openVehicle);
+  }
+
+  // Handle close function for open vehicle
+  const handleCloseVehicle = () => {
+    setOpenVehicle(prev => !prev);
+  }
+
+  // Handle open spare
+  const handleOpenSpare = () => {
+    setOpenSpare(!openSpare);
+  }
+
+  // Handle close function for open spare
+  const handleClose = () => {
+    setOpenSpare(prev => !prev);
+  }
 
   // Handle change in the form
   const handleOnChange = (e) => {
@@ -61,7 +103,7 @@ const AdminSpareParts = () => {
     if (e.target.files.length > 0) {
       setSpareImg(e.target.files[0]);
     } else {
-      setVehicleImg(null);
+      setSpareImg(null);
     }
   }
 
@@ -195,8 +237,14 @@ const AdminSpareParts = () => {
                     <IoSearch />
                   </div>
                 </div>
-                <button
-                  className='text-xs xs:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Spare</button>
+                <div className='flex gap-1'>
+                  <button
+                    onClick={handleOpenVehicle}
+                    className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Vehicle</button>
+                  <button
+                    onClick={handleOpenSpare}
+                    className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Spare</button>
+                </div>
               </div>
               <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
                 <table className='w-full shadow-custom min-w-[455px]'>
@@ -204,7 +252,16 @@ const AdminSpareParts = () => {
                     <tr className='bg-primaryColor text-white text-sm text-left'>
                       <th className='font-normal px-2'>Image</th>
                       <th className='font-normal px-2'>Name</th>
-                      <th className='font-normal px-2'>Suitable</th>
+                      <th className='font-normal px-2'>
+                        <select className='bg-primaryColor cursor-pointer'>
+                          <option value="">Suitable</option>
+                          {allVehicles.map((vehicle, index) => (
+                            <option
+                              key={index}
+                              value={vehicle._id}>{vehicle.name}</option>
+                          ))}
+                        </select>
+                      </th>
                       <th className='font-normal px-2'>Stocks</th>
                       <th className='font-normal px-2'>Price</th>
                       <th className='font-normal px-2'>Action</th>
@@ -222,7 +279,7 @@ const AdminSpareParts = () => {
                           <td className='p-2'>
                             <div className='flex gap-5'>
                               <button
-
+                                onClick={() => handleUpdateOpen(spare)}
                                 className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
                               <button
 
@@ -246,7 +303,7 @@ const AdminSpareParts = () => {
           className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
           <h1 className='p-2 font-semibold text-lg'>Create New Spare</h1>
 
-          <div className='relative'>
+          <div className='relative w-36'>
             <label htmlFor="uploadSpareImage" className='w-36'>
               <div className='p-2 bg-slate-100 border rounded-md h-20 w-36 flex justify-center items-center cursor-pointer'>
                 <div className={`${spareImg && 'hidden'} text-slate-500 flex justify-center items-center flex-col gap-2`}>
@@ -314,7 +371,7 @@ const AdminSpareParts = () => {
           onSubmit={handleSubmitVehicleForm}
           className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
           <h1 className='p-2 font-semibold text-lg'>Create New Vehicle</h1>
-          <div className='relative'>
+          <div className='relative w-36'>
             <label htmlFor="uploadVehicleImage" className='w-36'>
               <div className='p-2 bg-slate-100 border rounded-md h-20 w-36 flex justify-center items-center cursor-pointer'>
                 <div className={`${vehicleImg && 'hidden'} text-slate-500 flex justify-center items-center flex-col gap-2`}>
@@ -351,7 +408,9 @@ const AdminSpareParts = () => {
           <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
         </form>
       </div>
-
+      {openSpare && <CreateSparePopup close={handleClose} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
+      {openVehicle && <CreateVehiclePopup close={handleCloseVehicle} fetchVehicle={fetchVehicles} />}
+      {openUpdate && <UpdateSparePopup close={handleCloseUpdate} spare={currentSpare} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
     </div>
   )
 }
