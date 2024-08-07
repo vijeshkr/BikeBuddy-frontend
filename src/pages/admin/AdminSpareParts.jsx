@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import CreateSparePopup from '../../components/admin/CreateSparePopup';
 import CreateVehiclePopup from '../../components/admin/CreateVehiclePopup';
 import UpdateSparePopup from '../../components/admin/UpdateSparePopup';
-import { ImageView } from '../../components/common/ImageView';
+import ImageView from '../../components/common/ImageView';
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AdminSpareParts = () => {
@@ -49,13 +49,13 @@ const AdminSpareParts = () => {
   const [openImg, setOpenImg] = useState(false);
   // State to manage current image for image view
   const [currentImg, setCurrentImg] = useState('');
-  
+
   // Handle open image viewer
   const handleOpenImgViewer = (img) => {
     setOpenImg(!openImg);
     setCurrentImg(img);
   }
-  
+
   // Handle close image viewer
   const handleCloseImgViewer = () => {
     setOpenImg(prev => !prev);
@@ -241,104 +241,104 @@ const AdminSpareParts = () => {
   // Delete spare
   const handleDelete = async (spareId) => {
     try {
-        // Show confirmation alert
-        const confirm = await swal({
-            title: 'Are you sure?',
-            text: 'Do you want to delete this item?',
-            icon: 'warning',
-            buttons: ['Cancel', 'Yes, delete it!'],
-            dangerMode: true,
-            className: 'swal-modal',
-            didOpen: () => {
-                // Add custom classes to the elements
-                const swalTitle = document.querySelector('.swal-title');
-                const swalText = document.querySelector('.swal-text');
-                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+      // Show confirmation alert
+      const confirm = await swal({
+        title: 'Are you sure?',
+        text: 'Do you want to delete this item?',
+        icon: 'warning',
+        buttons: ['Cancel', 'Yes, delete it!'],
+        dangerMode: true,
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-                if (swalTitle) swalTitle.classList.add('swal-title');
-                if (swalText) swalText.classList.add('swal-text');
-                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-            },
-        });
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
 
-        if (!confirm) return; // Exit if user cancels
+      if (!confirm) return; // Exit if user cancels
 
-        // Show a loading alert
-        const loadingAlert = swal({
-            title: 'Deleting...',
-            text: 'Please wait while we delete your item.',
-            icon: 'info',
-            buttons: false, // Disables buttons
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-            className: 'swal-modal',
-            didOpen: () => {
-                // Add custom classes to the elements
-                const swalTitle = document.querySelector('.swal-title');
-                const swalText = document.querySelector('.swal-text');
+      // Show a loading alert
+      const loadingAlert = swal({
+        title: 'Deleting...',
+        text: 'Please wait while we delete your item.',
+        icon: 'info',
+        buttons: false, // Disables buttons
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
 
-                if (swalTitle) swalTitle.classList.add('swal-title');
-                if (swalText) swalText.classList.add('swal-text');
-            },
-        });
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+        },
+      });
 
-        // API call
-        const response = await makeRequest.delete(`/delete-spare/${spareId}`);
+      // API call
+      const response = await makeRequest.delete(`/delete-spare/${spareId}`);
 
-        if (response.data.success) {
-            fetchSpare();
-        }
+      if (response.data.success) {
+        fetchSpare();
+      }
 
-        // Close the loading alert
-        swal.close();
+      // Close the loading alert
+      swal.close();
 
-        // Show success message
-        await swal({
-            title: 'Deleted!',
-            text: 'Your item has been deleted.',
-            icon: 'success',
-            className: 'swal-modal',
-            didOpen: () => {
-                // Add custom classes to the elements
-                const swalTitle = document.querySelector('.swal-title');
-                const swalText = document.querySelector('.swal-text');
-                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+      // Show success message
+      await swal({
+        title: 'Deleted!',
+        text: 'Your item has been deleted.',
+        icon: 'success',
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-                if (swalTitle) swalTitle.classList.add('swal-title');
-                if (swalText) swalText.classList.add('swal-text');
-                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-            },
-        });
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
 
     } catch (error) {
-        // Close the loading alert if an error occurs
-        swal.close();
+      // Close the loading alert if an error occurs
+      swal.close();
 
-        // Show error message
-        await swal({
-            title: 'Error!',
-            text: 'There was an error deleting your item.',
-            icon: 'error',
-            className: 'swal-modal',
-            didOpen: () => {
-                // Add custom classes to the elements
-                const swalTitle = document.querySelector('.swal-title');
-                const swalText = document.querySelector('.swal-text');
-                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+      // Show error message
+      await swal({
+        title: 'Error!',
+        text: 'There was an error deleting your item.',
+        icon: 'error',
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-                if (swalTitle) swalTitle.classList.add('swal-title');
-                if (swalText) swalText.classList.add('swal-text');
-                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-            },
-        });
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
     }
-};
+  };
 
   // Search and filter spare
   const filteredData = spareParts
@@ -355,82 +355,144 @@ const AdminSpareParts = () => {
     <div className='flex flex-wrap gap-2 py-2'>
       {/* All spare parts section */}
       <div className='flex-1'>
-        {
-          spareParts.length === 0 ? 'No spare parts available' :
-            <div>
-              <div className='py-2 flex justify-between flex-wrap'>
-                <div className='border rounded-md px-2 flex items-center justify-between max-w-[250px]'>
-                  <input
-                    onChange={handleSearch}
-                    value={searchTerm}
-                    className='outline-none p-1 text-sm'
-                    type="text"
-                    placeholder='Search' />
-                  <div className='px-2 text-gray-400'>
-                    <IoSearch />
-                  </div>
+
+        <div>
+          <div className='py-2 flex justify-between flex-wrap gap-2'>
+            {spareParts.length !== 0 &&
+              <div className='border rounded-md px-2 flex items-center justify-between max-w-[250px]'>
+                <input
+                  onChange={handleSearch}
+                  value={searchTerm}
+                  className='outline-none p-1 text-sm'
+                  type="text"
+                  placeholder='Search' />
+                <div className='px-2 text-gray-400'>
+                  <IoSearch />
                 </div>
-                <div className='flex gap-1'>
-                  <button
-                    onClick={handleOpenVehicle}
-                    className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Vehicle</button>
-                  <button
-                    onClick={handleOpenSpare}
-                    className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Spare</button>
-                </div>
-              </div>
-              <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
-                <table className='w-full shadow-custom min-w-[455px]'>
-                  <thead>
-                    <tr className='bg-primaryColor text-white text-sm text-left'>
-                      <th className='font-normal px-2'>Image</th>
-                      <th className='font-normal px-2'>Name</th>
-                      <th className='font-normal px-2'>
-                        <select 
+              </div>}
+            <div className='flex gap-1'>
+              <button
+                onClick={handleOpenVehicle}
+                className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Vehicle</button>
+              <button
+                onClick={handleOpenSpare}
+                className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Spare</button>
+              {spareParts.length !== 0 &&
+                <div className='flex xs:hidden justify-end'>
+                  <select
+                    onChange={handleFilterChange}
+                    className='bg-primaryColor text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
+                    <option value="">Suitable</option>
+                    {allVehicles.map((vehicle, index) => (
+                      <option
+                        key={index}
+                        value={vehicle._id}>{vehicle.name}</option>
+                    ))}
+                  </select>
+                </div>}
+            </div>
+          </div>
+
+          {spareParts.length === 0 ? 'No spare parts available' :
+
+            <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
+              <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
+                <thead>
+                  <tr className='bg-primaryColor text-white text-sm text-left'>
+                    <th className='font-normal px-2'>Image</th>
+                    <th className='font-normal px-2'>Name</th>
+                    <th className='font-normal px-2'>
+                      <select
                         onChange={handleFilterChange}
                         className='bg-primaryColor cursor-pointer'>
-                          <option value="">Suitable</option>
-                          {allVehicles.map((vehicle, index) => (
-                            <option
-                              key={index}
-                              value={vehicle._id}>{vehicle.name}</option>
-                          ))}
-                        </select>
-                      </th>
-                      <th className='font-normal px-2'>Stocks</th>
-                      <th className='font-normal px-2'>Price</th>
-                      <th className='font-normal px-2'>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { filteredData.length === 0 ? <div className='p-5'>No spare parts available</div> :
-                      filteredData.map((spare, index) => (
-                        <tr key={index} className='border text-sm text-start'>
-                          <td className='p-2'><img 
+                        <option value="">Suitable</option>
+                        {allVehicles.map((vehicle, index) => (
+                          <option
+                            key={index}
+                            value={vehicle._id}>{vehicle.name}</option>
+                        ))}
+                      </select>
+                    </th>
+                    <th className='font-normal px-2'>Stocks</th>
+                    <th className='font-normal px-2 min-w-16'>Price</th>
+                    <th className='font-normal px-2'>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredData.length === 0 ? <div className='p-5'>No spare parts available</div> :
+                    filteredData.map((spare, index) => (
+                      <tr key={index} className='border text-sm text-start'>
+                        <td className='p-2'><img
                           onClick={() => handleOpenImgViewer(spare.image)}
                           className='h-20 w-32 object-contain rounded-md cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
-                          <td className='p-2'>{spare.itemName}</td>
-                          <td className='p-2'>{spare.suitable.name}</td>
-                          <td className='p-2'>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : spare.stock}</td>
-                          <td className='p-2'><span>&#8377; </span>{spare.price}</td>
-                          <td className='p-2'>
-                            <div className='flex gap-5'>
-                              <button
-                                onClick={() => handleUpdateOpen(spare)}
-                                className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
-                              <button
-                                onClick={() => handleDelete(spare._id)}
-                                className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
-              </div>
+                        <td className='p-2'>{spare.itemName}</td>
+                        <td className='p-2'>{spare.suitable.name}</td>
+                        <td className='p-2'>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : spare.stock}</td>
+                        <td className='p-2'><span>&#8377; </span>{spare.price}</td>
+                        <td className='p-2'>
+                          <div className='flex gap-5'>
+                            <button
+                              onClick={() => handleUpdateOpen(spare)}
+                              className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
+                            <button
+                              onClick={() => handleDelete(spare._id)}
+                              className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
             </div>
-        }
+
+          }
+          {/* Small screen devices card */}
+          <div className='sm:hidden'>
+            <div className='hidden xs:flex justify-end my-2'>
+              {spareParts.length !== 0 &&
+                <select
+                  onChange={handleFilterChange}
+                  className='bg-primaryColor text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
+                  <option value="">Suitable</option>
+                  {allVehicles.map((vehicle, index) => (
+                    <option
+                      key={index}
+                      value={vehicle._id}>{vehicle.name}</option>
+                  ))}
+                </select>}
+            </div>
+            {
+              filteredData.map((spare, index) => (
+                <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
+                  <div
+                    className='cursor-pointer'
+                    onClick={() => handleOpenImgViewer(spare.image)}>
+                    <img
+                      className='w-full h-32 object-contain'
+                      src={`${backendUrl}/images/${spare.image}`} alt="" />
+                  </div>
+                  <h1 className='font-semibold'>{spare.itemName}</h1>
+                  <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>
+                  <p>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : `Stock : ${spare.stock}`}</p>
+                  <div className='flex justify-between'>
+                    <h3 className='font-medium'>Price : <span>&#8377; </span>{spare.price}</h3>
+                    <div className='flex gap-2'>
+                      <button
+                        onClick={() => handleUpdateOpen(spare)}
+                        className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
+                      <button
+                        onClick={() => handleDelete(spare._id)}
+                        className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
+
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
       </div>
 
       <div className='flex flex-col gap-2'>
@@ -548,7 +610,7 @@ const AdminSpareParts = () => {
       {openSpare && <CreateSparePopup close={handleClose} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
       {openVehicle && <CreateVehiclePopup close={handleCloseVehicle} fetchVehicle={fetchVehicles} />}
       {openUpdate && <UpdateSparePopup close={handleCloseUpdate} spare={currentSpare} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
-      {openImg && <ImageView close={handleCloseImgViewer} imgUrl={currentImg}/>}
+      {openImg && <ImageView close={handleCloseImgViewer} imgUrl={currentImg} />}
     </div>
   )
 }

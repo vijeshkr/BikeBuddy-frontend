@@ -3,12 +3,11 @@ import { IoMdClose } from "react-icons/io";
 import { handleImageUpload } from '../../common/utils';
 import { toast } from 'react-toastify';
 import makeRequest from '../../common/axios';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const UpdateSparePopup = ({ close, spare, fetchSpare, allVehicles }) => {
     // State to manage loading
     const [loading, setLoading] = useState(false);
-    // State to manage spare image
-    const [spareImage, setSpareImage] = useState(null);
     // State to manage spare data
     const [data, setData] = useState({
         price: spare.price,
@@ -59,7 +58,7 @@ const UpdateSparePopup = ({ close, spare, fetchSpare, allVehicles }) => {
                     onSubmit={handleSubmitSpareForm}
                     className='flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
 
-                    <img src={spare.image}
+                    <img src={`${backendUrl}/images/${spare.image}`}
                         className='object-contain w-36 h-20'
                         alt="" />
 
