@@ -212,6 +212,109 @@ const handleCloseUpdate = () => {
       console.error('Error while fetching vehicles: ', error);
     }
   }
+
+  // Delete spare
+  const handleDelete = async (spareId) => {
+    try {
+        // Show confirmation alert
+        const confirm = await swal({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this item?',
+            icon: 'warning',
+            buttons: ['Cancel', 'Yes, delete it!'],
+            dangerMode: true,
+            className: 'swal-modal',
+            didOpen: () => {
+                // Add custom classes to the elements
+                const swalTitle = document.querySelector('.swal-title');
+                const swalText = document.querySelector('.swal-text');
+                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+                if (swalTitle) swalTitle.classList.add('swal-title');
+                if (swalText) swalText.classList.add('swal-text');
+                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+            },
+        });
+
+        if (!confirm) return; // Exit if user cancels
+
+        // Show a loading alert
+        const loadingAlert = swal({
+            title: 'Deleting...',
+            text: 'Please wait while we delete your item.',
+            icon: 'info',
+            buttons: false, // Disables buttons
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+            className: 'swal-modal',
+            didOpen: () => {
+                // Add custom classes to the elements
+                const swalTitle = document.querySelector('.swal-title');
+                const swalText = document.querySelector('.swal-text');
+
+                if (swalTitle) swalTitle.classList.add('swal-title');
+                if (swalText) swalText.classList.add('swal-text');
+            },
+        });
+
+        // API call
+        const response = await makeRequest.delete(`/delete-spare/${spareId}`);
+
+        if (response.data.success) {
+            fetchSpare();
+        }
+
+        // Close the loading alert
+        swal.close();
+
+        // Show success message
+        await swal({
+            title: 'Deleted!',
+            text: 'Your item has been deleted.',
+            icon: 'success',
+            className: 'swal-modal',
+            didOpen: () => {
+                // Add custom classes to the elements
+                const swalTitle = document.querySelector('.swal-title');
+                const swalText = document.querySelector('.swal-text');
+                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+                if (swalTitle) swalTitle.classList.add('swal-title');
+                if (swalText) swalText.classList.add('swal-text');
+                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+            },
+        });
+
+    } catch (error) {
+        // Close the loading alert if an error occurs
+        swal.close();
+
+        // Show error message
+        await swal({
+            title: 'Error!',
+            text: 'There was an error deleting your item.',
+            icon: 'error',
+            className: 'swal-modal',
+            didOpen: () => {
+                // Add custom classes to the elements
+                const swalTitle = document.querySelector('.swal-title');
+                const swalText = document.querySelector('.swal-text');
+                const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+                if (swalTitle) swalTitle.classList.add('swal-title');
+                if (swalText) swalText.classList.add('swal-text');
+                if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+            },
+        });
+    }
+};
+
   useEffect(() => {
     fetchSpare();
     fetchVehicles();
@@ -282,7 +385,7 @@ const handleCloseUpdate = () => {
                                 onClick={() => handleUpdateOpen(spare)}
                                 className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit /></button>
                               <button
-
+                                onClick={() => handleDelete(spare._id)}
                                 className='bg-red-100 p-1.5 rounded-full text-red-600'><MdDeleteOutline /></button>
                             </div>
                           </td>
