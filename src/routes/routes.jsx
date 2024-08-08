@@ -30,6 +30,8 @@ import MechanicSpareParts from '../pages/mechanic/MechanicSpareParts';
 import MechanicLeave from '../pages/mechanic/MechanicLeave';
 import AdminPackageServicePage from '../pages/admin/AdminPackageServicePage';
 import AdminIndividualWorksPage from '../pages/admin/AdminIndividualWorksPage';
+import MechanicFilteredSpare from '../pages/mechanic/MechanicFilteredSpare';
+import MechanicSpareHome from '../pages/mechanic/MechanicSpareHome';
 
 const router = createBrowserRouter([
     {
@@ -84,7 +86,17 @@ const router = createBrowserRouter([
             },
             {
                 path: 'mechanic-spare-parts',
-                element: <MechanicSpareParts />
+                element: <MechanicSpareParts />,
+                children: [
+                    {
+                        path: '',
+                        element: <MechanicSpareHome />
+                    },
+                    {
+                        path: 'filtered-spare',
+                        element: <MechanicFilteredSpare />
+                    }
+                ]
             },
         ]
     },
@@ -115,14 +127,14 @@ const router = createBrowserRouter([
             {
                 path: 'admin-service',
                 element: <AdminServices />,
-                children:  [
+                children: [
                     {
                         path: '',
-                        element: <AdminPackageServicePage/>
+                        element: <AdminPackageServicePage />
                     },
                     {
                         path: 'individual-works',
-                        element: <AdminIndividualWorksPage/>
+                        element: <AdminIndividualWorksPage />
                     },
                 ]
             },
