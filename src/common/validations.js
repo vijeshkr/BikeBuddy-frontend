@@ -49,3 +49,14 @@ export const validatePhone = (phone) => {
     }
     return errors;
 }
+
+// Vehicle registration number validation
+export const validateVehicleRegistration = (registrationNumber) => {
+    
+    // Small letters and capital
+    // const vehicleRegex = /^[a-zA-Z]{2}-\d{2}-[a-zA-Z]{2}-\d{4}$/i;
+
+    // Only capital letters
+    const vehicleRegex = /^[A-Z]{2}-\d{2}-[A-Z]{2}-\d{4}$/;
+    return vehicleRegex.test(registrationNumber);
+};

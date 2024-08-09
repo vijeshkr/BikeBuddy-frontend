@@ -32,6 +32,8 @@ import AdminPackageServicePage from '../pages/admin/AdminPackageServicePage';
 import AdminIndividualWorksPage from '../pages/admin/AdminIndividualWorksPage';
 import MechanicFilteredSpare from '../pages/mechanic/MechanicFilteredSpare';
 import MechanicSpareHome from '../pages/mechanic/MechanicSpareHome';
+import CustomerVehicleDetails from '../components/customer/CustomerVehicleDetails';
+import NavigateToFirstVehicle from '../components/customer/NavigateToFirstVehicle';
 
 const router = createBrowserRouter([
     {
@@ -56,7 +58,17 @@ const router = createBrowserRouter([
             },
             {
                 path: 'user-vehicle',
-                element: <CustomerVehicle />
+                element: <CustomerVehicle />,
+                children: [
+                    {
+                        path: '',
+                        element: <NavigateToFirstVehicle/>
+                    },
+                    {
+                        path: 'my-vehicle/:vehicleId',
+                        element: <CustomerVehicleDetails/>
+                    }
+                ]
             },
         ]
     },
