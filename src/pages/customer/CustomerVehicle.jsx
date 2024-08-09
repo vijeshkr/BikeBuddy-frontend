@@ -215,7 +215,7 @@ const CustomerVehicle = () => {
             <p className='text-sm text-gray-400 py-1'>My Vehicles</p>
             {
               myVehicles.length === 0 ? 'No vehicles available' :
-                <div>
+                <div className='max-h-48 overflow-y-auto scrollbar-none'>
                   {
                     myVehicles.map((vehicle, index) => (
                       <NavLink key={index} index={index === 0}
