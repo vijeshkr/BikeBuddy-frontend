@@ -4,6 +4,7 @@ import loadingReducer from '../features/loadingSlice';
 import sideBarOpenClose from '../features/sideBarOpenClose';
 import customerVehicleReducer from '../features/customerVehicleSlice';
 import customerReducer from '../features/customersSlice';
+import mechanicReducer from '../features/mechanicSlice';
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         sidebar: sideBarOpenClose,
         customerVehicle: customerVehicleReducer,
         customer:customerReducer,
+        mechanic:mechanicReducer,
     }
 });
 

@@ -34,6 +34,8 @@ import MechanicFilteredSpare from '../pages/mechanic/MechanicFilteredSpare';
 import MechanicSpareHome from '../pages/mechanic/MechanicSpareHome';
 import CustomerVehicleDetails from '../components/customer/CustomerVehicleDetails';
 import NavigateToFirstVehicle from '../components/customer/NavigateToFirstVehicle';
+import MechanicListPage from '../pages/admin/MechanicListPage';
+import LeavePage from '../pages/admin/LeavePage';
 
 const router = createBrowserRouter([
     {
@@ -152,7 +154,17 @@ const router = createBrowserRouter([
             },
             {
                 path: 'admin-mechanics',
-                element: <AdminMechanicsList />
+                element: <AdminMechanicsList />,
+                children: [
+                    {
+                        path: '',
+                        element: <MechanicListPage />
+                    },
+                    {
+                        path: 'leave-requests',
+                        element: <LeavePage />
+                    },
+                ]
             },
             {
                 path: 'admin-customers',

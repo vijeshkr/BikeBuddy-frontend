@@ -6,6 +6,7 @@ import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { addCustomer } from '../../redux/features/customersSlice';
+import { addMechanic } from '../../redux/features/mechanicSlice'
 
 const CreateNewUser = ({role}) => {
 
@@ -107,7 +108,9 @@ const CreateNewUser = ({role}) => {
                         setConfirmPassword('');
                         
                         if(role === 'customer'){
-                            dispatch(addCustomer(response.data.data))
+                            dispatch(addCustomer(response.data.data));
+                        }else if(role === 'mechanic'){
+                            dispatch(addMechanic(response.data.data));
                         }
                     }
                 } catch (error) {
