@@ -4,8 +4,12 @@ import { FaEyeSlash } from "react-icons/fa";
 import { validateName, validateEmail, validatePassword } from '../../common/validations';
 import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { addCustomer } from '../../redux/features/customersSlice';
 
 const CreateNewUser = ({role}) => {
+
+    const dispatch = useDispatch();
 
     // Password show and hide state
     const [showPassword, setShowPassword] = useState(false);
@@ -97,6 +101,14 @@ const CreateNewUser = ({role}) => {
                     const response = await makeRequest.post('/add-new-user', data);
                     if (response.data.success) {
                         toast.success('New customer creation successfull');
+                        setName('');
+                        setEmail('');
+                        setPassword('');
+                        setConfirmPassword('');
+                        
+                        if(role === 'customer'){
+                            dispatch(addCustomer(response.data.data))
+                        }
                     }
                 } catch (error) {
                     console.error('Error during registration : ', error);
@@ -113,7 +125,7 @@ const CreateNewUser = ({role}) => {
 
     return (
         <div className='bg-white flex flex-col px-5 w-full'>
-            <h1 className='text-xl font-semibold pb-5'>Create new customer</h1>
+            <h1 className='text-xl font-semibold pb-5'>Create new {role}</h1>
             <form onSubmit={handleSubmit} action="" className='flex flex-col gap-5'>
                 <div>
                     <input type="text"
