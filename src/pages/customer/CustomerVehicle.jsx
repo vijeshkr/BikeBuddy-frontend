@@ -8,6 +8,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { customerVehicleDetails } from '../../redux/features/customerVehicleSlice';
+import profilePlaceholder from '../../assets/profile.png';
 
 const CustomerVehicle = () => {
   const user = useSelector((state) => state.user.user);
@@ -239,9 +240,10 @@ const CustomerVehicle = () => {
 
         </div>
         {/* Outler */}
-        <div className='flex-1 shadow-custom p-4 rouded-lg min-w-[350px] max-w-sm'>
+        { myVehicles.length !== 0 &&
+          <div className='flex-1 shadow-custom p-4 rouded-lg min-w-[350px] max-w-sm'>
           <Outlet />
-        </div>
+        </div>}
       </div>
 
     </div>
