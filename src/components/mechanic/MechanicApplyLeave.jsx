@@ -105,6 +105,7 @@ const MechanicApplyLeave = () => {
           <div className='pt-0.5'>
             <input
               onChange={handleCheckboxChange}
+              checked={halfDay}
               type="checkbox" />
           </div>
         </div>

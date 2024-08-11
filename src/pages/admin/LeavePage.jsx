@@ -37,6 +37,41 @@ const LeavePage = () => {
         statusFilter === 'All' || leave.status === statusFilter
     );
 
+    // Function for handle approval of leave
+    const handleApprove = async (leaveId) => {
+        
+        setLoading(true);
+        try {
+            const response = await makeRequest.patch(`/update-leave-status/${leaveId}`, {
+                status: 'Approved'
+            });
+            if (response.data.success) {
+                fetchLeaves();
+            }
+        } catch (error) {
+            console.error('Error approving leave:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // Function for handle rejection of leave
+    const handleReject = async (leaveId) => {
+        setLoading(true);
+        try {
+            const response = await makeRequest.patch(`/update-leave-status/${leaveId}`, {
+                status: 'Rejected'
+            });
+            if (response.data.success) {
+                fetchLeaves();
+            }
+        } catch (error) {
+            console.error('Error approving leave:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
 
         <div className='py-4'>
@@ -83,11 +118,13 @@ const LeavePage = () => {
                                     {leave.status === 'Pending' ? (
                                         <div className='flex gap-2'>
                                             <button
+                                                onClick={() => handleApprove(leave._id)}
                                                 className="bg-green-50 text-green-500 py-0.5 px-2 rounded-sm hover:bg-green-100"
                                             >
                                                 Approve
                                             </button>
                                             <button
+                                                onClick={() => handleReject(leave._id)}
                                                 className="bg-red-50 text-red-500 py-0.5 px-2 rounded-sm hover:bg-red-100"
                                             >
                                                 Reject
