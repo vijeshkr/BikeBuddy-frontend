@@ -29,7 +29,7 @@ const UpdateWorkPopup = ({ close, wrk, fetchWorks }) => {
         toast.success('Work updated successfully');
         fetchWorks();
         close();
-      }else{
+      } else {
         toast.error(response.data.message);
       }
     } catch (error) {
@@ -65,6 +65,7 @@ const UpdateWorkPopup = ({ close, wrk, fetchWorks }) => {
             name='suitable'
             className='text-sm outline-none bg-gray-100 p-2 rounded-md mb-2 w-full'>
             <option value={data.suitable}>{data.suitable}</option>
+            {/* Conditional options based on current value */}
             {data.suitable !== 'Scooter' && <option value="Scooter">Scooter</option>}
             {data.suitable !== 'Bike' && <option value="Bike">Bike</option>}
             {data.suitable !== 'Both' && <option value="Both">Both</option>}

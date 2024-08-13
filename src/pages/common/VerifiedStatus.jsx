@@ -10,7 +10,7 @@ const VerifiedStatus = () => {
     // State to manage loading
     const [loading, setLoading] = useState(false);
     // State to store api respnse
-    const [data, setData] = useState({success: false});
+    const [data, setData] = useState({ success: false });
     // Get the verification token from the url params
     const { token } = useParams();
 
@@ -42,18 +42,18 @@ const VerifiedStatus = () => {
                     <h1 className='text-xl font-semibold pb-5 text-center'>{data.success ? 'You have successfully verified your account' : 'Invalid or expired verification token!'}</h1>
                     <div>
                         {data &&
-                            (<img className='object-cover' src={data.success ? verfiedImg : failedImg} alt="" />
+                            (
+                                <img className='object-cover' src={data.success ? verfiedImg : failedImg} alt="" />
 
                             )
                         }
                     </div>
-                        {
-                            data.success ? 
+                    {
+                        data.success ?
                             <Link to={'/login'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
                             :
                             <Link to={'/register'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Signup</button></Link>
-                        }
-
+                    }
                 </div>
             </div>
         </div>

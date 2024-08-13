@@ -6,6 +6,7 @@ const customerSlice = createSlice({
         customer: []
     },
     reducers: {
+        // Action to add new customer to the array
         addCustomer(state, action) {
             state.customer.push(action.payload);
         },

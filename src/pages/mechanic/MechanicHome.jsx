@@ -16,7 +16,7 @@ const MechanicHome = () => {
     { label: 'Job', icon: <SiGooglecloudspanner />, link: '' },
     { label: 'Leave', icon: <FaRegCalendarXmark />, link: 'mechanic-leave' },
     { label: 'Services History', icon: <FaHistory />, link: 'mechanic-service-history' },
-    {label: 'Spare Parts', icon: <HiShoppingBag/>, link:'mechanic-spare-parts'},
+    { label: 'Spare Parts', icon: <HiShoppingBag />, link: 'mechanic-spare-parts' },
     { label: 'Profile', icon: <CgProfile />, link: 'profile-page' },
 
   ];
@@ -32,6 +32,7 @@ const MechanicHome = () => {
 
       <div className='w-full'>
 
+        {/* Navbar section */}
         <nav >
           <NavBar />
         </nav>

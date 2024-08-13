@@ -14,15 +14,9 @@ import { userDetails } from '../../redux/features/userSlice';
 const Login = () => {
 
     const navigate = useNavigate();
+    // State to manage password visibility
     const [showPassword, setShowPassword] = useState(false);
     const [showEyeIcon, setShowEyeIcon] = useState('hidden');
-
-    // Eye icon toggle fuction for password visibility
-    const handleMouseDown = (e) => {
-        // Prevents losing focus on the input field
-        e.preventDefault();
-        setShowPassword(!showPassword);
-    };
 
     // State hook for form fields
     const [email, setEmail] = useState('');
@@ -31,6 +25,17 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordErrors, setPasswordErrors] = useState({});
     const [generalError, setGeneralError] = useState('');
+
+    // Loading state from redux
+    const loading = useSelector((state) => state.loading);
+    const dispatch = useDispatch();
+
+    // Eye icon toggle fuction for password visibility
+    const handleMouseDown = (e) => {
+        // Prevents losing focus on the input field
+        e.preventDefault();
+        setShowPassword(!showPassword);
+    };
 
     // Email validation
     const handleEmailChange = (e) => {
@@ -47,10 +52,6 @@ const Login = () => {
         e.target.value ? setPasswordErrors(errors) : setPasswordErrors({});
     }
 
-    // State to manage loading
-    // const [loading, setLoading] = useState(false);
-    const loading = useSelector((state) => state.loading);
-    const dispatch = useDispatch();
     // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,11 +79,11 @@ const Login = () => {
                         toast.success('Login successful');
                         dispatch(userDetails({ user: response.data.result.user }));
                         dispatch(setLoading(false));
-                        if(response.data.result.user.role === 'customer'){
+                        if (response.data.result.user.role === 'customer') {
                             navigate('/');
-                        }else if(response.data.result.user.role === 'mechanic'){
+                        } else if (response.data.result.user.role === 'mechanic') {
                             navigate('/mechanic');
-                        }else if(response.data.result.user.role === 'admin'){
+                        } else if (response.data.result.user.role === 'admin') {
                             navigate('/admin');
                         }
                     }

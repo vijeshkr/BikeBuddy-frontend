@@ -5,9 +5,11 @@ import MechanicLeaveHistory from '../../components/mechanic/MechanicLeaveHistory
 const MechanicLeave = () => {
   return (
     <div className='flex gap-4 flex-wrap'>
+      {/* Container for the apply leave section */}
       <div className='flex-1 min-w-[340px] shadow-custom p-4 rounded-md'>
       <MechanicApplyLeave/>
       </div>
+      {/* Container for the leave history section */}
       <div className='flex-1 min-w-[340px] xs:min-w-[400px] shadow-custom p-4 rounded-md'>
       <MechanicLeaveHistory/>
       </div>

@@ -27,10 +27,11 @@ const UpdatePackagePopup = ({ close, pkg, fetchPackage }) => {
     try {
       const response = await makeRequest.put('/update-package', data);
       if (response.data.success) {
+        // Show success message and close the popup
         toast.success('Package updated successfully');
         fetchPackage();
         close();
-      }else{
+      } else {
         toast.error(response.data.message);
       }
     } catch (error) {

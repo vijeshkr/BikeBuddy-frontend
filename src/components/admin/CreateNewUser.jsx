@@ -107,6 +107,7 @@ const CreateNewUser = ({role}) => {
                         setPassword('');
                         setConfirmPassword('');
                         
+                        // Dispatch Redux action based on user role
                         if(role === 'customer'){
                             dispatch(addCustomer(response.data.data));
                         }else if(role === 'mechanic'){

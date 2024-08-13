@@ -6,10 +6,13 @@ const userSlice = createSlice({
         user: null
     },
     reducers: {
+        // Action to update the user details in the state
         userDetails(state,action){
             state.user = action.payload.user;
         },
+        // Action to clear the user details
         logout(state) {
+            // Set user details null on logout
             state.user = null;
         }
     }

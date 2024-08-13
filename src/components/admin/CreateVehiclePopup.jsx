@@ -47,6 +47,7 @@ const CreateVehiclePopup = ({ close, fetchVehicle }) => {
         e.preventDefault();
         setLoading(true);
         try {
+            // Upload image and gets it's URL
             const imageUrl = await handleImageUpload(vehicleImg);
             const vehicleData = { name: vehicleName, image: imageUrl }
 
@@ -84,6 +85,7 @@ const CreateVehiclePopup = ({ close, fetchVehicle }) => {
                     <div className='relative w-36'>
                         <label htmlFor="uploadVehicleImg" className='w-36'>
                             <div className='p-2 bg-slate-100 border rounded-md h-20 w-36 flex justify-center items-center cursor-pointer'>
+                                {/* Display upload icon if no image is selected */}
                                 <div className={`${vehicleImg && 'hidden'} text-slate-500 flex justify-center items-center flex-col gap-2`}>
                                     <span className='text-3xl'><FaCloudUploadAlt /></span>
                                     <p className='text-xs'>Upload vehicle image</p>
@@ -97,6 +99,7 @@ const CreateVehiclePopup = ({ close, fetchVehicle }) => {
                                 </div>
                             </div>
                         </label>
+                        {/* Display selected image and clear button */}
                         <div className={`${!vehicleImg && 'hidden'} absolute w-36 h-20 top-0 bottom-0 left-0 right-0`}>
                             <div className='relative'>
                                 <img src={`${vehicleImg && URL.createObjectURL(vehicleImg)}`}
@@ -115,7 +118,9 @@ const CreateVehiclePopup = ({ close, fetchVehicle }) => {
                         value={vehicleName}
                         name='name'
                         className='text-sm outline-none border p-2 rounded-md' placeholder='Vehicle name' type="text" />
-                    <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
+                    <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>
+                    {loading ? 'Creating...' : 'Create'}
+                    </button>
                 </form>
             </div>
         </div>

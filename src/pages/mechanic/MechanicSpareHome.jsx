@@ -28,7 +28,7 @@ const MechanicSpareHome = () => {
   }
 
 
-  // Filter spare
+  // Filter spare based on the selected vehicle
   const handleFilterSpare = (filterSuitable) => {
     // Navigate with query parameters
     const query = new URLSearchParams({ filter: filterSuitable }).toString();
@@ -39,14 +39,20 @@ const MechanicSpareHome = () => {
   useEffect(() => {
     fetchVehicles();
   }, []);
+
   return (
     <div className='p-1 flex flex-col gap-3'>
+
       {loading && <LoadingIndicator />}
+
+      {/* Button to view all spare parts */}
       <div className='flex justify-end'>
         <button
           onClick={() => handleFilterSpare('')}
           className='bg-primaryColor px-2 py-1 text-white rounded-md text-sm xs:text-base'>All Spares</button>
       </div>
+
+      {/* Container to display all vehicles */}
       <div className='flex flex-wrap gap-4 justify-center'>
         {
           allVehicles.map((vehicle, index) => (

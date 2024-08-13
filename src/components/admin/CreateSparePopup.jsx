@@ -18,14 +18,14 @@ const CreateSparePopup = ({ close, fetchSpare, allVehicles }) => {
         suitable: ''
     });
 
+    // For spare image input field
+    const fileInputRefSparePopup = useRef(null);
+
     // Handle change in the form
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         setData({ ...data, [name]: value });
     }
-
-    // For spare image input field
-    const fileInputRefSparePopup = useRef(null);
 
     // Handle spare image
     const handleSpareImage = (e) => {
@@ -41,6 +41,7 @@ const CreateSparePopup = ({ close, fetchSpare, allVehicles }) => {
         e.preventDefault();
         setLoading(true);
         try {
+            // Upload image and get the URL
             const imageUrl = await handleImageUpload(spareImage);
             const updatedData = { ...data, image: imageUrl }
 
@@ -90,6 +91,7 @@ const CreateSparePopup = ({ close, fetchSpare, allVehicles }) => {
                 <form
                     onSubmit={handleSubmitSpareForm}
                     className='flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
+                    {/* Sapre image upload section */}
                     <div className='relative w-36'>
                         <label htmlFor="uploadSpareImg" className='w-36'>
                             <div className='p-2 bg-slate-100 border rounded-md h-20 w-36 flex justify-center items-center cursor-pointer'>
@@ -118,7 +120,7 @@ const CreateSparePopup = ({ close, fetchSpare, allVehicles }) => {
                             </div>
                         </div>
                     </div>
-
+                    {/* Form fields */}
                     <input
                         onChange={handleOnChange}
                         value={data.itemName}

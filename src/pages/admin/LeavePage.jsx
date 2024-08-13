@@ -9,6 +9,7 @@ const LeavePage = () => {
     // State to manage the selected filter
     const [statusFilter, setStatusFilter] = useState('All');
 
+    // Fetch function for leave data from the server
     const fetchLeaves = async () => {
         setLoading(true);
         try {
@@ -39,7 +40,7 @@ const LeavePage = () => {
 
     // Function for handle approval of leave
     const handleApprove = async (leaveId) => {
-        
+
         setLoading(true);
         try {
             const response = await makeRequest.patch(`/update-leave-status/${leaveId}`, {
@@ -94,6 +95,7 @@ const LeavePage = () => {
                 </div>
             </div>
 
+            {/* Table for large screens */}
             <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[510px] items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -147,7 +149,6 @@ const LeavePage = () => {
             </div>
 
             {/* Small screens */}
-
             <div className='flex flex-wrap gap-4 lg:hidden w-full'>
                 {filteredData.length > 0 ? (
                     filteredData.map((leave) => (

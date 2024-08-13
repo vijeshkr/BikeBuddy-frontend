@@ -9,22 +9,41 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const MechanicFilteredSpare = () => {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get filter parameter from URL query
   const query = new URLSearchParams(location.search);
   const filterSuitable = query.get('filter') || '';
 
-  const navigate = useNavigate();
 
   // State to manage spare parts data
   const [spareParts, setSpareParts] = useState([]);
   // State to manage loading
   const [loading, setLoading] = useState(false);
-
   // State to manage image viewer open close
   const [openImg, setOpenImg] = useState(false);
   const [currentImg, setCurrentImg] = useState('');
-
   // State to manage search
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Function for fetch all spare parts details from the api
+  const fetchSpare = async () => {
+    setLoading(true);
+    try {
+      const response = await makeRequest.get('/get-all-spare');
+      if (response.data.success) {
+        setSpareParts(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error while fetching spare parts: ', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchSpare();
+  }, []);
 
   // Handle search term
   const handleSearch = (e) => {
@@ -53,24 +72,6 @@ const MechanicFilteredSpare = () => {
     }
   }
 
-  // Function for fetch all spare parts details from the api
-  const fetchSpare = async () => {
-    setLoading(true);
-    try {
-      const response = await makeRequest.get('/get-all-spare');
-      if (response.data.success) {
-        setSpareParts(response.data.data);
-      }
-    } catch (error) {
-      console.error('Error while fetching spare parts: ', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchSpare();
-  }, []);
 
   // Filter spare parts based on the URL parameter
   const filteredSpare = spareParts
@@ -82,6 +83,7 @@ const MechanicFilteredSpare = () => {
     <div>
       {loading && <LoadingIndicatior />}
       <div className='py-2 flex justify-between flex-wrap gap-2'>
+        {/* Search input field */}
         {filteredSpare.length !== 0 &&
           <div className='border rounded-md px-2 flex items-center justify-between max-w-[250px]'>
             <input
@@ -94,6 +96,7 @@ const MechanicFilteredSpare = () => {
               <IoSearch />
             </div>
           </div>}
+        {/* Filter button */}
         <div>
           <button
             onClick={handleFilterSpare}
@@ -103,8 +106,8 @@ const MechanicFilteredSpare = () => {
         </div>
       </div>
 
+      {/* Display spare parts in table for large screens */}
       {filteredSpare.length === 0 ? 'No spare parts available' :
-
         <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
           <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
             <thead>
@@ -136,9 +139,7 @@ const MechanicFilteredSpare = () => {
       }
 
       {/* Small screen devices */}
-
       <div className='sm:hidden'>
-
         {
           filteredSpare.map((spare, index) => (
             <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
@@ -160,7 +161,7 @@ const MechanicFilteredSpare = () => {
         }
       </div>
 
-
+      {/* Image viewer */}
       {openImg && <ImageView close={handleCloseImgViewer} imgUrl={currentImg} />}
     </div>
   )

@@ -17,44 +17,44 @@ const AdminHome = () => {
 
   // Sidebar data 
   const adminSidebar = [
-    {label: 'Monthly Tracker', icon: <TbLayoutDashboardFilled/>, link:''},
-    {label: 'Booking Page', icon: <FaRegCalendarAlt/>, link:'admin-booking'},
-    {label: 'Breakdown', icon: <TiSpanner/>, link:'admin-breakdown'},
-    {label: 'Services', icon: <SiGooglecloudspanner/>, link:'admin-service'},
-    {label: 'Mechanics', icon: <IoPeople/>, link:'admin-mechanics'},
-    {label: 'Customers', icon: <IoIosPeople/>, link:'admin-customers'},
-    {label: 'Spare Parts', icon: <HiShoppingBag/>, link:'admin-spare-parts'},
-    {label: 'Services History', icon: <FaHistory/>, link:'admin-service-history'},
-    {label: 'Profile', icon: <CgProfile/>, link:'profile-page'},
+    { label: 'Monthly Tracker', icon: <TbLayoutDashboardFilled />, link: '' },
+    { label: 'Booking Page', icon: <FaRegCalendarAlt />, link: 'admin-booking' },
+    { label: 'Breakdown', icon: <TiSpanner />, link: 'admin-breakdown' },
+    { label: 'Services', icon: <SiGooglecloudspanner />, link: 'admin-service' },
+    { label: 'Mechanics', icon: <IoPeople />, link: 'admin-mechanics' },
+    { label: 'Customers', icon: <IoIosPeople />, link: 'admin-customers' },
+    { label: 'Spare Parts', icon: <HiShoppingBag />, link: 'admin-spare-parts' },
+    { label: 'Services History', icon: <FaHistory />, link: 'admin-service-history' },
+    { label: 'Profile', icon: <CgProfile />, link: 'profile-page' },
   ];
 
   return (
     <div className='h-screen w-full bg-slate-100 flex'>
       {/* Sidebar for navigation */}
-        <aside>
-          <div >
+      <aside>
+        <div >
           <SmallSideBar sidebarData={adminSidebar} />
-          </div>
-          <SideBar sidebarData={adminSidebar}/>
-        </aside>
-
-        <div className='w-full'>
-
-            <nav >
-                <NavBar/>
-            </nav>
-
-            <div className=' w-full h-h-calc flex sm:p-4 gap-5'>
-              {/* Outlet */}
-                <main className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'>
-                <Outlet/>
-                </main>
-
-                {/* <aside className='h-full w-72 bg-white p-5'>Rightbar</aside> */}
-            </div>
-
-
         </div>
+        <SideBar sidebarData={adminSidebar} />
+      </aside>
+
+      <div className='w-full'>
+        {/* Navbar section */}
+        <nav >
+          <NavBar />
+        </nav>
+
+        <div className=' w-full h-h-calc flex sm:p-4 gap-5'>
+          {/* Outlet */}
+          <main className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'>
+            <Outlet />
+          </main>
+
+          {/* <aside className='h-full w-72 bg-white p-5'>Rightbar</aside> */}
+        </div>
+
+
+      </div>
     </div>
   )
 }

@@ -18,7 +18,6 @@ const ProfilePage = () => {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
-
   // Hooks for manage password change
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -35,6 +34,31 @@ const ProfilePage = () => {
   const [showConfirmNewEyeIcon, setShowConfirmNewEyeIcon] = useState('hidden');
 
   const [loading, setLoading] = useState(false);
+
+  // State hook for the errors
+  const [oldPasswordErrors, setOldPasswordErrors] = useState({});
+  const [newPasswordErrors, setNewPasswordErrors] = useState({});
+  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('');
+  const [generalPasswordError, setGeneralPasswordError] = useState('');
+
+  // State for update photo toggle
+  const [updatePhoto, setUpdatePhoto] = useState(false);
+
+  // Profile update section
+  // Hooks for manage form data
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [place, setPlace] = useState(user.place);
+  const [phone, setPhone] = useState(user.phone);
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  // Hooks for manage errors
+  const [nameError, setNameError] = useState({});
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState({});
+
+  // Profile picture remove reset input
+  const fileInputRef = React.useRef(null);
 
   // Eye icon toggle fuction for password visibility
   const handleMouseDownOld = (e) => {
@@ -56,12 +80,6 @@ const ProfilePage = () => {
     e.preventDefault();
     setShowConfirmNewPassword(!showConfirmNewPassword);
   };
-
-  // State hook for the errors
-  const [oldPasswordErrors, setOldPasswordErrors] = useState({});
-  const [newPasswordErrors, setNewPasswordErrors] = useState({});
-  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('');
-  const [generalPasswordError, setGeneralPasswordError] = useState('');
 
   // Old password validation
   const handleOldPasswordChange = (e) => {
@@ -118,26 +136,10 @@ const ProfilePage = () => {
     }
   };
 
-  // State for update photo toggle
-  const [updatePhoto, setUpdatePhoto] = useState(false);
-
   // Update photo open close toggle function
   const openUpdatePhoto = () => {
     setUpdatePhoto(!updatePhoto);
   }
-
-  // Profile update section
-  // Hooks for manage form data
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [place, setPlace] = useState(user.place);
-  const [phone, setPhone] = useState(user.phone);
-  const [profilePicture, setProfilePicture] = useState(null);
-
-  // Hooks for manage errors
-  const [nameError, setNameError] = useState({});
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState({});
 
   // Name validation
   const handleNameChange = (e) => {
@@ -212,9 +214,6 @@ const ProfilePage = () => {
     }
 
   }
-
-  // Profile picture remove reset input
-  const fileInputRef = React.useRef(null);
 
   // Remove profile picture only
   const removePhoto = async () => {

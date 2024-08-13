@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { IoMdClose } from "react-icons/io";
-import { handleImageUpload } from '../../common/utils';
 import { toast } from 'react-toastify';
 import makeRequest from '../../common/axios';
+
+// Get the backend url from the environment variable
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const UpdateSparePopup = ({ close, spare, fetchSpare, allVehicles }) => {
+const UpdateSparePopup = ({ close, spare, fetchSpare }) => {
     // State to manage loading
     const [loading, setLoading] = useState(false);
     // State to manage spare data
@@ -20,8 +21,6 @@ const UpdateSparePopup = ({ close, spare, fetchSpare, allVehicles }) => {
         setData({ ...data, [name]: value });
     }
 
-    // For spare image input field
-    const fileInputRefSparePopup = useRef(null);
 
     // Handle submit spare form
     const handleSubmitSpareForm = async (e) => {
@@ -96,7 +95,9 @@ const UpdateSparePopup = ({ close, spare, fetchSpare, allVehicles }) => {
                         />
                     </div>
 
-                    <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
+                    <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>
+                        {loading ? 'Updating...' : 'Update'}
+                    </button>
                 </form>
             </div>
         </div>

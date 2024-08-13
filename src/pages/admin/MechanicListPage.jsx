@@ -12,6 +12,7 @@ const MechanicListPage = () => {
   // State to manage search
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Access mechanics data from the Redux store
   const mechanics = useSelector((state) => state.mechanic.mechanic);
 
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const MechanicListPage = () => {
     try {
       const response = await makeRequest.get(`/get-users/${role}`);
       if (response.data.success) {
+        // Update Redux store with fetched data
         dispatch(setMechanicDetails({ mechanic: response.data.data }));
       }
     } catch (error) {
@@ -71,7 +73,7 @@ const MechanicListPage = () => {
           </div>
         }
 
-        {/* Showing users data in a table */}
+        {/* Showing mechanic data in a table for larger screens */}
         {filteredData.length > 0 ? (
           <div>
             <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[510px] hidden lg:flex items-start'>
@@ -98,8 +100,8 @@ const MechanicListPage = () => {
                 </tbody>
               </table>
             </div>
-            {/* Small screens */}
 
+            {/* Displaying mechanic data in card format for small screens */}
             <div className="lg:hidden flex flex-wrap gap-4">
               {filteredData.map((mechanic) => (
                 <div key={mechanic._id} className="bg-white shadow-custom rounded-lg p-4 mb-4 w-full md:w-[300px] min-w-[300px]">
@@ -117,6 +119,8 @@ const MechanicListPage = () => {
           <div className='py-3 px-6'>No data available</div>
         }
       </div>
+
+      {/* Component for creating new user */}
       <div className='min-w-[340px] lg:min-w-[400px] p-4 rounded-md'>
         <CreateNewUser role={'mechanic'} />
       </div>

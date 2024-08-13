@@ -5,6 +5,7 @@ import sideBarOpenClose from '../features/sideBarOpenClose';
 import customerVehicleReducer from '../features/customerVehicleSlice';
 import customerReducer from '../features/customersSlice';
 import mechanicReducer from '../features/mechanicSlice';
+import leaveReducer from '../features/leavesSlice';
 
 const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
         customerVehicle: customerVehicleReducer,
         customer:customerReducer,
         mechanic:mechanicReducer,
+        leaves:leaveReducer,
     }
 });
 

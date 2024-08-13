@@ -6,6 +6,7 @@ const mechanicSlice = createSlice({
         mechanic: []
     },
     reducers: {
+        // Reducer to add new mechanic to the state
         addMechanic(state, action) {
             state.mechanic.push(action.payload);
         },

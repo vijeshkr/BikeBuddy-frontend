@@ -8,11 +8,18 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
+
+    // State to manage email field
     const [email, setEmail] = useState('');
+    // State to manage errors
     const [emailError, setEmailError] = useState('');
     const [generalError, setGeneralError] = useState('');
-    const [userFound,setUserFound] = useState(false);
+    // State to manage the user found or not
+    const [userFound, setUserFound] = useState(false);
+    // State to manage loading
+    const [loading, setLoading] = useState(false);
 
+    // Handle change to the email input field
     const handleEmailChange = (e) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
@@ -20,8 +27,6 @@ const ForgotPassword = () => {
         e.target.value ? setEmailError(errors) : setEmailError('');
     }
 
-    // State to manage loading
-    const [loading, setLoading] = useState(false);
     // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +44,7 @@ const ForgotPassword = () => {
                 setLoading(true);
                 try {
                     // Forgot password api call
-                    const response = await makeRequest.post('/forgot-password', {email});
+                    const response = await makeRequest.post('/forgot-password', { email });
                     setUserFound(response.data.success);
                 } catch (error) {
                     console.error('Error during forgot password : ', error);
@@ -88,7 +93,6 @@ const ForgotPassword = () => {
                         </div>
                         <p className='text-sm font-medium pb-5 text-center'>We have sent a password reset link to your email.</p>
                         <Link to={'/login'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
-
                     </div>
                 }
             </div>

@@ -6,7 +6,9 @@ const customerVehicleSlice = createSlice({
         customerVehicle: []
     },
     reducers: {
+        // Reducer to update customer vehicle details in the state
         customerVehicleDetails(state,action){
+            // Directly update the state with new vehicle details from the action payload
             state.customerVehicle = action.payload.customerVehicle;
         },
     }

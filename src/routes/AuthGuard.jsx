@@ -7,6 +7,7 @@ const AuthGuard = ({ children }) => {
     const user = useSelector((state) => state.user.user);
     const loading = useSelector((state) => state.loading);
 
+    // If the application is in a loading state, display a loading indicator
     if (loading) {
         return <LoadingIndicator />;
     }
@@ -20,6 +21,7 @@ const AuthGuard = ({ children }) => {
         }
 
     } else {
+        // If no user is authenticated, render the children components
         return children;
     }
 };

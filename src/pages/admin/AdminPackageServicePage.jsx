@@ -225,6 +225,7 @@ const AdminPackageServicePage = () => {
                                         onClick={() => setOpenAdd(!openAdd)}
                                         className='xl:hidden text-xs xs:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Package</button>
                                 </div>
+                                {/* Table section */}
                                 <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
                                     <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
                                         <thead>

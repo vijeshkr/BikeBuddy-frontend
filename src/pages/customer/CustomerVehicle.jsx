@@ -11,7 +11,10 @@ import { customerVehicleDetails } from '../../redux/features/customerVehicleSlic
 import profilePlaceholder from '../../assets/profile.png';
 
 const CustomerVehicle = () => {
+
+  // Access user details from the Redux store
   const user = useSelector((state) => state.user.user);
+
   // State to manage all vehicles
   const [allVehicles, setAllVehicles] = useState([]);
   // State to manage loading
@@ -124,6 +127,7 @@ const CustomerVehicle = () => {
     fetchVehicles();
     fetchMyVehicles();
   }, []);
+
   return (
     <div className='w-full'>
       {loading && <LoadingIndicator />}
@@ -239,11 +243,11 @@ const CustomerVehicle = () => {
           </div>
 
         </div>
-        {/* Outler */}
-        { myVehicles.length !== 0 &&
+        {/* Outlet */}
+        {myVehicles.length !== 0 &&
           <div className='flex-1 shadow-custom p-4 rouded-lg min-w-[350px] max-w-sm'>
-          <Outlet />
-        </div>}
+            <Outlet />
+          </div>}
       </div>
 
     </div>

@@ -66,7 +66,6 @@ const AdminSpareParts = () => {
     setFilterSuitable(e.target.value);
   };
 
-
   // Handle current work and open update popup
   const handleUpdateOpen = (spare) => {
     setOpenUpdate(!openUpdate);
@@ -392,9 +391,9 @@ const AdminSpareParts = () => {
                 </div>}
             </div>
           </div>
-
+          
+          {/* Table section */}
           {spareParts.length === 0 ? 'No spare parts available' :
-
             <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
               <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
                 <thead>
@@ -609,7 +608,7 @@ const AdminSpareParts = () => {
       </div>
       {openSpare && <CreateSparePopup close={handleClose} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
       {openVehicle && <CreateVehiclePopup close={handleCloseVehicle} fetchVehicle={fetchVehicles} />}
-      {openUpdate && <UpdateSparePopup close={handleCloseUpdate} spare={currentSpare} fetchSpare={fetchSpare} allVehicles={allVehicles} />}
+      {openUpdate && <UpdateSparePopup close={handleCloseUpdate} spare={currentSpare} fetchSpare={fetchSpare} />}
       {openImg && <ImageView close={handleCloseImgViewer} imgUrl={currentImg} />}
     </div>
   )

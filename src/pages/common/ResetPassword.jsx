@@ -10,11 +10,30 @@ import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
 
+    // State for managing password visibility
     const [showPassword, setShowPassword] = useState(false);
     const [showEyeIcon, setShowEyeIcon] = useState('hidden');
 
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEyeIcon, setShowConfirmEyeIcon] = useState('hidden');
+
+    // State hook for form fields 
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    // State hook for the errors
+    const [passwordErrors, setPasswordErrors] = useState({});
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+
+    // State to handle loading
+    const [loading, setLoading] = useState(false);
+
+    // State for storing token after validation
+    const [tokenStatus, setTokenStatus] = useState({});
+
+    // Get the reset token from the url params
+    const { token } = useParams();
+    const navigate = useNavigate();
 
     // Eye icon toggle fuction for password visibility
     const handleMouseDown = (e) => {
@@ -30,14 +49,6 @@ const ResetPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    // State hook for form fields 
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    // State hook for the errors
-    const [passwordErrors, setPasswordErrors] = useState({});
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [generalError, setGeneralError] = useState('');
-
     // Password validation
     const handlePasswordChange = (e) => {
         const newPassword = e.target.value;
@@ -52,17 +63,6 @@ const ResetPassword = () => {
         const confirmPasswordError = password === cPassword ? '' : 'Passwords do not match';
         e.target.value ? setConfirmPasswordError(confirmPasswordError) : setConfirmPasswordError('');
     }
-
-    // State to handle loading
-    const [loading, setLoading] = useState(false);
-
-    // Get the reset token from the url params
-    const { token } = useParams();
-
-    // State for storing token after validation
-    const [tokenStatus, setTokenStatus] = useState({});
-
-    const navigate = useNavigate();
 
     // Form submission handler
     const handleSubmit = async (e) => {

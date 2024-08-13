@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
+import { addLeave } from '../../redux/features/leavesSlice';
 
 const MechanicApplyLeave = () => {
+  // Get user details from the Redux store
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   // States to manage user inputs
   const [startDate, setStartDate] = useState(null);
@@ -30,6 +33,8 @@ const MechanicApplyLeave = () => {
   // Handle submit leave form
   const handlSubmit = async (e) => {
     e.preventDefault();
+
+    // Construct the data object to sent to the server
     const data = {
       startDate,
       endDate,
@@ -43,6 +48,9 @@ const MechanicApplyLeave = () => {
       const response = await makeRequest.post('/apply-leave', data);
       if (response.data.success) {
         toast.success(response.data.message);
+        // Update the redux store with new leave data
+        dispatch(addLeave(response.data.data));
+        // Reset form fields
         setStartDate(null);
         setEndDate(null);
         setHalfDay(false);
@@ -63,12 +71,14 @@ const MechanicApplyLeave = () => {
         className='space-y-4'>
         <h1 className='font-semibold text-2xl'>Apply Leave</h1>
 
+        {/* Display user name */}
         <div>
           <p className="text-sm mb-1 text-gray-400">Name</p>
           <h1 className='text-xl'>{user.name}</h1>
         </div>
 
         <div className='flex gap-4 flex-col xs:flex-row'>
+          {/* Start date picker */}
           <div className="flex flex-col">
             <label
               className="text-sm mb-1 text-gray-400"
@@ -83,7 +93,7 @@ const MechanicApplyLeave = () => {
               className="text-sm outline-none bg-gray-100 p-2 rounded-md w-full"
             />
           </div>
-
+          {/* End date picker */}
           <div className="flex flex-col">
             <label
               className="text-sm mb-1 text-gray-400"
@@ -99,7 +109,7 @@ const MechanicApplyLeave = () => {
             />
           </div>
         </div>
-
+        {/* Checkbox for half day */}
         <div className='flex gap-2'>
           <label className='text-sm mb-1 text-gray-400'>Half Day</label>
           <div className='pt-0.5'>
@@ -109,15 +119,15 @@ const MechanicApplyLeave = () => {
               type="checkbox" />
           </div>
         </div>
-
+        {/* Text area for leave reason */}
         <div className='flex flex-col'>
           <label className='text-sm mb-1 text-gray-400'>Leave Reason</label>
           <textarea
-          value={leaveReason}
+            value={leaveReason}
             onChange={handleLeaveReason}
             className='border h-32 rounded-md p-2 text-sm outline-none' placeholder='Reason for leave'></textarea>
         </div>
-
+        {/* Submit button */}
         <button className='bg-primaryColor text-white py-1 px-8 rounded-md'>Apply</button>
 
 

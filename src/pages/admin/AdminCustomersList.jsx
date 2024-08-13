@@ -12,6 +12,7 @@ const AdminCustomersList = () => {
   // State to manage search
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Access customer data from the Redux store
   const customers = useSelector((state) => state.customer.customer);
 
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const AdminCustomersList = () => {
     try {
       const response = await makeRequest.get(`/get-users/${role}`);
       if (response.data.success) {
+        // Update the Redux store with fetched data
         dispatch(setCustomerDetails({ customer: response.data.data }));
       }
     } catch (error) {
@@ -50,7 +52,8 @@ const AdminCustomersList = () => {
 
   useEffect(() => {
     fetchCustomers();
-  }, [])
+  }, []);
+
   return (
     <div className='flex gap-4 flex-wrap'>
       {loading && <LoadingIndicator />}
@@ -98,8 +101,8 @@ const AdminCustomersList = () => {
                 </tbody>
               </table>
             </div>
-            {/* Small screens */}
 
+            {/* Customer data in card for small screens */}
             <div className="lg:hidden flex flex-wrap gap-4">
               {filteredData.map((customer) => (
                 <div key={customer._id} className="bg-white shadow-custom rounded-lg p-4 mb-4 w-full md:w-[300px] min-w-[300px]">

@@ -19,6 +19,21 @@ const SignUp = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEyeIcon, setShowConfirmEyeIcon] = useState('hidden');
 
+    // State to manage loading
+    const [loading, setLoading] = useState(false);
+
+    // State hooks for form fields
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    // State hooke for the errors
+    const [nameErrors, setNameErrors] = useState({});
+    const [emailError, setEmailError] = useState('');
+    const [passwordErrors, setPasswordErrors] = useState({});
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+
     // Eye icon toggle fuction for password visibility
     const handleMouseDown = (e) => {
         // Prevents losing focus on the input field
@@ -33,17 +48,6 @@ const SignUp = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    // State hooks for form fields
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    // State hooke for the errors
-    const [nameErrors, setNameErrors] = useState({});
-    const [emailError, setEmailError] = useState('');
-    const [passwordErrors, setPasswordErrors] = useState({});
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [generalError, setGeneralError] = useState('');
 
     // Name validation
     const handleNameChange = (e) => {
@@ -57,7 +61,7 @@ const SignUp = () => {
         const newEmail = e.target.value;
         setEmail(newEmail);
         const errors = validateEmail(newEmail) ? '' : 'Invalid email address';
-        e.target.value ? setEmailError(errors): setEmailError('');
+        e.target.value ? setEmailError(errors) : setEmailError('');
     }
     // Password validation
     const handlePasswordChange = (e) => {
@@ -74,8 +78,6 @@ const SignUp = () => {
         e.target.value ? setConfirmPasswordError(confirmPasswordError) : setConfirmPasswordError('');
     }
 
-    // State to manage loading
-    const [loading, setLoading] = useState(false);
     // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -100,7 +102,7 @@ const SignUp = () => {
                     // User registration api call
                     const response = await makeRequest.post('/registration', data);
                     // If the registration is success navigate to verification mail page
-                    if(response.data.success){
+                    if (response.data.success) {
                         navigate('/register-success');
                     }
                 } catch (error) {
@@ -109,7 +111,7 @@ const SignUp = () => {
                     if (!error.response.data.success) {
                         toast.error(error.response.data.message || 'Error during registration');
                     }
-                }finally{
+                } finally {
                     setLoading(false);
                 }
             }
@@ -205,4 +207,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default SignUp;

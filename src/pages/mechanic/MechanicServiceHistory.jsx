@@ -6,4 +6,4 @@ const MechanicServiceHistory = () => {
   )
 }
 
-export default MechanicServiceHistory
+export default MechanicServiceHistory;

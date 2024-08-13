@@ -26,6 +26,7 @@ const CreatePackagePopup = ({ close, fetchPackage }) => {
     try {
       const response = await makeRequest.post('/add-package', data);
       if (response.data.success) {
+        // Show a success message and call fetchPackage to refresh the data
         toast.success('Package added successfully');
         fetchPackage();
         close();

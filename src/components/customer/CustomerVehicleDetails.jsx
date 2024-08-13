@@ -4,11 +4,14 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 const CustomerVehicleDetails = () => {
+    // Extract the vehicle id from the URL parameter
     const { vehicleId } = useParams();
+    // Access the customer vehicle data from the redux store
     const customerVehicles = useSelector((state) => state.customerVehicle.customerVehicle);
 
+    // Function to format the date using moment 
     const formatDate = (dateString) => {
-        return moment(dateString).format('DD MMM YYYY'); // Format as "11 Apr 2024"
+        return moment(dateString).format('DD MMM YYYY');
     };
 
     // Determine the vehicle to display
@@ -24,6 +27,7 @@ const CustomerVehicleDetails = () => {
         vehicle = customerVehicles[0];
     }
 
+    // If no vehicle data is available display a message
     if (!vehicle) {
         return <div className='p-5'>No vehicles available</div>;
     }
@@ -53,6 +57,7 @@ const CustomerVehicleDetails = () => {
                     <div className='text-xl font-semibold'>{vehicle.freeServiceEligibility ? 'Available' : 'Not Available'}</div>
                 </div>
 
+                {/* Show the count of the available free service if eligibility is true */}
                 { vehicle.freeServiceEligibility &&
                     <div>
                     <h1 className='text-sm'>Available Free Services</h1>
