@@ -11,8 +11,12 @@ const customerVehicleSlice = createSlice({
             // Directly update the state with new vehicle details from the action payload
             state.customerVehicle = action.payload.customerVehicle;
         },
+        // Action to add new customer vehicle to the array
+        addCustomerVehicle(state, action) {
+            state.customerVehicle.push(action.payload);
+        },
     }
 });
 
-export const { customerVehicleDetails } = customerVehicleSlice.actions;
+export const { customerVehicleDetails, addCustomerVehicle } = customerVehicleSlice.actions;
 export default customerVehicleSlice.reducer;

@@ -7,13 +7,15 @@ import { toast } from 'react-toastify';
 import { NavLink, Outlet } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { customerVehicleDetails } from '../../redux/features/customerVehicleSlice';
+import { customerVehicleDetails, addCustomerVehicle } from '../../redux/features/customerVehicleSlice';
 import profilePlaceholder from '../../assets/profile.png';
 
 const CustomerVehicle = () => {
 
   // Access user details from the Redux store
   const user = useSelector((state) => state.user.user);
+  // Access customer vehicle details from the Redux store
+  const myVehicles = useSelector((state) => state.customerVehicle.customerVehicle);
 
   // State to manage all vehicles
   const [allVehicles, setAllVehicles] = useState([]);
@@ -24,9 +26,7 @@ const CustomerVehicle = () => {
   // State to manage Model
   const [model, setModel] = useState('');
   // State to manage registration date
-  const [registrationDate, setRegistrationDate] = useState(new Date());
-  // State to manage my vehicles
-  const [myVehicles, setMyVehicles] = useState([]);
+  const [registrationDate, setRegistrationDate] = useState();
 
   // State to manage reg number error
   const [regNumberError, setRegNumberError] = useState('');
@@ -36,7 +36,6 @@ const CustomerVehicle = () => {
   const dispatch = useDispatch();
 
   // Registration number validation
-  // Email validation
   const handleRegNumberChange = (e) => {
     const newRegNumber = e.target.value;
     setRegNumber(newRegNumber);
@@ -70,7 +69,6 @@ const CustomerVehicle = () => {
     try {
       const response = await makeRequest.get(`/get-vehicles/${user._id}`);
       if (response.data.success) {
-        setMyVehicles(response.data.data);
         dispatch(customerVehicleDetails({ customerVehicle: response.data.data }));
       }
     } catch (error) {
@@ -107,10 +105,10 @@ const CustomerVehicle = () => {
           const response = await makeRequest.post('/add-vehicle', data);
           if (response.data.success) {
             toast.success(response.data.message);
-            fetchMyVehicles();
+            dispatch(addCustomerVehicle(response.data.data));
             setModel('');
             setRegNumber('');
-            setRegistrationDate(new Date());
+            setRegistrationDate();
           }
         } catch (error) {
           console.error('Failed to create new vehicle:', error);
@@ -161,9 +159,9 @@ const CustomerVehicle = () => {
                 yearDropdownItemNumber={25}
                 maxDate={new Date()}
                 className="text-sm outline-none bg-gray-100 p-2 rounded-md w-full"
+                autoComplete="off"
               />
             </div>
-
 
             <div className="flex flex-col">
               <label
@@ -199,7 +197,7 @@ const CustomerVehicle = () => {
             {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
 
 
-            <button className='bg-primaryColor hover:bg-opacity-95 active:bg-primaryColor py-1 w-full text-white rounded-md'>Create Vehicle</button>
+            <button className='bg-primaryColor hover:bg-opacity-95 active:bg-primaryColor py-1 w-full text-white rounded-md'>{loading ? 'Creating...' : 'Create Vehicle'}</button>
           </form>
         </div>
 

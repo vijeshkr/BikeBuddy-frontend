@@ -11,6 +11,7 @@ import CreateSparePopup from '../../components/admin/CreateSparePopup';
 import CreateVehiclePopup from '../../components/admin/CreateVehiclePopup';
 import UpdateSparePopup from '../../components/admin/UpdateSparePopup';
 import ImageView from '../../components/common/ImageView';
+import LoadingIndicator from '../../components/LoadingIndicator';
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AdminSpareParts = () => {
@@ -352,6 +353,7 @@ const AdminSpareParts = () => {
 
   return (
     <div className='flex flex-wrap gap-2 py-2'>
+      { loading && <LoadingIndicator/> }
       {/* All spare parts section */}
       <div className='flex-1'>
 

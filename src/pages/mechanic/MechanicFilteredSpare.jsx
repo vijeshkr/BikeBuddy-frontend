@@ -4,6 +4,7 @@ import ImageView from '../../components/common/ImageView';
 import { useLocation, useNavigate } from 'react-router-dom';
 import makeRequest from '../../common/axios';
 import LoadingIndicatior from '../../components/LoadingIndicator';
+import socket from '../../common/socket';
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const MechanicFilteredSpare = () => {
@@ -78,6 +79,60 @@ const MechanicFilteredSpare = () => {
     .filter(item => item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter(item => item.suitable._id === filterSuitable || filterSuitable === '');
 
+
+  // Socket io
+  useEffect(() => {
+
+    socket.on('newSpare', (newSpare) => {
+      setSpareParts((prev) =>
+        [
+          ...prev,
+          newSpare
+        ]
+      );
+    });
+
+    // Clean up socket event listener
+    return () => {
+      socket.off('newSpare');
+    }
+  });
+
+  useEffect(() => {
+
+    socket.on('updatedSpare', (updatedSpare) => {
+      setSpareParts((prev) => {
+        // Map over the previous state
+        return prev.map((spare) =>
+          // Replace the item if IDs match
+          spare._id === updatedSpare._id ? updatedSpare : spare
+        );
+      });
+
+    });
+
+    // Clean up socket event listener
+    return () => {
+      socket.off('updatedSpare');
+    }
+  });
+
+  useEffect(() => {
+
+    socket.on('deletedSpare', (deletedSpare) => {
+      setSpareParts((prev) => {
+        // Filter out the item with the matching ID
+        return prev.filter((spare) => spare._id !== deletedSpare);
+      });
+
+
+    });
+
+    // Clean up socket event listener
+    return () => {
+      socket.off('deletedSpare');
+    }
+  });
 
   return (
     <div>
