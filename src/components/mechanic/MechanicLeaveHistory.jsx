@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import makeRequest from '../../common/axios';
 import LoadingIndicator from '../LoadingIndicator';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLeaves } from '../../redux/features/leavesSlice';
+import { setLeaves, updateLeaveStatus } from '../../redux/features/leavesSlice';
+import socket from '../../common/socket';
 
 const MechanicLeaveHistory = () => {
 
-    // State to manage loadin
+    // State to manage loading
     const [loading, setLoading] = useState(false);
 
     // Access the leaves state from the Redux store
@@ -23,7 +24,7 @@ const MechanicLeaveHistory = () => {
             const response = await makeRequest.get('/get-mechanic-leaves');
             if (response.data.success) {
                 // Update the state with fetched leave data
-                dispatch(setLeaves({leaves: response.data.data}));
+                dispatch(setLeaves({ leaves: response.data.data }));
             }
         } catch (error) {
             console.error('Failed to apply leave:', error);
@@ -36,6 +37,18 @@ const MechanicLeaveHistory = () => {
     useEffect(() => {
         fetchLeaves();
     }, []);
+
+    useEffect(() => {
+
+        socket.on('leaveStatusUpdate', (updatedLeave) => {
+            dispatch(updateLeaveStatus(updatedLeave));
+        });
+
+        // Clean up socket event listener
+        return () => {
+            socket.off('leaveStatusUpdate');
+        }
+    });
 
     // Handle change in the filter dropdown
     const handleFilterChange = (event) => {

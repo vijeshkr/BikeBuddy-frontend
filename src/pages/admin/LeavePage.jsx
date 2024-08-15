@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import makeRequest from '../../common/axios';
+import socket from '../../common/socket';
 
 const LeavePage = () => {
     // State to manage all leaves
@@ -72,6 +73,23 @@ const LeavePage = () => {
             setLoading(false);
         }
     }
+
+    
+    useEffect(() => {
+
+        // Socket listner for the newLeaveRequest event
+        socket.on('newLeaveRequest', (newLeave) => {
+            setLeaves((prev) => [
+                ...prev,
+                newLeave
+            ]);
+        });
+
+        // Clean up socket event listener
+        return () => {
+            socket.off('newLeaveRequest');
+        }
+    });
 
     return (
 
