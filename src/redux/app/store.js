@@ -6,6 +6,7 @@ import customerVehicleReducer from '../features/customerVehicleSlice';
 import customerReducer from '../features/customersSlice';
 import mechanicReducer from '../features/mechanicSlice';
 import leaveReducer from '../features/leavesSlice';
+import notificationReducer from '../features/notificationSlice';
 
 const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
         customer:customerReducer,
         mechanic:mechanicReducer,
         leaves:leaveReducer,
+        notifications:notificationReducer,
     }
 });
 

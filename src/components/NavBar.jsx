@@ -9,10 +9,13 @@ import { toast } from 'react-toastify';
 import { logout } from '../redux/features/userSlice';
 import { IoReorderThreeSharp } from "react-icons/io5";
 import { setOpenSideBar } from '../redux/features/sideBarOpenClose';
+import Notification from './common/Notification';
 
 const NavBar = () => {
     // Access the current user details from the Redux store
     const user = useSelector((state) => state.user.user);
+    // Access unread notifications count from Reduc store
+    const unreadCount = useSelector((state) => state.notifications.unreadCount );
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,6 +25,13 @@ const NavBar = () => {
 
     // State to manage open/close logout dropdown
     const [openLogout, setOpenLogout] = useState(false);
+    // State for open/close notification
+    const [openNotification, setOpenNotification] = useState(false);
+
+    // Handle close notification
+    const handleCloseNotification = () => {
+        setOpenNotification(prev => !prev);
+    }
 
     // Toggle function for open/close logout dropdown
     const toggleLogoutSection = () => {
@@ -65,13 +75,15 @@ const NavBar = () => {
                 </div>
                 {/* Notification icons and user profile section */}
                 <div className='flex gap-4 items-center'>
-                    <div className='relative cursor-pointer'>
+                    <div className='relative cursor-pointer text-xl'>
                         <IoMailOutline />
-                        <div className='bg-red-600 h-1.5 w-1.5 rounded-full absolute top-0 -right-0.5'></div>
+                        <div className='bg-red-600 h-4 w-4 rounded-md absolute -right-2 -top-1.5 text-xs text-center text-white'>4</div>
                     </div>
-                    <div className='relative cursor-pointer'>
+                    <div 
+                    onClick={() => setOpenNotification(!openNotification)}
+                    className='relative cursor-pointer text-xl'>
                         <IoNotificationsOutline />
-                        <div className='bg-red-600 h-1.5 w-1.5 rounded-full absolute top-0 right-0'></div>
+                        {unreadCount > 0 && <div className='bg-red-600 h-4 w-4 rounded-md absolute -right-2 -top-1.5 text-xs text-center text-white'>{unreadCount}</div>}
                     </div>
                     {/* User profile section with dropdown */}
                     <div onClick={toggleLogoutSection} className='cursor-pointer flex gap-2 text-sm relative'>
@@ -81,13 +93,15 @@ const NavBar = () => {
                                 : profilePlaceholder} alt="" />
                         {user.name}
                         {/* Dropdown menu for profile and logout */}
-                        <div className={`${!openLogout ? 'hidden' : ''} flex flex-col absolute -bottom-24 -right-3 gap-1 shadow-sm bg-white p-2 w-32 rounded-sm`}>
+                        <div className={`${!openLogout ? 'hidden' : ''} flex flex-col absolute -bottom-24 -right-3 gap-1 shadow-sm bg-white p-2 w-32 rounded-sm z-50`}>
                             <span onClick={() => navigate('profile-page')} className='hover:bg-gray-100 active:bg-gray-200 p-2 rounded-sm'>My profile</span>
                             <span onClick={handleLogout} className='hover:bg-gray-100 active:bg-gray-200 p-2 rounded-sm text-red-500'>Logout</span>
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Notification */}
+            { openNotification && <Notification close={handleCloseNotification}/>}
         </div>
     )
 }

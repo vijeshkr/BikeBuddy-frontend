@@ -8,8 +8,12 @@ import { useEffect } from "react";
 import { logout, userDetails } from "./redux/features/userSlice";
 import LoadingIndicator from "./components/LoadingIndicator";
 import { setLoading } from "./redux/features/loadingSlice";
+import { allNotifications } from "./redux/features/notificationSlice";
+import useSocketNotification from "./hooks/useSocketNotification";
 
 function App() {
+  // Initialize the socket connection and listen for notifications
+  useSocketNotification();
 
   const dispatch = useDispatch();
 
@@ -43,6 +47,20 @@ function App() {
   }, [dispatch]);
 
   const loading = useSelector((state) => state.loading);
+
+  // Fetching all notifications from the backend
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await makeRequest.get('/get-notifications');
+        dispatch(allNotifications(response.data.data))
+      } catch (error) {
+        console.error('Failed to fetch notifications', error)
+      }
+    }
+
+    fetchNotifications();
+  },[]);
 
   return (
     <>

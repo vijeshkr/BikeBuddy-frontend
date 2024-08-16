@@ -14,10 +14,12 @@ export default {
       },
       height: {
         'h-calc': 'calc(100vh - 56px)',
+        'h-calc-notification': 'calc(100vh - 86px)',
       },
       boxShadow: {
         'custom': '0px 0px 5px 0px rgba(0,0,0,0.1)',
         'sidebar': '200px 61px 176px 200px rgba(0,0,0,0.66)',
+        'notificationBar': '1px 8px 25px -15px rgba(0,0,0,0.75)',
       },
     },
   },
