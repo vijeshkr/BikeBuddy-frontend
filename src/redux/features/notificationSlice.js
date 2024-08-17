@@ -10,7 +10,7 @@ const notificationSlice = createSlice({
         // Replace entire array with new one
         allNotifications(state, action) {
             state.notifications = action.payload,
-            state.unreadCount = action.payload.filter(notification => !notification.read).length;
+                state.unreadCount = action.payload.filter(notification => !notification.read).length;
         },
         // Mark as read
         markAsRead(state, action) {
@@ -32,7 +32,8 @@ const notificationSlice = createSlice({
         },
         // Add new notification
         addNotification(state, action) {
-            state.notifications.push(action.payload);
+            // Add the new notification to the front of the array
+            state.notifications = [action.payload, ...state.notifications];
             state.unreadCount += 1;
         },
     }

@@ -53,7 +53,7 @@ function App() {
     const fetchNotifications = async () => {
       try {
         const response = await makeRequest.get('/get-notifications');
-        dispatch(allNotifications(response.data.data))
+        dispatch(allNotifications(response.data.data));
       } catch (error) {
         console.error('Failed to fetch notifications', error)
       }

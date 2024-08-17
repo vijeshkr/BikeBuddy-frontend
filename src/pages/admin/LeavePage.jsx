@@ -16,7 +16,7 @@ const LeavePage = () => {
         try {
             const response = await makeRequest.get('/get-all-leaves');
             if (response.data.success) {
-                setLeaves(response.data.data);
+                setLeaves(response.data.data.reverse());
             }
         } catch (error) {
             console.error('Error while fetching leave records:', error);
@@ -80,8 +80,8 @@ const LeavePage = () => {
         // Socket listner for the newLeaveRequest event
         socket.on('newLeaveRequest', (newLeave) => {
             setLeaves((prev) => [
-                ...prev,
-                newLeave
+                newLeave,
+                ...prev
             ]);
         });
 

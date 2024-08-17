@@ -24,7 +24,7 @@ const MechanicLeaveHistory = () => {
             const response = await makeRequest.get('/get-mechanic-leaves');
             if (response.data.success) {
                 // Update the state with fetched leave data
-                dispatch(setLeaves({ leaves: response.data.data }));
+                dispatch(setLeaves({ leaves: response.data.data.reverse() }));
             }
         } catch (error) {
             console.error('Failed to apply leave:', error);
