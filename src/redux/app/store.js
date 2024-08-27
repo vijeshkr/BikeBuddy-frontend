@@ -7,6 +7,7 @@ import customerReducer from '../features/customersSlice';
 import mechanicReducer from '../features/mechanicSlice';
 import leaveReducer from '../features/leavesSlice';
 import notificationReducer from '../features/notificationSlice';
+import currentBookingReducer from '../features/currentBookingSlice';
 
 const store = configureStore({
     reducer: {
@@ -14,10 +15,11 @@ const store = configureStore({
         loading: loadingReducer,
         sidebar: sideBarOpenClose,
         customerVehicle: customerVehicleReducer,
-        customer:customerReducer,
-        mechanic:mechanicReducer,
-        leaves:leaveReducer,
-        notifications:notificationReducer,
+        customer: customerReducer,
+        mechanic: mechanicReducer,
+        leaves: leaveReducer,
+        notifications: notificationReducer,
+        currentBookings: currentBookingReducer,
     }
 });
 

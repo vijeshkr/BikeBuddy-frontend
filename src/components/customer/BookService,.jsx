@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import makeRequest from '../../common/axios';
 import { customerVehicleDetails } from '../../redux/features/customerVehicleSlice';
 import { toast } from 'react-toastify';
+import { addNewBooking } from '../../redux/features/currentBookingSlice';
 
 /**
  * BookService Component
@@ -57,33 +58,34 @@ const BookService = () => {
     }
 
     // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = {
-        customerId: user._id,
-        vehicleId,
-        bookingDate,
-        serviceType,
-        pickUp,
-        description
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = {
+            customerId: user._id,
+            vehicleId,
+            bookingDate,
+            serviceType,
+            pickUp,
+            description
+        }
+        try {
+            const response = await makeRequest.post('/add-new-booking', data);
+
+            if (response.data.success) {
+                // Show a success message
+                toast.success('Booking created successfully');
+                setVehicleId('');
+                setBookingDate(null);
+                setServiceType('');
+                setPickUp(false);
+                setDescription('');
+                dispatch(addNewBooking(response.data.data));
+            }
+        } catch (error) {
+            console.error('Error while creating new package: ', error);
+            //   toast.error(error.response.data.message);
+        }
     }
-    try {
-      const response = await makeRequest.post('/add-new-booking', data);
-      
-      if (response.data.success) {
-        // Show a success message
-        toast.success('Booking created successfully');
-        setVehicleId('');
-        setBookingDate(null);
-        setServiceType('');
-        setPickUp(false);
-        setDescription('');
-      }
-    } catch (error) {
-      console.error('Error while creating new package: ', error);
-    //   toast.error(error.response.data.message);
-    }
-  }
 
     // Function for fetch my vehicles
     const fetchMyVehicles = async () => {
@@ -119,12 +121,12 @@ const BookService = () => {
 
 
     return (
-        <form className="p-2" onSubmit={handleSubmit}>
-            <h2 className="text-2xl font-semibold mb-4">Book a Service</h2>
+        <form className="p-2 bg-white rounded-md shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
+            <h2 className="text-2xl font-semibold mb-4 ">Book a Service</h2>
 
             {/* Vehicle selection */}
-            <div className="flex flex-col">
-                <p className="text-sm mb-1 text-gray-400">Select Vehicle <span className='text-red-600'>*</span></p>
+            <div className="flex flex-col mb-4">
+                <p className="text-sm mb-2 text-gray-400">Select Vehicle <span className='text-red-600'>*</span></p>
                 <select
                     value={vehicleId}
                     onChange={handleVehicleChange}
@@ -140,8 +142,8 @@ const BookService = () => {
                 </select>
             </div>
             {/* Booking date selection */}
-            <div className="flex flex-col">
-                <label className="text-sm mb-1 text-gray-400">Select Date <span className='text-red-600'>*</span></label>
+            <div className="flex flex-col mb-4">
+                <label className="text-sm mb-2 text-gray-400">Select Date <span className='text-red-600'>*</span></label>
                 <DatePicker
                     selected={bookingDate}
                     onChange={(date) => setBookingDate(date)}
@@ -154,8 +156,8 @@ const BookService = () => {
                 />
             </div>
             {/* Service type selection */}
-            <div className="flex flex-col">
-                <p className="text-sm mb-1 text-gray-400">Select Service Type <span className='text-red-600'>*</span></p>
+            <div className="flex flex-col mb-4">
+                <p className="text-sm mb-2 text-gray-400">Select Service Type <span className='text-red-600'>*</span></p>
                 <select
                     value={serviceType}
                     onChange={handleServiceTypeChange}
@@ -171,21 +173,22 @@ const BookService = () => {
                 </select>
             </div>
             {/* Pickup and drop option */}
-            <div className="flex gap-6">
-                <p className="text-sm mb-1 text-gray-400">Pickup and Drop</p>
+            <div className="flex items-center mb-4">
+                <p className="text-sm mb-2 mr-4 text-gray-400">Pickup and Drop</p>
                 <input
                     type="checkbox"
                     checked={pickUp}
                     onChange={hanlderPickUpChange}
+                    className='w-4 h-4'
                 />
             </div>
             {/* Work description */}
-            <div className="flex flex-col">
-                <p className="text-sm mb-1 text-gray-400">Description</p>
+            <div className="flex flex-col mb-4">
+                <p className="text-sm mb-2 text-gray-400">Description</p>
                 <textarea
                     value={description}
                     onChange={handleDescription}
-                    className='border h-32 rounded-md p-2 text-sm outline-none'
+                    className='border h-28 rounded-md p-2 text-sm outline-none resize-none'
                     placeholder='Work description'
                 />
             </div>
