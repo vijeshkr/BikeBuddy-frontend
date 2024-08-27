@@ -15,8 +15,17 @@ const currentBookingSlice = createSlice({
         setCurrentBookings(state, action) {
             state.currentBookings = action.payload.currentBookings;
         },
+        // Update a specific booking by ID
+        updateBookingStatus(state, action) {
+            const updatedBooking = action.payload;
+            state.currentBookings = state.currentBookings.map(booking =>
+                booking._id === updatedBooking._id
+                    ? { ...booking, status: updatedBooking.status }
+                    : booking
+            );
+        }
     }
 });
 
-export const { addNewBooking, setCurrentBookings } = currentBookingSlice.actions;
+export const { addNewBooking, setCurrentBookings, updateBookingStatus } = currentBookingSlice.actions;
 export default currentBookingSlice.reducer;

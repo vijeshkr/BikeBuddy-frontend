@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import makeRequest from '../../common/axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setCurrentBookings } from '../../redux/features/currentBookingSlice';
+import { setCurrentBookings, updateBookingStatus } from '../../redux/features/currentBookingSlice';
 
 /**
  * CurrentBookings Component
@@ -39,18 +38,109 @@ const CurrentBookings = () => {
         fetchBookings();
     }, []);
 
-    // Handle booking cancellation
-    const handleCancel = async (bookingId) => {
-        try {
-            const response = await makeRequest.patch(`/cancel-booking/${bookingId}`);
-            if (response.data.success) {
-                toast.success('Booking cancelled successfully');
-                fetchBookings();
-            }
-        } catch (error) {
-            console.error('Error canceling booking:', error);
-        }
-    };
+
+    // Handle booking cancel confirmation popup
+  const handleBookingCancel = async (bookingId) => {
+    try {
+      // Show confirmation alert
+      const confirm = await swal({
+        title: 'Are you sure?',
+        text: 'Do you want to cancel this booking?',
+        icon: 'warning',
+        buttons: ['Cancel', 'Yes, cancel it!'],
+        dangerMode: true,
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
+
+      if (!confirm) return; // Exit if user cancels
+
+      // Show a loading alert
+      const loadingAlert = swal({
+        title: 'Cancelling...',
+        text: 'Please wait while we cancel your booking.',
+        icon: 'info',
+        buttons: false, // Disables buttons
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+        },
+      });
+
+      // API call
+      const response = await makeRequest.patch(`/cancel-booking/${bookingId}`);
+
+      if(response.data.success){
+        dispatch(updateBookingStatus(response.data.data));
+      }
+
+      // Close the loading alert
+      swal.close();
+
+      // Show success message
+      await swal({
+        title: 'Cancelled!',
+        text: 'Your booking has been cancelled.',
+        icon: 'success',
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
+
+    } catch (error) {
+      // Close the loading alert if an error occurs
+      swal.close();
+
+      // Show error message
+      await swal({
+        title: 'Error!',
+        text: 'There was an error cancelling your booking.',
+        icon: 'error',
+        className: 'swal-modal',
+        didOpen: () => {
+          // Add custom classes to the elements
+          const swalTitle = document.querySelector('.swal-title');
+          const swalText = document.querySelector('.swal-text');
+          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+
+          if (swalTitle) swalTitle.classList.add('swal-title');
+          if (swalText) swalText.classList.add('swal-text');
+          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+        },
+      });
+    }
+  };
+
 
     return (
         <div className="p-2 shadow-custom rounded-md min-w-[320px]">
@@ -82,7 +172,7 @@ const CurrentBookings = () => {
                                     <td className="py-2 px-4 border-b text-gray-400">
                                         {booking.status === 'Unallocated' ? (
                                             <button
-                                                onClick={() => handleCancel(booking._id)}
+                                                onClick={() => handleBookingCancel(booking._id)}
                                                 className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
                                             >
                                                 Cancel
@@ -114,7 +204,7 @@ const CurrentBookings = () => {
                                 <div className="text-right">
                                     {booking.status === 'Unallocated' ? (
                                         <button
-                                            onClick={() => handleCancel(booking._id)}
+                                            onClick={() => handleBookingCancel(booking._id)}
                                             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
                                         >
                                             Cancel
