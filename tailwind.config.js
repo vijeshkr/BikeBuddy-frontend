@@ -15,6 +15,7 @@ export default {
       height: {
         'h-calc': 'calc(100vh - 56px)',
         'h-calc-notification': 'calc(100vh - 86px)',
+        'h-calc-popup': 'calc(100vh - 150px)',
       },
       boxShadow: {
         'custom': '0px 0px 5px 0px rgba(0,0,0,0.1)',

@@ -122,7 +122,7 @@ const BookService = () => {
 
     return (
         <form className="p-2 bg-white rounded-md shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
-            <h2 className="text-2xl font-semibold mb-4 ">Book a Service</h2>
+            <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Book a Service</h2>
 
             {/* Vehicle selection */}
             <div className="flex flex-col mb-4">

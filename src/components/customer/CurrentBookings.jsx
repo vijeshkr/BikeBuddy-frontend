@@ -144,32 +144,32 @@ const CurrentBookings = () => {
 
     return (
         <div className="p-2 shadow-custom rounded-md min-w-[320px]">
-            <h3 className="text-2xl font-semibold mb-4">Current Bookings</h3>
+            <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Current Bookings</h3>
             {bookings.length === 0 ? (
                 <p className="text-gray-500">No current bookings available.</p>
             ) : (
                 <div>
                     {/* Table format for larger screens */}
-                    <table className="hidden min-w-[520px] lg:table w-full bg-white border border-gray-200">
-                        <thead>
-                            <tr className="bg-gray-100 text-left">
-                                <th className="py-2 px-4 border-b font-medium">Vehicle</th>
-                                <th className="py-2 px-4 border-b font-medium">Service Type</th>
-                                <th className="py-2 px-4 border-b font-medium">Status</th>
-                                <th className="py-2 px-4 border-b font-medium">Action</th>
+                    <table className="hidden min-w-[520px] lg:table w-full divide-y divide-gray-200">
+                        <thead className='bg-gray-50'>
+                            <tr className="text-left">
+                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Type</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className='bg-white divide-y divide-gray-200'>
                             {bookings.map((booking) => (
-                                <tr key={booking._id} className="hover:bg-gray-100">
-                                    <td className="py-2 px-4 border-b">{booking.vehicleId.registrationNumber}</td>
-                                    <td className="py-2 px-4 border-b">{booking.serviceType.packageName}</td>
-                                    <td className={`py-2 px-4 border-b 
+                                <tr key={booking._id} className="hover:bg-gray-50">
+                                    <td className="px-4 py-3">{booking.vehicleId.registrationNumber}</td>
+                                    <td className="px-4 py-3">{booking.serviceType.packageName}</td>
+                                    <td className={`px-4 py-3 
                                         ${booking.status === 'Unallocated' && 'text-gray-400'}
                                         ${booking.status === 'Pending' && 'text-yellow-400'}
                                         ${booking.status === 'Cancelled' && 'text-red-600'}
                                         ${booking.status === 'Completed' && 'text-green-600'}`}>{booking.status}</td>
-                                    <td className="py-2 px-4 border-b text-gray-400">
+                                    <td className="px-4 py-3 text-gray-400">
                                         {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => handleBookingCancel(booking._id)}
@@ -187,19 +187,20 @@ const CurrentBookings = () => {
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
                         {bookings.map((booking) => (
-                            <div key={booking._id} className="bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200">
+                            <div key={booking._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 <div className="mb-2">
-                                    <strong>Vehicle:</strong> {booking.vehicleId.registrationNumber}
+                                    <span className='font-medium'>Vehicle:</span> {booking.vehicleId.registrationNumber}
                                 </div>
                                 <div className="mb-2">
-                                    <strong>Service Type:</strong> {booking.serviceType.packageName}
+                                    <span className='font-medium'>Service Type:</span> {booking.serviceType.packageName}
                                 </div>
+                                <div className='flex justify-between'>
                                 <div className={`mb-2
                                     ${booking.status === 'Unallocated' && 'text-gray-400'}
                                     ${booking.status === 'Pending' && 'text-yellow-400'}
                                     ${booking.status === 'Cancelled' && 'text-red-600'}
                                     ${booking.status === 'Completed' && 'text-green-600'}`}>
-                                    <strong>Status:</strong> {booking.status}
+                                    <span className='font-medium'>Status:</span> {booking.status}
                                 </div>
                                 <div className="text-right">
                                     {booking.status === 'Unallocated' ? (
@@ -212,6 +213,7 @@ const CurrentBookings = () => {
                                     ) : (
                                         <span className="text-gray-500">No action</span>
                                     )}
+                                </div>
                                 </div>
                             </div>
                         ))}
