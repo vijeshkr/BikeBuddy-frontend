@@ -225,23 +225,23 @@ const AdminIndividualWorksPage = () => {
                                 </div>
                                 {/* Table section */}
                                 <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
-                                    <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
-                                        <thead>
-                                            <tr className='bg-primaryColor text-white text-sm text-left'>
-                                                <th className='font-normal px-2'>Name</th>
-                                                <th className='font-normal px-2'>Suitable</th>
-                                                <th className='font-normal px-2'>Price</th>
-                                                <th className='font-normal px-2'>Action</th>
+                                    <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
+                                        <thead className='bg-gray-50'>
+                                            <tr className='text-left'>
+                                                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
+                                                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Suitable</th>
+                                                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Price</th>
+                                                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody className='bg-white divide-y divide-gray-200'>
                                             {
                                                 searchData.map((wrk, index) => (
-                                                    <tr key={index} className='border text-sm text-start '>
-                                                        <td className='border p-2'>{wrk.workName}</td>
-                                                        <td className='border p-2'>{wrk.suitable}</td>
-                                                        <td className='border p-2'><span>&#8377; </span>{wrk.price}</td>
-                                                        <td className='border p-2'>
+                                                    <tr key={index} className='hover:bg-gray-50'>
+                                                        <td className='px-4 py-3'>{wrk.workName}</td>
+                                                        <td className='px-4 py-3'>{wrk.suitable}</td>
+                                                        <td className='px-4 py-3'><span>&#8377; </span>{wrk.price}</td>
+                                                        <td className='px-4 py-3'>
                                                             <div className='flex justify-evenly'>
                                                                 <button
                                                                     onClick={() => handleUpdateOpen(wrk)}

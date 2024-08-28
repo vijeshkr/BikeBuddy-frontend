@@ -37,7 +37,7 @@ const CustomerServiceBooking = () => {
         onClick={handleOpenPackage}
         className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Our Packages</button>
         <button
-        onClick={handleCloseServiceCharges} 
+        onClick={handleOpenServiceCharges} 
         className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Service Charges</button>
         <button className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Book a Breakdown</button>
       </div>

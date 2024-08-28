@@ -10,7 +10,7 @@ const MechanicLeave = () => {
       <MechanicApplyLeave/>
       </div>
       {/* Container for the leave history section */}
-      <div className='flex-1 min-w-[340px] xs:min-w-[400px] shadow-custom p-4 rounded-md'>
+      <div className='flex-1 min-w-[340px] sm:min-w-[500px] shadow-custom p-4 rounded-md'>
       <MechanicLeaveHistory/>
       </div>
     </div>

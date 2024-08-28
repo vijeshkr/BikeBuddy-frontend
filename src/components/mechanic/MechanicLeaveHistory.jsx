@@ -84,26 +84,26 @@ const MechanicLeaveHistory = () => {
             </div>
 
             {/* Table for the desktop view */}
-            <div className='hidden xs:flex overflow-y-auto scrollbar-none  max-h-[500px]'>
-                <table className='w-full'>
-                    <thead>
-                        <tr className='bg-primaryColor text-white text-sm text-left'>
-                            <th className='font-normal px-2'>No</th>
-                            <th className='font-normal px-2'>Start Date</th>
-                            <th className='font-normal px-2'>End Date</th>
-                            <th className='font-normal px-2'>Days</th>
-                            <th className='font-normal px-2'>Status</th>
+            <div className='hidden sm:flex overflow-y-auto scrollbar-none  max-h-[500px]'>
+                <table className='w-full divide-gray-200 shadow-custom'>
+                    <thead className='bg-gray-50'>
+                        <tr className='text-left'>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>No</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Start Date</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>End Date</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Days</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='bg-white divide-y divide-gray-200' >
                         {filteredLeaves.length === 0 ? <tr className='p-5'><td>No leave history available</td></tr> :
                             filteredLeaves.map((leave, index) => (
-                                <tr key={leave._id} className='border text-sm text-start'>
-                                    <td className='p-1.5 text-slate-600'>{index + 1}</td>
-                                    <td className='p-1.5 text-slate-600'>{new Date(leave.startDate).toLocaleDateString()}</td>
-                                    <td className='p-1.5 text-slate-600'>{new Date(leave.endDate).toLocaleDateString()}</td>
-                                    <td className='p-1.5 text-slate-600'>{`${leave.days === 0.5 ? `Half day` : `${leave.days} Days`}`}</td>
-                                    <td className={`p-1.5 ${leave.status === 'Pending' ? 'text-slate-400' :
+                                <tr key={leave._id} className='hover:bg-gray-50'>
+                                    <td className='px-4 py-3 text-slate-600'>{index + 1}</td>
+                                    <td className='px-4 py-3 text-slate-600'>{new Date(leave.startDate).toLocaleDateString()}</td>
+                                    <td className='px-4 py-3 text-slate-600'>{new Date(leave.endDate).toLocaleDateString()}</td>
+                                    <td className='px-4 py-3 text-slate-600'>{`${leave.days === 0.5 ? `Half day` : `${leave.days} Days`}`}</td>
+                                    <td className={`px-4 py-3 ${leave.status === 'Pending' ? 'text-slate-400' :
                                         `${leave.status === 'Rejected' ? 'text-red-500' : 'text-green-500'}`}`} >{leave.status}</td>
                                 </tr>
                             ))}
@@ -113,7 +113,7 @@ const MechanicLeaveHistory = () => {
 
             {/* Leve history for small screens */}
 
-            <div className='xs:hidden'>
+            <div className='sm:hidden'>
                 {filteredLeaves.length === 0 ? <div className='p-5'>No leave history available</div> :
                     filteredLeaves.map((leave, index) => (
                         <div key={leave._id} className='flex justify-between shadow-custom my-4 px-3 py-2 rounded-md'>

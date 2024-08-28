@@ -353,7 +353,7 @@ const AdminSpareParts = () => {
 
   return (
     <div className='flex flex-wrap gap-2 py-2'>
-      { loading && <LoadingIndicator/> }
+      {loading && <LoadingIndicator />}
       {/* All spare parts section */}
       <div className='flex-1'>
 
@@ -393,19 +393,19 @@ const AdminSpareParts = () => {
                 </div>}
             </div>
           </div>
-          
+
           {/* Table section */}
           {spareParts.length === 0 ? 'No spare parts available' :
             <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
-              <table className='hidden sm:table w-full shadow-custom min-w-[455px]'>
-                <thead>
-                  <tr className='bg-primaryColor text-white text-sm text-left'>
-                    <th className='font-normal px-2'>Image</th>
-                    <th className='font-normal px-2'>Name</th>
-                    <th className='font-normal px-2'>
+              <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
+                <thead className='bg-gray-50'>
+                  <tr className='text-left'>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Image</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
                       <select
                         onChange={handleFilterChange}
-                        className='bg-primaryColor cursor-pointer'>
+                        className='bg-gray-50 cursor-pointer text-xs font-medium text-gray-500 uppercase tracking-wider'>
                         <option value="">Suitable</option>
                         {allVehicles.map((vehicle, index) => (
                           <option
@@ -414,23 +414,23 @@ const AdminSpareParts = () => {
                         ))}
                       </select>
                     </th>
-                    <th className='font-normal px-2'>Stocks</th>
-                    <th className='font-normal px-2 min-w-16'>Price</th>
-                    <th className='font-normal px-2'>Action</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Stocks</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-16'>Price</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='bg-white divide-y divide-gray-200'>
                   {filteredData.length === 0 ? <div className='p-5'>No spare parts available</div> :
                     filteredData.map((spare, index) => (
-                      <tr key={index} className='border text-sm text-start'>
-                        <td className='p-2'><img
+                      <tr key={index} className='hover:bg-gray-50'>
+                        <td className='px-4 py-3'><img
                           onClick={() => handleOpenImgViewer(spare.image)}
-                          className='h-20 w-32 object-contain rounded-md cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
-                        <td className='p-2'>{spare.itemName}</td>
-                        <td className='p-2'>{spare.suitable.name}</td>
-                        <td className='p-2'>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : spare.stock}</td>
-                        <td className='p-2'><span>&#8377; </span>{spare.price}</td>
-                        <td className='p-2'>
+                          className='h-12 w-12 rounded-full object-cover cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
+                        <td className='px-4 py-3'>{spare.itemName}</td>
+                        <td className='px-4 py-3'>{spare.suitable.name}</td>
+                        <td className='px-4 py-3'>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : spare.stock}</td>
+                        <td className='px-4 py-3'><span>&#8377; </span>{spare.price}</td>
+                        <td className='px-4 py-3'>
                           <div className='flex gap-5'>
                             <button
                               onClick={() => handleUpdateOpen(spare)}
@@ -465,17 +465,23 @@ const AdminSpareParts = () => {
             </div>
             {
               filteredData.map((spare, index) => (
-                <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
-                  <div
-                    className='cursor-pointer'
-                    onClick={() => handleOpenImgViewer(spare.image)}>
-                    <img
-                      className='w-full h-32 object-contain'
-                      src={`${backendUrl}/images/${spare.image}`} alt="" />
+                <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 px-6 py-4 shadow-custom'>
+                  <div className='flex justify-between'>
+                    
+                    <div>
+                      <h1 className='font-semibold'>{spare.itemName}</h1>
+                      <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>
+                      <p>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : `Stock : ${spare.stock}`}</p>
+                    </div>
+
+                    <div
+                      className='cursor-pointer'
+                      onClick={() => handleOpenImgViewer(spare.image)}>
+                      <img
+                        className='h-20 w-20 rounded-full object-cover'
+                        src={`${backendUrl}/images/${spare.image}`} alt="" />
+                    </div>
                   </div>
-                  <h1 className='font-semibold'>{spare.itemName}</h1>
-                  <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>
-                  <p>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : `Stock : ${spare.stock}`}</p>
                   <div className='flex justify-between'>
                     <h3 className='font-medium'>Price : <span>&#8377; </span>{spare.price}</h3>
                     <div className='flex gap-2'>
