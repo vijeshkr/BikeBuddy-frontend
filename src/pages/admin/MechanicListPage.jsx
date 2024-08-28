@@ -76,7 +76,7 @@ const MechanicListPage = () => {
         {/* Showing mechanic data in a table for larger screens */}
         {filteredData.length > 0 ? (
           <div>
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[510px] hidden lg:flex items-start'>
+            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] hidden lg:flex items-start'>
               <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>

@@ -114,7 +114,7 @@ const LeavePage = () => {
             </div>
 
             {/* Table for large screens */}
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[510px] items-start hidden lg:flex'>
+            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
