@@ -7,7 +7,8 @@ import makeRequest from '../../common/axios';
 import { setAllBookings } from '../../redux/features/allBookingAdminSlice';
 import CountChart from '../../components/charts/CountChart';
 import AdminServiceBookingPopup from '../../components/admin/AdminServiceBookingPopup';
-import {setCustomerDetails} from '../../redux/features/customersSlice';
+import { setCustomerDetails } from '../../redux/features/customersSlice';
+import AdminBreakdownBookingPopup from '../../components/admin/AdminBreakdownBookingPopup';
 
 const AdminBookingPage = () => {
 
@@ -15,6 +16,7 @@ const AdminBookingPage = () => {
   const [loading, setLoading] = useState(false);
 
   const [openServiceBooking, setOpenServiceBooking] = useState(false);
+  const [openBreakdownBooking, setOpenBreakdownBooking] = useState(false);
 
   const { statusCounts } = useSelector(selectAdminBookingStats);
   const dispatch = useDispatch();
@@ -49,14 +51,22 @@ const AdminBookingPage = () => {
     }
   };
 
-  // Handle open packages
+  // Handle open service
   const handleOpenServiceBooking = () => {
     setOpenServiceBooking(!openServiceBooking);
   }
+  // Handle open breakdown
+  const handleOpenBreakdownBooking = () => {
+    setOpenBreakdownBooking(!openBreakdownBooking);
+  }
 
-  // Handle close function for package popup
+  // Handle close function for service popup
   const handleCloseServiceBooking = () => {
     setOpenServiceBooking(prev => !prev);
+  }
+  // Handle close function for breakdown popup
+  const handleCloseBreakdownBooking = () => {
+    setOpenBreakdownBooking(prev => !prev);
   }
 
   // Fetch bookings when the component mounts
@@ -88,11 +98,14 @@ const AdminBookingPage = () => {
             <button
               onClick={handleOpenServiceBooking}
               className='px-2 py-1 my-2 rounded-md bg-blue-200'>Service</button>
-            <button className='px-2 py-1 my-2 rounded-md bg-yellow-200'>Breakdown</button>
+            <button
+              onClick={handleOpenBreakdownBooking}
+              className='px-2 py-1 my-2 rounded-md bg-yellow-200'>Breakdown</button>
           </div>
         </div>
       </div>
       {openServiceBooking && <AdminServiceBookingPopup close={handleCloseServiceBooking} />}
+      {openBreakdownBooking && <AdminBreakdownBookingPopup close={handleCloseBreakdownBooking} />}
     </div>
   )
 }

@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeRequest from '../../common/axios';
-import DatePicker from 'react-datepicker';
-import { addOneBooking } from '../../redux/features/allBookingAdminSlice';
+import { validatePhone } from '../../common/validations';
 import { toast } from 'react-toastify';
+import { addOneBooking } from '../../redux/features/allBookingAdminSlice';
 
-const AdminServiceBookingPopup = ({ close }) => {
+const AdminBreakdownBookingPopup = ({ close }) => {
 
-    // State to manage opening animation of the popup
+    // State for animation
     const [isOpen, setIsOpen] = useState(false);
 
+    // Access user details from the Redux store
+    const user = useSelector((state) => state.user.user);
     // Access customers details from the Redux store
     const customers = useSelector((state) => state.customer.customer);
-
     // State to manage vehicles associated with selected customer
     const [myVehicles, setMyVehicles] = useState([]);
 
@@ -21,79 +22,80 @@ const AdminServiceBookingPopup = ({ close }) => {
     // State to manage loading
     const [loading, setLoading] = useState(false);
 
-    // State to manage service packages
-    const [servicePackages, setServicePackages] = useState([]);
-
     // State to manage form inputs
     const [customerId, setCustomerId] = useState('');
     const [vehicleId, setVehicleId] = useState('');
-    const [bookingDate, setBookingDate] = useState(null);
-    const [serviceType, setServiceType] = useState('');
-    const [pickUp, setPickUp] = useState(false);
+    const [place, setPlace] = useState('');
+    const [phone, setPhone] = useState('');
     const [description, setDescription] = useState('');
+
+    // State to manage phone validation errors
+    const [phoneError, setPhoneError] = useState({});
 
     // Handler for when a customer is selected from the dropdown
     const handleCustomerChange = async (e) => {
         // Fetch vehicles for the selected customer
-        setCustomerId(e.target.value);
         await fetchMyVehicles(e.target.value);
+        setCustomerId(e.target.value);
     }
 
-    // Handler for when a vehicle is selected from the dropdown
+    // Handler for vehicle name change
     const handleVehicleChange = (e) => {
         setVehicleId(e.target.value);
     }
 
-    // Handler for when a service type is selected from the dropdown
-    const handleServiceTypeChange = (e) => {
-        setServiceType(e.target.value);
+    // Handler for place change
+    const handlePlaceChange = (e) => {
+        setPlace(e.target.value);
     }
 
-    // Handler for pickup and drop checkbox
-    const hanlderPickUpChange = (e) => {
-        setPickUp(e.target.checked);
+    // Phone validation
+    const handlePhoneChange = (e) => {
+        const newPhone = e.target.value;
+        setPhone(newPhone);
+        const errors = validatePhone(newPhone);
+        e.target.value ? setPhoneError(errors) : setPhoneError({});
     }
 
-    // Handler for when the description is changed
+    // Handler for description change
     const handleDescription = (e) => {
         setDescription(e.target.value);
     }
 
-    // Handler for form submission to create a new booking
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Create an object with the form data
         const data = {
             customerId,
             vehicleId,
-            bookingDate,
-            serviceType,
-            pickUp,
-            description
+            place,
+            phone,
+            description,
+            breakdown: true,
+            bookingDate: Date.now()
         }
         try {
-            // API call
-            const response = await makeRequest.post('/add-new-booking', data);
 
-            if (response.data.success) {
-                // Show a success message
-                toast.success('Booking created successfully');
-                // Reset form inputs
-                setCustomerId('');
-                setVehicleId('');
-                setBookingDate(null);
-                setServiceType('');
-                setPickUp(false);
-                setDescription('');
-                // Dispatch the newly created booking to the Redux store
-                dispatch(addOneBooking(response.data.data));
-                // Close the popup
-                close();
+            if (phone && Object.keys(phoneError).length === 0) {
+                const response = await makeRequest.post('/add-new-breakdown', data);
+
+                if (response.data.success) {
+                    // Show a success message
+                    toast.success('Booking created successfully');
+                    setVehicleId('');
+                    setPlace('');
+                    setPhone('');
+                    setDescription('');
+                    dispatch(addOneBooking(response.data.data));
+                    close();
+                }
+            } else {
+                toast.error('Invalid phone number');
             }
+
         } catch (error) {
             console.error('Error while creating new package: ', error);
-            toast.error(error.response.data.message);
+            //   toast.error(error.response.data.message);
         }
     }
 
@@ -117,38 +119,19 @@ const AdminServiceBookingPopup = ({ close }) => {
         }
     }
 
-    // Function for fetch service packages from the api
-    const fetchServicePackages = async () => {
-        try {
-            // API call
-            const response = await makeRequest.get('/get-packages');
-            if (response.data.success) {
-                // Update the state with the fetched service packages,and reversing the order
-                setServicePackages(response.data.data.reverse());
-            }
-        } catch (error) {
-            console.error('Error fetching service packages: ', error);
-        }
-    };
-
-    // Fetch service packages when the component mounts
     useEffect(() => {
-        fetchServicePackages();
+        setIsOpen(true); // Trigger the opening transition
     }, []);
-    // Trigger the opening animation when the component mounts
-    useEffect(() => {
-        setIsOpen(true);
-    }, []);
-
 
     return (
         <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
             <div className={`p-4 sm:p-10 rounded-md w-full h-full transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
-                <form className="p-4 xs:p-10 bg-white rounded-md shadow-custom max-w-lg mx-auto min-w-[320px]" onSubmit={handleSubmit}>
+
+                <form className="p-4 xs:p-10 bg-white rounded-md shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
                     <div className='flex justify-between items-center'>
-                        <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Book a Service</h2>
+                        <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Book a Breakdown</h2>
                         <span
-                            className='text-black text-2xl pb-2 cursor-pointer'
+                            className='cursor-pointer text-lg xs:text-2xl pb-2'
                             onClick={() => {
                                 setIsOpen(false);
                                 setTimeout(close, 300); // Close after animation
@@ -172,7 +155,7 @@ const AdminServiceBookingPopup = ({ close }) => {
                         </select>
                     </div>
                     {/* Vehicle selection */}
-                    <div className="flex flex-col mb-2">
+                    <div className="flex flex-col mb-4">
                         <p className="text-sm mb-2 text-gray-400">Select Vehicle <span className='text-red-600'>*</span></p>
                         <select
                             value={vehicleId}
@@ -188,54 +171,39 @@ const AdminServiceBookingPopup = ({ close }) => {
                             ))}
                         </select>
                     </div>
-                    {/* Booking date selection */}
-                    <div className="flex flex-col mb-2">
-                        <label className="text-sm mb-2 text-gray-400">Select Date <span className='text-red-600'>*</span></label>
-                        <DatePicker
-                            selected={bookingDate}
-                            onChange={(date) => setBookingDate(date)}
-                            dateFormat="dd/MM/yyyy"
-                            required
-                            minDate={new Date()}
-                            autoComplete='off'
-                            placeholderText="Select date"
-                            className="text-sm outline-none bg-gray-100 p-2 rounded-md w-full"
-                        />
-                    </div>
-                    {/* Service type selection */}
-                    <div className="flex flex-col mb-2">
-                        <p className="text-sm mb-2 text-gray-400">Select Service Type <span className='text-red-600'>*</span></p>
-                        <select
-                            value={serviceType}
-                            onChange={handleServiceTypeChange}
-                            required
-                            className="text-sm outline-none bg-gray-100 p-2 rounded-md"
-                        >
-                            <option value="">Select Service Type</option>
-                            {servicePackages.map((pkg) => (
-                                <option
-                                    key={pkg._id}
-                                    value={pkg._id}>{pkg.packageName}</option>
-                            ))}
-                        </select>
-                    </div>
-                    {/* Pickup and drop option */}
-                    <div className="flex items-center mb-2">
-                        <p className="text-sm mb-2 mr-4 text-gray-400">Pickup and Drop</p>
+                    {/* Place input */}
+                    <div className="flex flex-col mb-4">
+                        <label className="text-sm mb-2 text-gray-400">Place <span className='text-red-600'>*</span></label>
                         <input
-                            type="checkbox"
-                            checked={pickUp}
-                            onChange={hanlderPickUpChange}
-                            className='w-4 h-4'
+                            type="text"
+                            placeholder='Place'
+                            onChange={handlePlaceChange}
+                            className='border rounded-md p-2 text-sm outline-none'
+                            value={place}
                         />
+                    </div>
+                    {/* Phone input */}
+                    <div className="flex flex-col mb-4">
+                        <label className="text-sm mb-2 text-gray-400">Phone <span className='text-red-600'>*</span></label>
+                        <input
+                            value={phone}
+                            onChange={(e) => handlePhoneChange(e)}
+                            className={`border rounded-md p-2 outline-none text-sm 
+              ${Object.keys(phoneError).length ? 'border-red-500' : `${phone && Object.keys(phoneError).length === 0 ? 'border-green-500' : ''}`}`}
+                            type="text"
+                            placeholder='Phone' />
+                        {/* Display phone errors if any */}
+                        {phoneError.invalid && <p className='text-red-500 text-xs'>{phoneError.invalid}</p>}
+                        {phoneError.length && <p className='text-red-500 text-xs'>{phoneError.length}</p>}
+                        {phoneError.greater && <p className='text-red-500 text-xs'>{phoneError.greater}</p>}
                     </div>
                     {/* Work description */}
-                    <div className="flex flex-col mb-2">
+                    <div className="flex flex-col mb-4">
                         <p className="text-sm mb-2 text-gray-400">Description</p>
                         <textarea
                             value={description}
                             onChange={handleDescription}
-                            className='border h-24 rounded-md p-2 text-sm outline-none resize-none'
+                            className='border h-28 rounded-md p-2 text-sm outline-none resize-none'
                             placeholder='Work description'
                         />
                     </div>
@@ -251,4 +219,4 @@ const AdminServiceBookingPopup = ({ close }) => {
     )
 }
 
-export default AdminServiceBookingPopup
+export default AdminBreakdownBookingPopup;
