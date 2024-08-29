@@ -49,8 +49,6 @@ const AdminHome = () => {
           <main className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'>
             <Outlet />
           </main>
-
-          {/* <aside className='h-full w-72 bg-white p-5'>Rightbar</aside> */}
         </div>
 
 

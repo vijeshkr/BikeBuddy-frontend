@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMechanicDetails } from '../../redux/features/mechanicSlice';
 import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
+import { updateAllocation } from '../../redux/features/allBookingAdminSlice';
 
-const AllocationPopup = ({ close, booking, fetchBookings }) => {
+const AllocationPopup = ({ close, booking }) => {
 
     // State to manage loading
     const [loading, setLoading] = useState(false);
@@ -42,7 +43,7 @@ const AllocationPopup = ({ close, booking, fetchBookings }) => {
                     // Show a success message
                     toast.success('Work allocated successfully');
                     setSelectedMechanic('');
-                    fetchBookings();
+                    dispatch(updateAllocation(response.data.data))
                     close();
                 }
             } catch (error) {
@@ -97,7 +98,7 @@ const AllocationPopup = ({ close, booking, fetchBookings }) => {
                 </div>
                 <div className="mb-4">
                     <span className="font-semibold text-text-sm sm:text-base ">Service Type:</span>
-                    <span className="ml-4 text-gray-700">{booking.serviceType.packageName}</span>
+                    <span className="ml-4 text-gray-700">{booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}</span>
                 </div>
                 <div className="mb-4">
                     <span className="font-semibold text-text-sm sm:text-base ">Booking Date:</span>
@@ -106,7 +107,7 @@ const AllocationPopup = ({ close, booking, fetchBookings }) => {
                 <div className="mb-4">
                     <span className="font-semibold text-text-sm sm:text-base ">Status:</span>
                     <span
-                        className={`ml-4 font-semibold ${booking.status === 'Unallocated' ? 'text-gray-500'
+                        className={`ml-4 ${booking.status === 'Unallocated' ? 'text-gray-500'
                             : booking.status === 'Pending' ? 'text-yellow-500'
                                 : booking.status === 'Cancelled' ? 'text-red-600'
                                     : booking.status === 'Completed' ? 'text-green-600'
@@ -132,7 +133,7 @@ const AllocationPopup = ({ close, booking, fetchBookings }) => {
                     </select>
                 </div>
                 <button
-                    className="w-full text-sm sm:text-base bg-purple-500 hover:bg-purple-600 text-white tracking-wider py-2 rounded-lg shadow-custom transition-transform transform hover:scale-105"
+                    className="w-full text-sm sm:text-base bg-blue-400 hover:bg-blue-500 text-white tracking-wider py-2 rounded-lg shadow-custom transition-transform transform hover:scale-105"
                     onClick={handleSubmit}
                 >
                     Allocate
