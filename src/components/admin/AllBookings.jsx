@@ -69,14 +69,14 @@ const AllBookings = () => {
     // }, []);
 
     return (
-        <div className="p-2 shadow-custom rounded-md min-w-[320px]">
+        <div className="p-2 lg:shadow-custom rounded-md]">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">All Bookings</h3>
             {bookings.length === 0 ? (
                 <p className="text-gray-500">No bookings available.</p>
             ) : (
                 <div>
                     {/* Table format for larger screens */}
-                    <table className="hidden min-w-[520px] lg:table w-full divide-y divide-gray-200">
+                    <table className="hidden lg:table w-full divide-y divide-gray-200">
                         <thead className='bg-gray-50'>
                             <tr className="text-left">
                                 {/* <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th> */}
@@ -93,12 +93,12 @@ const AllBookings = () => {
                                 <tr key={booking._id} className="hover:bg-gray-50">
                                     {/* <td className="px-4 py-3">{booking.customerId.name}</td> */}
                                     <td
-                                    onClick={() => {
+                                        onClick={() => {
                                             handleSelectedBooking(booking._id);
                                             openHandleBookingDetails();
-                                        
-                                    }} 
-                                    className="px-4 py-3 cursor-pointer">{booking.vehicleId.registrationNumber}</td>
+
+                                        }}
+                                        className="px-4 py-3 cursor-pointer">{booking.vehicleId.registrationNumber}</td>
                                     <td className={`px-4 py-3 ${booking.breakdown && 'text-red-600'}`}>{booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}</td>
                                     <td className="px-4 py-3">{new Date(booking.bookingDate).toLocaleDateString()}</td>
                                     <td className={`px-4 py-3 

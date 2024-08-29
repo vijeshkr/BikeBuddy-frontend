@@ -19,7 +19,6 @@ const AdminHome = () => {
   const adminSidebar = [
     { label: 'Monthly Tracker', icon: <TbLayoutDashboardFilled />, link: '' },
     { label: 'Booking Page', icon: <FaRegCalendarAlt />, link: 'admin-booking' },
-    { label: 'Breakdown', icon: <TiSpanner />, link: 'admin-breakdown' },
     { label: 'Services', icon: <SiGooglecloudspanner />, link: 'admin-service' },
     { label: 'Mechanics', icon: <IoPeople />, link: 'admin-mechanics' },
     { label: 'Customers', icon: <IoIosPeople />, link: 'admin-customers' },

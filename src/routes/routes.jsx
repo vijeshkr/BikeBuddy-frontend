@@ -13,7 +13,6 @@ import MechanicHome from '../pages/mechanic/MechanicHome';
 import AdminHome from '../pages/admin/AdminHome';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminBookingPage from '../pages/admin/AdminBookingPage';
-import AdminBreakDown from '../pages/admin/AdminBreakDown';
 import AdminServices from '../pages/admin/AdminServices';
 import AdminMechanicsList from '../pages/admin/AdminMechanicsList';
 import AdminCustomersList from '../pages/admin/AdminCustomersList';
@@ -133,10 +132,6 @@ const router = createBrowserRouter([
             {
                 path: 'admin-booking',
                 element: <AdminBookingPage />
-            },
-            {
-                path: 'admin-breakdown',
-                element: <AdminBreakDown />
             },
             {
                 path: 'admin-service',
