@@ -7,6 +7,9 @@ const ServiceChargesList = ({ close }) => {
     // State to manage loading
     const [loading, setLoading] = useState(false);
 
+    // State for animation
+    const [isOpen, setIsOpen] = useState(false);
+
     // State to manage service charges 
     const [serviceCharges, setServiceCharges] = useState([]);
 
@@ -40,15 +43,23 @@ const ServiceChargesList = ({ close }) => {
         fetchServiceCharges();
     }, []);
 
+    useEffect(() => {
+        setIsOpen(true); // Trigger the opening transition
+    }, []);
+
     return (
-        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4'>
+        <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
             {loading ? <LoadingIndicator /> :
-                <div className='bg-white p-10 rounded-md w-full h-full'>
-                    <div className='flex justify-between items-center'>
-                    <h2 className="text-xl xs:text-2xl font-semibold mb-4 ">Services Charges</h2>
+                <div className={`bg-white p-10 md:mx-20 lg:mx-36 xl:mx-72 rounded-md w-full h-full transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
+                    <div className='flex justify-between items-center mb-4'>
+                        <h2 className="text-xl xs:text-2xl font-semibold ">Services Charges</h2>
                         <button
                             className='bg-red-600 text-xs xs:text-base text-white px-2 py-1 rounded-md flex-shrink-0'
-                            onClick={close}>Close</button>
+                            onClick={() => {
+                                setIsOpen(false);
+                                setTimeout(close, 300); // Close after animation
+                            }}
+                        >Close</button>
                     </div>
                     <div >
                         {/* Showing all service charges in a table */}

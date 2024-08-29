@@ -163,9 +163,10 @@ const CurrentBookings = () => {
                             {bookings.map((booking) => (
                                 <tr key={booking._id} className="hover:bg-gray-50">
                                     <td className="px-4 py-3">{booking.vehicleId.registrationNumber}</td>
-                                    <td className="px-4 py-3">{booking.serviceType.packageName}</td>
+                                    <td className={`px-4 py-3 ${booking.breakdown && 'text-red-600'}`}>{booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}</td>
                                     <td className={`px-4 py-3 
                                         ${booking.status === 'Unallocated' && 'text-gray-400'}
+                                        ${booking.status === 'Allocated' && 'text-blue-400'}
                                         ${booking.status === 'Pending' && 'text-yellow-400'}
                                         ${booking.status === 'Cancelled' && 'text-red-600'}
                                         ${booking.status === 'Completed' && 'text-green-600'}`}>{booking.status}</td>
@@ -191,16 +192,17 @@ const CurrentBookings = () => {
                                 <div className="mb-2">
                                     <span className='font-medium'>Vehicle:</span> {booking.vehicleId.registrationNumber}
                                 </div>
-                                <div className="mb-2">
-                                    <span className='font-medium'>Service Type:</span> {booking.serviceType.packageName}
+                                <div className={`mb-2 ${booking.breakdown && 'text-red-600'}`}>
+                                    <span className='font-medium text-black'>Service Type:</span> {booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}
                                 </div>
                                 <div className='flex justify-between'>
                                 <div className={`mb-2
                                     ${booking.status === 'Unallocated' && 'text-gray-400'}
+                                    ${booking.status === 'Allocated' && 'text-blue-400'}
                                     ${booking.status === 'Pending' && 'text-yellow-400'}
                                     ${booking.status === 'Cancelled' && 'text-red-600'}
                                     ${booking.status === 'Completed' && 'text-green-600'}`}>
-                                    <span className='font-medium'>Status:</span> {booking.status}
+                                    <span className='font-medium text-black'>Status:</span> {booking.status}
                                 </div>
                                 <div className="text-right">
                                     {booking.status === 'Unallocated' ? (
