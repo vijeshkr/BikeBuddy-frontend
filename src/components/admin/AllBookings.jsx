@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import makeRequest from '../../common/axios';
 import AllocationPopup from './AllocationPopup';
 import BookingDetailsPopup from './BookingDetailsPopup';
 import { useSelector } from 'react-redux';

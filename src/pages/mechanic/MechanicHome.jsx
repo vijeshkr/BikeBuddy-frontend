@@ -13,7 +13,7 @@ const MechanicHome = () => {
 
   // Sidebar data 
   const mechanicSidebar = [
-    { label: 'Job', icon: <SiGooglecloudspanner />, link: '' },
+    { label: 'Dashboard', icon: <SiGooglecloudspanner />, link: '' },
     { label: 'Leave', icon: <FaRegCalendarXmark />, link: 'mechanic-leave' },
     { label: 'Services History', icon: <FaHistory />, link: 'mechanic-service-history' },
     { label: 'Spare Parts', icon: <HiShoppingBag />, link: 'mechanic-spare-parts' },

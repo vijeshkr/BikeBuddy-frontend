@@ -9,6 +9,7 @@ import leaveReducer from '../features/leavesSlice';
 import notificationReducer from '../features/notificationSlice';
 import currentBookingReducer from '../features/currentBookingSlice';
 import allBookingAdminReducer from '../features/allBookingAdminSlice';
+import allocationsReducer from '../features/allocationsSlice';
 
 const store = configureStore({
     reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
         notifications: notificationReducer,
         currentBookings: currentBookingReducer,
         allBookings: allBookingAdminReducer,
+        allocations: allocationsReducer,
     }
 });
 

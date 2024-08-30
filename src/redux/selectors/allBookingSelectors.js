@@ -23,6 +23,7 @@ export const selectAdminBookingStats = createSelector(
       statusCounts: {
         Pending: 0,
         Allocated: 0,
+        Progress: 0,
         Completed: 0,
         Cancelled: 0,
         Unallocated: 0,
