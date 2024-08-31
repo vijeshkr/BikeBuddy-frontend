@@ -24,9 +24,33 @@ const allocationsSlice = createSlice({
                     : allocation
             );
         },
+        // Update extra work description and amount
+        updateExtraWork(state, action) {
+            const updatedAllocation = action.payload;
         
+            state.allocations = state.allocations.map(allocation =>
+                allocation._id === updatedAllocation._id
+                    ? {
+                        ...allocation, // Preserve other fields in allocation
+                        extraWorkDescription: updatedAllocation.extraWorkDescription ,
+                        extraWorkEstimationAmount: updatedAllocation.extraWorkEstimationAmount
+                      }
+                    : allocation
+            );
+        },
+        
+        // Update booking status 
+        updateAllocationStatus(state, action) {
+            const data = action.payload;
+            state.allocations = state.allocations.map(allocation =>
+                allocation.bookingId._id === data.bookingId._id
+                    ? { ...allocation, bookingId: { ...allocation.bookingId, status: data.status } }  // Update the status inside bookingId
+                    : allocation
+            );
+        },
+
     }
 });
 
-export const { addOneAllocation, setAllAllocations, updateAllocation } = allocationsSlice.actions;
+export const { addOneAllocation, setAllAllocations, updateAllocation, updateAllocationStatus, updateExtraWork } = allocationsSlice.actions;
 export default allocationsSlice.reducer;

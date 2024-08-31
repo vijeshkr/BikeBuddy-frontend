@@ -171,6 +171,15 @@ const AllBookings = () => {
                                         <span className='font-medium'>Phone:</span> {booking.phone}
                                     </div>
                                 }
+                                {
+                                    booking.description && 
+                                    <div className="mb-2">
+                                        <div className='font-medium underline'>Job description:</div>
+                                        <div className='w-[300px] text-gray-500'>
+                                        {booking.description}
+                                        </div>
+                                    </div>
+                                }
                                 <div className={`mb-2 ${booking.breakdown && 'text-red-600'}`}>
                                     <span className='font-medium text-black'>Service Type:</span> {booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}
                                 </div>

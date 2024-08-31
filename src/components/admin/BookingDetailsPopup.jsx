@@ -48,6 +48,11 @@ const BookingDetailsPopup = ({ close, booking }) => {
                     <span className="font-semibold text-text-sm sm:text-base ">Booking Date:</span>
                     <span className="ml-4 text-gray-700">{new Date(booking.bookingDate).toLocaleDateString()}</span>
                 </div>
+                                {/* Job description */}
+                                <div className="mb-4 max-w-[450px]">
+                    <span className="font-semibold text-text-sm sm:text-base ">Job Description:</span>
+                    <span className="ml-4 text-gray-700">{booking.description}</span>
+                </div>
                 {/* Status */}
                 <div className="mb-4">
                     <span className="font-semibold text-text-sm sm:text-base ">Status:</span>
