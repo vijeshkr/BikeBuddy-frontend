@@ -49,10 +49,10 @@ const AllocationDetailsPopup = ({ close, allocation }) => {
                     <span className="ml-4 text-gray-700">{new Date(allocation.bookingId?.bookingDate).toLocaleDateString()}</span>
                 </div>
                 {/* Job description */}
-                <div className="mb-4 max-w-[450px]">
+                {allocation.bookingId?.description && <div className="mb-4 max-w-[450px]">
                     <span className="font-semibold text-text-sm sm:text-base underline">Job Description:</span>
                     <div className=" text-gray-700">{allocation.bookingId?.description}</div>
-                </div>
+                </div>}
                 {/* Extra work request details */}
                 {allocation.extraWorkDescription &&
                     <div>
