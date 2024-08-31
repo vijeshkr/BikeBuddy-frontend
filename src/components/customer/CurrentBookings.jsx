@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import makeRequest from '../../common/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentBookings, updateBookingStatus } from '../../redux/features/currentBookingSlice';
+import CustomerWorkApproval from './CustomerWorkApproval';
 
 /**
  * CurrentBookings Component
@@ -26,7 +27,7 @@ const CurrentBookings = () => {
         try {
             const response = await makeRequest.get(`/get-current-booking/${customerId}`);
             if (response.data.success) {
-                dispatch(setCurrentBookings({ currentBookings: response.data.data}))
+                dispatch(setCurrentBookings({ currentBookings: response.data.data }))
             }
         } catch (error) {
             console.error('Error fetching current bookings: ', error);
@@ -40,106 +41,123 @@ const CurrentBookings = () => {
 
 
     // Handle booking cancel confirmation popup
-  const handleBookingCancel = async (bookingId) => {
-    try {
-      // Show confirmation alert
-      const confirm = await swal({
-        title: 'Are you sure?',
-        text: 'Do you want to cancel this booking?',
-        icon: 'warning',
-        buttons: ['Cancel', 'Yes, cancel it!'],
-        dangerMode: true,
-        className: 'swal-modal',
-        didOpen: () => {
-          // Add custom classes to the elements
-          const swalTitle = document.querySelector('.swal-title');
-          const swalText = document.querySelector('.swal-text');
-          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+    const handleBookingCancel = async (bookingId) => {
+        try {
+            // Show confirmation alert
+            const confirm = await swal({
+                title: 'Are you sure?',
+                text: 'Do you want to cancel this booking?',
+                icon: 'warning',
+                buttons: ['Cancel', 'Yes, cancel it!'],
+                dangerMode: true,
+                className: 'swal-modal',
+                didOpen: () => {
+                    // Add custom classes to the elements
+                    const swalTitle = document.querySelector('.swal-title');
+                    const swalText = document.querySelector('.swal-text');
+                    const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                    const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-          if (swalTitle) swalTitle.classList.add('swal-title');
-          if (swalText) swalText.classList.add('swal-text');
-          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-        },
-      });
+                    if (swalTitle) swalTitle.classList.add('swal-title');
+                    if (swalText) swalText.classList.add('swal-text');
+                    if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                    if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+                },
+            });
 
-      if (!confirm) return; // Exit if user cancels
+            if (!confirm) return; // Exit if user cancels
 
-      // Show a loading alert
-      const loadingAlert = swal({
-        title: 'Cancelling...',
-        text: 'Please wait while we cancel your booking.',
-        icon: 'info',
-        buttons: false, // Disables buttons
-        closeOnClickOutside: false,
-        closeOnEsc: false,
-        className: 'swal-modal',
-        didOpen: () => {
-          // Add custom classes to the elements
-          const swalTitle = document.querySelector('.swal-title');
-          const swalText = document.querySelector('.swal-text');
+            // Show a loading alert
+            const loadingAlert = swal({
+                title: 'Cancelling...',
+                text: 'Please wait while we cancel your booking.',
+                icon: 'info',
+                buttons: false, // Disables buttons
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                className: 'swal-modal',
+                didOpen: () => {
+                    // Add custom classes to the elements
+                    const swalTitle = document.querySelector('.swal-title');
+                    const swalText = document.querySelector('.swal-text');
 
-          if (swalTitle) swalTitle.classList.add('swal-title');
-          if (swalText) swalText.classList.add('swal-text');
-        },
-      });
+                    if (swalTitle) swalTitle.classList.add('swal-title');
+                    if (swalText) swalText.classList.add('swal-text');
+                },
+            });
 
-      // API call
-      const response = await makeRequest.patch(`/cancel-booking/${bookingId}`);
+            // API call
+            const response = await makeRequest.patch(`/cancel-booking/${bookingId}`);
 
-      if(response.data.success){
-        dispatch(updateBookingStatus(response.data.data));
-      }
+            if (response.data.success) {
+                dispatch(updateBookingStatus(response.data.data));
+            }
 
-      // Close the loading alert
-      swal.close();
+            // Close the loading alert
+            swal.close();
 
-      // Show success message
-      await swal({
-        title: 'Cancelled!',
-        text: 'Your booking has been cancelled.',
-        icon: 'success',
-        className: 'swal-modal',
-        didOpen: () => {
-          // Add custom classes to the elements
-          const swalTitle = document.querySelector('.swal-title');
-          const swalText = document.querySelector('.swal-text');
-          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+            // Show success message
+            await swal({
+                title: 'Cancelled!',
+                text: 'Your booking has been cancelled.',
+                icon: 'success',
+                className: 'swal-modal',
+                didOpen: () => {
+                    // Add custom classes to the elements
+                    const swalTitle = document.querySelector('.swal-title');
+                    const swalText = document.querySelector('.swal-text');
+                    const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                    const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-          if (swalTitle) swalTitle.classList.add('swal-title');
-          if (swalText) swalText.classList.add('swal-text');
-          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-        },
-      });
+                    if (swalTitle) swalTitle.classList.add('swal-title');
+                    if (swalText) swalText.classList.add('swal-text');
+                    if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                    if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+                },
+            });
 
-    } catch (error) {
-      // Close the loading alert if an error occurs
-      swal.close();
+        } catch (error) {
+            // Close the loading alert if an error occurs
+            swal.close();
 
-      // Show error message
-      await swal({
-        title: 'Error!',
-        text: 'There was an error cancelling your booking.',
-        icon: 'error',
-        className: 'swal-modal',
-        didOpen: () => {
-          // Add custom classes to the elements
-          const swalTitle = document.querySelector('.swal-title');
-          const swalText = document.querySelector('.swal-text');
-          const swalButtonConfirm = document.querySelector('.swal-button--confirm');
-          const swalButtonCancel = document.querySelector('.swal-button--cancel');
+            // Show error message
+            await swal({
+                title: 'Error!',
+                text: 'There was an error cancelling your booking.',
+                icon: 'error',
+                className: 'swal-modal',
+                didOpen: () => {
+                    // Add custom classes to the elements
+                    const swalTitle = document.querySelector('.swal-title');
+                    const swalText = document.querySelector('.swal-text');
+                    const swalButtonConfirm = document.querySelector('.swal-button--confirm');
+                    const swalButtonCancel = document.querySelector('.swal-button--cancel');
 
-          if (swalTitle) swalTitle.classList.add('swal-title');
-          if (swalText) swalText.classList.add('swal-text');
-          if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
-          if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
-        },
-      });
+                    if (swalTitle) swalTitle.classList.add('swal-title');
+                    if (swalText) swalText.classList.add('swal-text');
+                    if (swalButtonConfirm) swalButtonConfirm.classList.add('swal-button');
+                    if (swalButtonCancel) swalButtonCancel.classList.add('swal-button');
+                },
+            });
+        }
+    };
+
+    // State to manage customer approval popup
+    const [approvalPopup, setApprovalPopup] = useState(false);
+    // State to manage current allocation
+    const [currentAllocation, setCurrentAllocation] = useState({})
+
+    // Handle open approval popup
+    const handleOpenApproval = (allocation) => {
+        setCurrentAllocation(allocation);
+        setApprovalPopup(!approvalPopup);
     }
-  };
+
+    // Handle close function for package popup
+    const handleCloseApproval = () => {
+        setCurrentAllocation({})
+        setApprovalPopup(prev => !prev);
+    }
 
 
     return (
@@ -178,7 +196,14 @@ const CurrentBookings = () => {
                                             >
                                                 Cancel
                                             </button>
-                                        ) : 'No action'}
+                                        ) : booking.allocation.customerApproval === 'Pending' ?
+                                            <button
+                                                onClick={() => {
+                                                    handleOpenApproval(booking.allocation)
+                                                }}
+                                                className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
+                                                New Request
+                                            </button> : 'No action'}
                                     </td>
                                 </tr>
                             ))}
@@ -196,32 +221,38 @@ const CurrentBookings = () => {
                                     <span className='font-medium text-black'>Service Type:</span> {booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}
                                 </div>
                                 <div className='flex justify-between'>
-                                <div className={`mb-2
+                                    <div className={`mb-2
                                     ${booking.status === 'Unallocated' && 'text-gray-400'}
                                     ${booking.status === 'Allocated' && 'text-blue-400'}
                                     ${booking.status === 'Pending' && 'text-yellow-400'}
                                     ${booking.status === 'Cancelled' && 'text-red-600'}
                                     ${booking.status === 'Completed' && 'text-green-600'}`}>
-                                    <span className='font-medium text-black'>Status:</span> {booking.status}
-                                </div>
-                                <div className="text-right">
-                                    {booking.status === 'Unallocated' ? (
-                                        <button
-                                            onClick={() => handleBookingCancel(booking._id)}
-                                            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
-                                        >
-                                            Cancel
-                                        </button>
-                                    ) : (
-                                        <span className="text-gray-500">No action</span>
-                                    )}
-                                </div>
+                                        <span className='font-medium text-black'>Status:</span> {booking.status}
+                                    </div>
+                                    <div className="text-right">
+                                        {booking.status === 'Unallocated' ? (
+                                            <button
+                                                onClick={() => handleBookingCancel(booking._id)}
+                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
+                                            >
+                                                Cancel
+                                            </button>
+                                        ) : booking.allocation.customerApproval === 'Pending' ?
+                                            <button
+                                                onClick={() => {
+                                                    handleOpenApproval(booking.allocation)
+                                                }}
+                                                className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
+                                                New Request
+                                            </button> : 'No action'}
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
             )}
+            {approvalPopup && <CustomerWorkApproval close={handleCloseApproval} allocation={currentAllocation} />}
         </div>
     );
 };

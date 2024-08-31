@@ -23,9 +23,26 @@ const currentBookingSlice = createSlice({
                     ? { ...booking, status: updatedBooking.status }
                     : booking
             );
-        }
+        },
+
+        // Update customer approval
+        updateCustomerApproval(state, action) {
+            const updatedAllocation = action.payload;
+
+            state.currentBookings = state.currentBookings.map(booking =>
+                booking._id === updatedAllocation.bookingId
+                    ? {
+                        ...booking, // Preserve other fields in allocation
+                        allocation: {
+                            ...booking.allocation, // Preserve other fields in allocation
+                            customerApproval: updatedAllocation.customerApproval
+                        }
+                    }
+                    : booking
+            );
+        },
     }
 });
 
-export const { addNewBooking, setCurrentBookings, updateBookingStatus } = currentBookingSlice.actions;
+export const { addNewBooking, setCurrentBookings, updateBookingStatus, updateCustomerApproval } = currentBookingSlice.actions;
 export default currentBookingSlice.reducer;

@@ -3,7 +3,6 @@ import BookService from '../../components/customer/BookService,';
 import CurrentBookings from '../../components/customer/CurrentBookings';
 import PackageServicesList from '../../components/customer/PackageServicesList';
 import ServiceChargesList from '../../components/customer/ServiceChargesList';
-import BreackdownBookinPopup from '../../components/customer/BreakdownBookingPopup';
 import BreakdownBookingPopup from '../../components/customer/BreakdownBookingPopup';
 
 const CustomerServiceBooking = () => {
