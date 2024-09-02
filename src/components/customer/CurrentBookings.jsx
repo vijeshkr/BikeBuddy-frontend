@@ -196,14 +196,19 @@ const CurrentBookings = () => {
                                             >
                                                 Cancel
                                             </button>
-                                        ) : booking.allocation.customerApproval === 'Pending' ?
-                                            <button
-                                                onClick={() => {
-                                                    handleOpenApproval(booking.allocation)
-                                                }}
-                                                className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
-                                                New Request
-                                            </button> : 'No action'}
+                                        )
+                                            : booking.allocation.customerApproval === 'Pending' &&
+                                                booking.status === 'Allocated' ||
+                                                booking.status === 'Progress' ||
+                                                booking.status === 'Pending' ?
+                                                <button
+                                                    onClick={() => {
+                                                        handleOpenApproval(booking.allocation)
+                                                    }}
+                                                    className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
+                                                    New Request
+                                                </button>
+                                                : 'No action'}
                                     </td>
                                 </tr>
                             ))}
@@ -237,14 +242,19 @@ const CurrentBookings = () => {
                                             >
                                                 Cancel
                                             </button>
-                                        ) : booking.allocation.customerApproval === 'Pending' ?
-                                            <button
-                                                onClick={() => {
-                                                    handleOpenApproval(booking.allocation)
-                                                }}
-                                                className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
-                                                New Request
-                                            </button> : 'No action'}
+                                        )
+                                            : booking.allocation.customerApproval === 'Pending' &&
+                                                booking.status === 'Allocated' ||
+                                                booking.status === 'Progress' ||
+                                                booking.status === 'Pending' ?
+                                                <button
+                                                    onClick={() => {
+                                                        handleOpenApproval(booking.allocation)
+                                                    }}
+                                                    className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
+                                                    New Request
+                                                </button>
+                                                : 'No action'}
                                     </div>
                                 </div>
                             </div>

@@ -105,7 +105,7 @@ const MechanicAllocations = () => {
                                     </td>
                                     <td>
                                         {
-                                            allocation.bookingId?.status === 'Completed' ? (<span className='text-gray-400'>No Action</span>) :
+                                            allocation.bookingId?.status === 'Completed' || allocation.bookingId?.status === 'Unpaid' || allocation.bookingId?.status === 'Paid' ? (<span className='text-gray-400'>No Action</span>) :
                                                 (<div className="px-4 py-3 flex gap-2 items-center">
                                                     <button
                                                         onClick={() => {
@@ -193,9 +193,9 @@ const MechanicAllocations = () => {
                                 <div className="mb-2">
                                     <span className='font-medium'>Action: </span>
                                     <div>
-                                        {
-                                            allocation.bookingId?.status === 'Completed' ? <div className='text-gray-400'>No Action</div> :
-                                                <div className="px-4 py-3 flex gap-2 items-center">
+                                    {
+                                            allocation.bookingId?.status === 'Completed' || allocation.bookingId?.status === 'Unpaid' || allocation.bookingId?.status === 'Paid' ? (<span className='text-gray-400'>No Action</span>) :
+                                                (<div className="px-4 py-3 flex gap-2 items-center">
                                                     <button
                                                         onClick={() => {
                                                             handleSelectedAllocation(allocation._id);
@@ -212,7 +212,7 @@ const MechanicAllocations = () => {
                                                         className={`text-sm bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition duration-300`}>
                                                         Complete
                                                     </button>
-                                                </div>
+                                                </div>)
                                         }
                                     </div>
                                 </div>
