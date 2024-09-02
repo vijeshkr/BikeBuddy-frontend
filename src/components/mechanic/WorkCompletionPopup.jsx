@@ -6,13 +6,13 @@ import { updateAllocationStatus } from '../../redux/features/allocationsSlice';
 
 const WorkCompletionPopup = ({ close, allocation }) => {
     // State to manage loading
-    const[loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     // State to track the list of parts used in the job
     const [partsUsed, setPartsUsed] = useState([]);
     // State to handle service advice
     const [serviceAdvice, setServiceAdvice] = useState('');
     // State to store fetched spare data
-    const [availableParts,setAvailableParts] = useState([]);
+    const [availableParts, setAvailableParts] = useState([]);
 
     // State to track the selected part ID and its quantity
     const [selectedPartId, setSelectedPartId] = useState('');
@@ -36,41 +36,41 @@ const WorkCompletionPopup = ({ close, allocation }) => {
         setPartsUsed(newParts);
     };
 
- // Function to handle form submission
- const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
-        // Prepare the data to be sent to the backend
-        const data = {
-            partsUsed,
-            serviceAdvice
-        };
+    // Function to handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        try {
+            // Prepare the data to be sent to the backend
+            const data = {
+                partsUsed,
+                serviceAdvice
+            };
 
-        // Send the data to the backend API
-        const response = await makeRequest.put(`/work-completion/${allocation._id}`, data);
+            // Send the data to the backend API
+            const response = await makeRequest.put(`/work-completion/${allocation._id}`, data);
 
-        // Redux store data
-        const reduxData = {
-            bookingId: allocation.bookingId,
-            status: 'Completed'
+            // Redux store data
+            const reduxData = {
+                bookingId: allocation.bookingId,
+                status: 'Completed'
+            }
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setPartsUsed([]);
+                setServiceAdvice('');
+                setIsOpen(false);
+                setTimeout(close, 300);
+                dispatch(updateAllocationStatus(reduxData));
+            }
+        } catch (error) {
+            console.error('Error completing work:', error);
+            toast.error(error.response.data.message)
+        } finally {
+            setLoading(false);
         }
-
-        if (response.data.success) {
-            toast.success(response.data.message);
-            setPartsUsed([]);
-            setServiceAdvice('');
-            setIsOpen(false);
-            setTimeout(close, 300);
-            dispatch(updateAllocationStatus(reduxData));
-        }
-    } catch (error) {
-        console.error('Error completing work:', error);
-        toast.error(error.response.data.message)
-    } finally {
-        setLoading(false);
-    }
-};
+    };
 
     // State to manage opening animation of the popup
     const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +98,7 @@ const WorkCompletionPopup = ({ close, allocation }) => {
     // Fetch spare data
     useEffect(() => {
         fetchSpare();
-    },[])
+    }, [])
 
     return (
         <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-2 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>

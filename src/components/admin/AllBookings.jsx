@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AllocationPopup from './AllocationPopup';
 import BookingDetailsPopup from './BookingDetailsPopup';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * AllBookings Component
@@ -22,6 +23,8 @@ const AllBookings = () => {
     const [openBookingDetails, setOpenBookingDetails] = useState(false)
     // State to manage selected booking
     const [selectedBooking, setSelectedBooking] = useState(null);
+
+    const navigate = useNavigate();
 
     // Function to fetch all bookings from the backend
     // const fetchBookings = async () => {
@@ -61,11 +64,6 @@ const AllBookings = () => {
         setSelectedBooking(booking);
     };
 
-
-    // Fetch bookings when the component mounts
-    // useEffect(() => {
-    //     fetchBookings();
-    // }, []);
 
     return (
         <div className="p-2 lg:shadow-custom rounded-md]">
@@ -118,7 +116,7 @@ const AllBookings = () => {
                                         {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => {
-                                                    if (!booking.allocation && booking.status !== 'Cancelled') {
+                                                    if (!booking.allocation) {
                                                         handleSelectedBooking(booking._id);
                                                         openHandleAllocate();
                                                     }
@@ -130,12 +128,9 @@ const AllBookings = () => {
                                         ) : (
                                             booking.status === 'Completed' ? (
                                                 <button
-                                                    // onClick={() => {
-                                                    //     if (!booking.allocation && booking.status !== 'Cancelled') {
-                                                    //         handleSelectedBooking(booking._id);
-                                                    //         openHandleAllocate();
-                                                    //     }
-                                                    // }}
+                                                    onClick={() => {
+                                                        navigate(`billing/${booking.allocation?._id}`, { replace: true });
+                                                    }}
                                                     className="bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 transition duration-300"
                                                 >
                                                     Billing
@@ -172,11 +167,11 @@ const AllBookings = () => {
                                     </div>
                                 }
                                 {
-                                    booking.description && 
+                                    booking.description &&
                                     <div className="mb-2">
                                         <div className='font-medium underline'>Job description:</div>
                                         <div className='w-[300px] text-gray-500'>
-                                        {booking.description}
+                                            {booking.description}
                                         </div>
                                     </div>
                                 }
@@ -222,7 +217,7 @@ const AllBookings = () => {
                                         {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => {
-                                                    if (!booking.allocation && booking.status !== 'Cancelled') {
+                                                    if (!booking.allocation) {
                                                         handleSelectedBooking(booking._id);
                                                         openHandleAllocate();
                                                     }
@@ -234,12 +229,9 @@ const AllBookings = () => {
                                         ) : (
                                             booking.status === 'Completed' ? (
                                                 <button
-                                                    // onClick={() => {
-                                                    //     if (!booking.allocation && booking.status !== 'Cancelled') {
-                                                    //         handleSelectedBooking(booking._id);
-                                                    //         openHandleAllocate();
-                                                    //     }
-                                                    // }}
+                                                    onClick={() => {
+                                                        navigate(`billing/${booking.allocation?._id}`, { replace: true });
+                                                    }}
                                                     className="bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 transition duration-300"
                                                 >
                                                     Billing

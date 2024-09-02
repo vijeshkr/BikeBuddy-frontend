@@ -27,18 +27,18 @@ const allocationsSlice = createSlice({
         // Update extra work description and amount
         updateExtraWork(state, action) {
             const updatedAllocation = action.payload;
-        
+
             state.allocations = state.allocations.map(allocation =>
                 allocation._id === updatedAllocation._id
                     ? {
                         ...allocation, // Preserve other fields in allocation
-                        extraWorkDescription: updatedAllocation.extraWorkDescription ,
+                        extraWorkDescription: updatedAllocation.extraWorkDescription,
                         extraWorkEstimationAmount: updatedAllocation.extraWorkEstimationAmount
-                      }
+                    }
                     : allocation
             );
         },
-        
+
         // Update booking status 
         updateAllocationStatus(state, action) {
             const data = action.payload;

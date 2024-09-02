@@ -35,6 +35,8 @@ import CustomerVehicleDetails from '../components/customer/CustomerVehicleDetail
 import NavigateToFirstVehicle from '../components/customer/NavigateToFirstVehicle';
 import MechanicListPage from '../pages/admin/MechanicListPage';
 import LeavePage from '../pages/admin/LeavePage';
+import BillingPage from '../pages/admin/BillingPage';
+import AdminBookingHome from '../pages/admin/AdminBookingHome';
 
 const router = createBrowserRouter([
     {
@@ -63,11 +65,11 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: '',
-                        element: <NavigateToFirstVehicle/>
+                        element: <NavigateToFirstVehicle />
                     },
                     {
                         path: 'my-vehicle/:vehicleId',
-                        element: <CustomerVehicleDetails/>
+                        element: <CustomerVehicleDetails />
                     }
                 ]
             },
@@ -131,8 +133,19 @@ const router = createBrowserRouter([
             },
             {
                 path: 'admin-booking',
-                element: <AdminBookingPage />
+                element: <AdminBookingHome />,
+                children: [
+                    {
+                        path: '',
+                        element: <AdminBookingPage />,
+                    },
+                    {
+                        path: 'billing/:allocationId',
+                        element: <BillingPage />
+                    },
+                ]
             },
+
             {
                 path: 'admin-service',
                 element: <AdminServices />,
