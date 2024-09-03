@@ -28,3 +28,15 @@ export const handleImageUpload = async (file) => {
         console.log(error);
     }
 }
+
+// Rupee symbol
+export const displayINRCurrency = (num) => {
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: "currency",
+        currency: 'INR',
+        minimumFractionDigits: 2
+    });
+
+    return formatter.format(num);
+}
+

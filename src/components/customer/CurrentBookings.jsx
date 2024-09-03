@@ -3,6 +3,7 @@ import makeRequest from '../../common/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentBookings, updateBookingStatus } from '../../redux/features/currentBookingSlice';
 import CustomerWorkApproval from './CustomerWorkApproval';
+import PaymentPopup from '../../components/customer/PaymentPopup';
 
 /**
  * CurrentBookings Component
@@ -144,6 +145,8 @@ const CurrentBookings = () => {
 
     // State to manage customer approval popup
     const [approvalPopup, setApprovalPopup] = useState(false);
+    // State to manage payment popup
+    const [openPaymentPopup, setOpenPaymentPopup] = useState(false);
     // State to manage current allocation
     const [currentAllocation, setCurrentAllocation] = useState({})
 
@@ -157,6 +160,18 @@ const CurrentBookings = () => {
     const handleCloseApproval = () => {
         setCurrentAllocation({})
         setApprovalPopup(prev => !prev);
+    }
+
+    // Handle open payment popup
+    const handleOpenPaymentPopup = (allocation) => {
+        setCurrentAllocation(allocation);
+        setOpenPaymentPopup(!approvalPopup);
+    }
+
+    // Handle close function for payment popup
+    const handleClosePayment = () => {
+        setCurrentAllocation({})
+        setOpenPaymentPopup(prev => !prev);
     }
 
 
@@ -208,7 +223,15 @@ const CurrentBookings = () => {
                                                     className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
                                                     New Request
                                                 </button>
-                                                : 'No action'}
+                                                : booking.status === 'Unpaid' ?
+                                                    <button
+                                                        onClick={() => {
+                                                            handleOpenPaymentPopup(booking.allocation);
+                                                        }}
+                                                        className='bg-green-400 px-3 py-1 text-white rounded hover:bg-green-500'>
+                                                        Payment
+                                                    </button>
+                                                    : 'No action'}
                                     </td>
                                 </tr>
                             ))}
@@ -263,6 +286,7 @@ const CurrentBookings = () => {
                 </div>
             )}
             {approvalPopup && <CustomerWorkApproval close={handleCloseApproval} allocation={currentAllocation} />}
+            {openPaymentPopup && <PaymentPopup close={handleClosePayment} allocation={currentAllocation} />}
         </div>
     );
 };
