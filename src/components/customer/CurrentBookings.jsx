@@ -258,7 +258,7 @@ const CurrentBookings = () => {
                                         <span className='font-medium text-black'>Status:</span> {booking.status}
                                     </div>
                                     <div className="text-right">
-                                        {booking.status === 'Unallocated' ? (
+                                    {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => handleBookingCancel(booking._id)}
                                                 className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
@@ -277,7 +277,15 @@ const CurrentBookings = () => {
                                                     className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
                                                     New Request
                                                 </button>
-                                                : 'No action'}
+                                                : booking.status === 'Unpaid' ?
+                                                    <button
+                                                        onClick={() => {
+                                                            handleOpenPaymentPopup(booking.allocation);
+                                                        }}
+                                                        className='bg-green-400 px-3 py-1 text-white rounded hover:bg-green-500'>
+                                                        Payment
+                                                    </button>
+                                                    : 'No action'}
                                     </div>
                                 </div>
                             </div>

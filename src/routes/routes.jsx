@@ -17,14 +17,11 @@ import AdminServices from '../pages/admin/AdminServices';
 import AdminMechanicsList from '../pages/admin/AdminMechanicsList';
 import AdminCustomersList from '../pages/admin/AdminCustomersList';
 import AdminSpareParts from '../pages/admin/AdminSpareParts';
-import AdminServiceHistory from '../pages/admin/AdminServiceHistory';
 import ProfilePage from '../pages/common/ProfilePage';
 import CustomerServiceBooking from '../pages/customer/CustomerServiceBooking';
-import CustomerServiceHistory from '../pages/customer/CustomerServiceHistory';
 import CustomerVehicle from '../pages/customer/CustomerVehicle';
 import PageNotFound from '../pages/common/PageNotFound';
 import MechanicDashboard from '../pages/mechanic/MechanicDashboard';
-import MechanicServiceHistory from '../pages/mechanic/MechanicServiceHistory';
 import MechanicSpareParts from '../pages/mechanic/MechanicSpareParts';
 import MechanicLeave from '../pages/mechanic/MechanicLeave';
 import AdminPackageServicePage from '../pages/admin/AdminPackageServicePage';
@@ -37,6 +34,7 @@ import MechanicListPage from '../pages/admin/MechanicListPage';
 import LeavePage from '../pages/admin/LeavePage';
 import BillingPage from '../pages/admin/BillingPage';
 import AdminBookingHome from '../pages/admin/AdminBookingHome';
+import ServiceHistory from '../pages/common/ServiceHistory';
 
 const router = createBrowserRouter([
     {
@@ -57,7 +55,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'user-service-history',
-                element: <CustomerServiceHistory />
+                element: <ServiceHistory />
             },
             {
                 path: 'user-vehicle',
@@ -97,7 +95,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'mechanic-service-history',
-                element: <MechanicServiceHistory />
+                element: <ServiceHistory />
             },
             {
                 path: 'mechanic-spare-parts',
@@ -184,7 +182,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'admin-service-history',
-                element: <AdminServiceHistory />
+                element: <ServiceHistory />
             },
         ]
     },
