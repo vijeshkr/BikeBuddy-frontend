@@ -3,17 +3,22 @@ import MechanicTargetForm from '../../components/admin/MechanicTargetForm';
 import makeRequest from '../../common/axios';
 import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
+import UpdateMechanicTargets from '../../components/admin/UpdateMechanicTargets';
 
 const MechanicTargets = () => {
     // State for loading
     const [loading, setLoading] = useState(false);
     // State for the visibility of add new mechanic targets form
     const [openAddNewTargets, setOpenAddNewTargets] = useState(false);
+    // State for the visibility of update mechanic targets form
+    const [openUpdateTargets, setOpenUpdateTargets] = useState(false);
     // State for the filter options
     const [selectedMonth, setSelectedMonth] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
     // State to manage mechanic targets data
     const [targets, setTargets] = useState([]);
+    // State to manage selected target
+    const [selectedTarget, setSelectedTarget] = useState(null);
 
     // Toggle visibility of the add new mechanic targets popup
     const handleOpenNewTargetPopup = () => {
@@ -24,6 +29,21 @@ const MechanicTargets = () => {
     const handleCloseNewTargetPopup = () => {
         setOpenAddNewTargets(prev => !prev);
     }
+    // Toggle visibility of the update mechanic targets popup
+    const handleOpenUpdateTargetPopup = () => {
+        setOpenUpdateTargets(!openUpdateTargets);
+    }
+
+    // Close the service update mechanic targets popup
+    const handleCloseUpdateTargetPopup = () => {
+        setOpenUpdateTargets(prev => !prev);
+    }
+
+    // Handle selected target
+    const handleSelectedTarget = (targetId) => {
+        const target = targets.find(target => target._id === targetId);
+        setSelectedTarget(target);
+    };
 
     // Function for fetch mechanic targets based on filter
     const fetchTargets = async () => {
@@ -121,6 +141,10 @@ const MechanicTargets = () => {
                                         <td className="px-4 py-3">{displayINRCurrency(ach.spareAchievement)}</td>
                                         <td className="px-4 py-3">
                                             <button
+                                            onClick={() => {
+                                                handleSelectedTarget(target._id);
+                                                handleOpenUpdateTargetPopup();
+                                            }}
                                                 className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
                                             </button>
                                         </td>
@@ -153,6 +177,10 @@ const MechanicTargets = () => {
                                 <div><span className='font-medium text-gray-500 text-sm'>Spare Achievements:</span> {displayINRCurrency(ach.spareAchievement)}</div>
                                 <div><span className='font-medium text-gray-500 text-sm mr-6'>Action</span>
                                     <button
+                                    onClick={() => {
+                                                handleSelectedTarget(target._id);
+                                                handleOpenUpdateTargetPopup();
+                                            }}
                                         className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
                                     </button>
                                 </div>
@@ -166,6 +194,7 @@ const MechanicTargets = () => {
             </div>
 
             {openAddNewTargets && <MechanicTargetForm close={handleCloseNewTargetPopup} />}
+            {openUpdateTargets && <UpdateMechanicTargets close={handleCloseUpdateTargetPopup} target={selectedTarget} />}
         </div>
     );
 };
