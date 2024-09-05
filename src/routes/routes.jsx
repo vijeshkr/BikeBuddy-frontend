@@ -36,6 +36,7 @@ import BillingPage from '../pages/admin/BillingPage';
 import AdminBookingHome from '../pages/admin/AdminBookingHome';
 import ServiceHistory from '../pages/common/ServiceHistory';
 import MechanicTargets from '../pages/admin/MechanicTargets';
+import MechanicSalary from '../components/admin/MechanicSalary';
 
 const router = createBrowserRouter([
     {
@@ -174,6 +175,10 @@ const router = createBrowserRouter([
                     {
                         path: 'targets',
                         element: <MechanicTargets />
+                    },
+                    {
+                        path: 'salary',
+                        element: <MechanicSalary />
                     },
                 ]
             },

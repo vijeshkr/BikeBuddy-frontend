@@ -4,33 +4,25 @@ import makeRequest from '../../common/axios';
 import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
 
-const MechanicTargets = () => {
+const MechanicSalary = () => {
     // State for loading
     const [loading, setLoading] = useState(false);
+
     // State for the visibility of add new mechanic targets form
-    const [openAddNewTargets, setOpenAddNewTargets] = useState(false);
+    // const [openAddNewTargets, setOpenAddNewTargets] = useState(false);
     // State for the filter options
-    const [selectedMonth, setSelectedMonth] = useState('');
-    const [selectedYear, setSelectedYear] = useState('');
-    // State to manage mechanic targets data
+    // const [selectedMonth, setSelectedMonth] = useState('');
+    // const [selectedYear, setSelectedYear] = useState('');
+
+    // State to store fetched mechanic target data
     const [targets, setTargets] = useState([]);
-
-    // Toggle visibility of the add new mechanic targets popup
-    const handleOpenNewTargetPopup = () => {
-        setOpenAddNewTargets(!openAddNewTargets);
-    }
-
-    // Close the service add new mechanic targets popup
-    const handleCloseNewTargetPopup = () => {
-        setOpenAddNewTargets(prev => !prev);
-    }
 
     // Function for fetch mechanic targets based on filter
     const fetchTargets = async () => {
         setLoading(true);
         try {
             const response = await makeRequest.get('/get-all-mechanic-targets', {
-                params: { month: selectedMonth, year: selectedYear }
+                // params: { month: selectedMonth, year: selectedYear }
             });
             setTargets(response.data.data);
         } catch (error) {
@@ -40,18 +32,18 @@ const MechanicTargets = () => {
         }
     }
 
-    // Fetch targets whenever the selected month or year changes
+    // useEffect hook to fetch targets when the component is first mounted
     useEffect(() => {
         fetchTargets();
-    }, [selectedMonth, selectedYear]);
+    }, []);
 
     return (
+
         <div className='py-4'>
             <div className='flex justify-between items-center'>
                 {/* Title */}
-                <h1 className='font-semibold text-xl xs:text-2xl pb-4'>Targets</h1>
-                <div className='pb-2 flex gap-1 xs:gap-4'>
-                    {/* Dropdown to select the month */}
+                <h1 className='font-semibold text-xl xs:text-2xl pb-4'>Salary</h1>
+                {/* <div className='pb-2 flex gap-4'>
                     <div>
                         <select
                             value={selectedMonth}
@@ -66,7 +58,6 @@ const MechanicTargets = () => {
                             ))}
                         </select>
                     </div>
-                    {/* Dropdown to select the year */}
                     <div>
                         <select
                             value={selectedYear}
@@ -81,14 +72,7 @@ const MechanicTargets = () => {
                             ))}
                         </select>
                     </div>
-                    {/* Button to open add new mechanic targets popup */}
-                    <button
-                        onClick={handleOpenNewTargetPopup}
-                        className='py-1 px-2 bg-primaryColor text-xs xs:text-sm text-white rounded-md'
-                    >
-                        Add New
-                    </button>
-                </div>
+                </div> */}
             </div>
 
             {/* Table for large screens */}
@@ -97,16 +81,16 @@ const MechanicTargets = () => {
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Labour Target</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Achievements</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Spare Target</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Achievements</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Basic Salary</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Labour Achievements</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Incentive</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Achievement</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {/* Show loading while fetching the data */}
                         {loading ? (
+                            // Show loading spinner when data is being fetched
                             <tr>
                                 <td colSpan="6" className="px-4 py-3 text-center">Loading...</td>
                             </tr>
@@ -114,21 +98,21 @@ const MechanicTargets = () => {
                             targets.map((target) => (
                                 target.achievement.map((ach) => (
                                     <tr key={ach.month}>
-                                        <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name || 'Unknown'}</td>
-                                        <td className="px-4 py-3">{displayINRCurrency(ach.labourTarget)}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name}</td>
+                                        <td className="px-4 py-3">{displayINRCurrency(target.baseSalary)}</td>
                                         <td className="px-4 py-3">{displayINRCurrency(ach.labourAchievement)}</td>
-                                        <td className="px-4 py-3">{displayINRCurrency(ach.spareTarget)}</td>
-                                        <td className="px-4 py-3">{displayINRCurrency(ach.spareAchievement)}</td>
+                                        <td className="px-4 py-3">{ach.incentivePercentage}%</td>
                                         <td className="px-4 py-3">
-                                            <button
-                                                className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
-                                            </button>
+                                            {displayINRCurrency(ach.labourAchievement / 100 * ach.incentivePercentage)}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            {displayINRCurrency(ach.labourAchievement / 100 * ach.incentivePercentage + target.baseSalary)}
                                         </td>
                                     </tr>
                                 ))
                             ))
                         ) : (
-                            // If no data is available, show the message
+                            // Show message if no data is available
                             <tr>
                                 <td colSpan="6" className="px-4 py-3 text-center">No data available</td>
                             </tr>
@@ -140,34 +124,29 @@ const MechanicTargets = () => {
             {/* Small screens */}
             <div className='flex flex-wrap gap-4 lg:hidden w-full'>
                 {loading ? (
+                    // Show loading message
                     <p>Loading...</p>
                 ) : targets.length > 0 ? (
-                    // Display mechanic targets in cards for small screens
+                    // Render mechanic target cards for mobile view
                     targets.map((target) =>
                         target.achievement.map((ach) => (
                             <div key={ach.month} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
                                 <h1 className="text-lg font-semibold">{target.mechanicId?.name}</h1>
-                                <div><span className='font-medium text-gray-500 text-sm'>Labour Target:</span> {displayINRCurrency(ach.labourTarget)}</div>
+                                <div><span className='font-medium text-gray-500 text-sm'>Basic Salary:</span> {displayINRCurrency(target.baseSalary)}</div>
                                 <div><span className='font-medium text-gray-500 text-sm'>Labour Achievements:</span> {displayINRCurrency(ach.labourAchievement)}</div>
-                                <div><span className='font-medium text-gray-500 text-sm'>Spare Target:</span> {displayINRCurrency(ach.spareTarget)}</div>
-                                <div><span className='font-medium text-gray-500 text-sm'>Spare Achievements:</span> {displayINRCurrency(ach.spareAchievement)}</div>
-                                <div><span className='font-medium text-gray-500 text-sm mr-6'>Action</span>
-                                    <button
-                                        className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
-                                    </button>
-                                </div>
+                                <div><span className='font-medium text-gray-500 text-sm'>Incentive:</span> {ach.incentivePercentage}%</div>
+                                <div><span className='font-medium text-gray-500 text-sm'>Achievements:</span> {displayINRCurrency(ach.labourAchievement / 100 * ach.incentivePercentage)}</div>
+                                <div><span className='font-medium text-gray-500 text-sm mr-6'>Total</span> {displayINRCurrency(ach.labourAchievement / 100 * ach.incentivePercentage + target.baseSalary)}</div>
                             </div>
                         ))
                     )
                 ) : (
-                    // Show message if no data is available
+                    // Message when no data is available
                     <p>No data available</p>
                 )}
             </div>
-
-            {openAddNewTargets && <MechanicTargetForm close={handleCloseNewTargetPopup} />}
         </div>
     );
 };
 
-export default MechanicTargets;
+export default MechanicSalary;

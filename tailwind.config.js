@@ -38,7 +38,7 @@ export default {
           'display': 'none',             // for Chrome, Safari, and Opera
         },
         '.child-nav': {
-          '@apply bg-primaryColor p-2 rounded-sm text-white': {},
+          '@apply bg-primaryColor text-white px-2 py-1 rounded-md border': {},
         },
         // Sweet alert styles
         '.swal-title': {
