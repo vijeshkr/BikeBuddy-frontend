@@ -35,6 +35,7 @@ import LeavePage from '../pages/admin/LeavePage';
 import BillingPage from '../pages/admin/BillingPage';
 import AdminBookingHome from '../pages/admin/AdminBookingHome';
 import ServiceHistory from '../pages/common/ServiceHistory';
+import MechanicTargets from '../pages/admin/MechanicTargets';
 
 const router = createBrowserRouter([
     {
@@ -169,6 +170,10 @@ const router = createBrowserRouter([
                     {
                         path: 'leave-requests',
                         element: <LeavePage />
+                    },
+                    {
+                        path: 'targets',
+                        element: <MechanicTargets />
                     },
                 ]
             },
