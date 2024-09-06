@@ -5,6 +5,8 @@ import makeRequest from '../../common/axios';
 import { setAllAllocations } from '../../redux/features/allocationsSlice';
 import { selectAllocationStats } from '../../redux/selectors/allocationsSelectors';
 import MechanicAllocations from '../../components/mechanic/MechanicAllocations';
+import { Nested } from '@alptugidin/react-circular-progress-bar'
+import {displayINRCurrency} from '../../common/utils';
 
 const MechanicDashboard = () => {
   // Access user details from the Redux store
@@ -16,6 +18,12 @@ const MechanicDashboard = () => {
 
   // State for manage loading
   const [loading, setLoading] = useState(false);
+  // State to manage targets
+  const [targets, setTargets] = useState(null);
+
+  // State for percentages
+  const [labourAchievementPercentage, setLabourAchievementPercentage] = useState(0);
+  const [spareAchievementPercentage, setSpareAchievementPercentage] = useState(0);
 
   // Fetch function for allocations by mechanic ID
   const fetchAllocations = async () => {
@@ -33,14 +41,42 @@ const MechanicDashboard = () => {
     }
   }
 
+  // Fetch function for mechanic target by mechanic ID
+  const fetchMechanicTarget = async () => {
+    setLoading(true);
+    try {
+      // API call
+      const response = await makeRequest.get(`/get-mechanic-target/${user._id}`);
+      if (response.data.success) {
+        console.log(response.data.data)
+        setTargets(response.data.data);
+        const data = response.data.data;
+
+        // Calculate percentages
+        const labourPercentage = Math.floor((data.achievement[0].labourAchievement / data.achievement[0].labourTarget) * 100);
+        const sparePercentage = Math.floor((data.achievement[0].spareAchievement / data.achievement[0].spareTarget) * 100);
+
+        // Update the state
+        setLabourAchievementPercentage(labourPercentage);
+        setSpareAchievementPercentage(sparePercentage);
+      }
+    } catch (error) {
+      console.error('Error while fetch mechanic target ', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // Fetch allocations when component mounts
   useEffect(() => {
     if (user) { // Check if user is available
       fetchAllocations();
+      fetchMechanicTarget();
     }
   }, [user]);
 
   return (
+
     <div className='flex flex-col xl:flex-row gap-4'>
       <div className='flex flex-col gap-6 xl:w-3/4'>
         {/* Display booking status counts */}
@@ -58,23 +94,46 @@ const MechanicDashboard = () => {
       </div>
 
       {/* Right sidebar with charts and new booking options */}
-      <div className='bg-green-200 xl:w-1/4 flex flex-wrap flex-col-reverse xl:flex-col gap-4'>
-        {/* Display booking count chart service and breakdown count */}
-        <div className='min-w-[320px] xl:min-w-[220px] w-full'>
-          {/* <CountChart /> */}
-        </div>
-        {/* New booking buttons for service and breakdown */}
-        {/* <div className='bg-white rounded-xl w-full p-4 shadow-custom'>
-          <h1 className='text-xl font-medium'>New booking</h1>
-          <div className='flex justify-evenly mt-4 min-w-[290px] xl:min-w-[220px]'>
-            <button
-              // onClick={handleOpenServiceBooking}
-              className='px-2 py-1 my-2 rounded-md bg-blue-200'>Service</button>
-            <button
-              // onClick={handleOpenBreakdownBooking}
-              className='px-2 py-1 my-2 rounded-md bg-yellow-200'>Breakdown</button>
+      <div className='xl:w-1/4 flex flex-wrap flex-col-reverse xl:flex-col gap-4'>
+        {/* Display targets and achievements chart */}
+        <div className='w-[320px] min-w-[320px] xl:min-w-[220px] p-4 shadow-custom rounded-md'>
+          <h3 className='font-semibold text-xl sm:text-2xl p-4'>Achievements</h3>
+          <Nested
+            circles={[
+              { text: 'Labour', value: labourAchievementPercentage, color: '#0ea5e9' },
+              { text: 'Spare', value: spareAchievementPercentage, color: '#7c3aed' },
+            ]}
+            sx={{
+              bgColor: '#cbd5e1'
+            }}
+          />
+          <div className='flex justify-between'>
+            {/* Targets */}
+            <div className='flex flex-col gap-2'>
+              <h3 className='font-semibold'>Targets</h3>
+              <div className='flex items-center gap-2 text-sm'>
+                <div className='bg-[#0ea5e9] h-4 w-4 rounded-full'></div>
+                <span>{displayINRCurrency(targets?.achievement[0]?.labourTarget)}</span>
+              </div>
+              <div className='flex items-center gap-2 text-sm'>
+                <div className='bg-[#7c3aed] h-4 w-4 rounded-full'></div>
+                <span>{displayINRCurrency(targets?.achievement[0]?.spareTarget)}</span>
+              </div>
+            </div>
+            {/* Achievements */}
+            <div className='flex flex-col gap-2'>
+              <h3 className='font-semibold'>Achievements</h3>
+              <div className='flex items-center gap-2 text-sm'>
+                <div className='bg-[#0ea5e9] h-4 w-4 rounded-full'></div>
+                <span>{displayINRCurrency(targets?.achievement[0]?.labourAchievement)}</span>
+              </div>
+              <div className='flex items-center gap-2 text-sm'>
+                <div className='bg-[#7c3aed] h-4 w-4 rounded-full'></div>
+                <span>{displayINRCurrency(targets?.achievement[0]?.spareAchievement)}</span>
+              </div>
+            </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   )
