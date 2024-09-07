@@ -75,10 +75,10 @@ const NavBar = () => {
                 </div>
                 {/* Notification icons and user profile section */}
                 <div className='flex gap-4 items-center'>
-                    <div className='relative cursor-pointer text-xl'>
+                    {/* <div className='relative cursor-pointer text-xl'>
                         <IoMailOutline />
                         <div className='bg-red-600 h-4 w-4 rounded-md absolute -right-2 -top-1.5 text-xs text-center text-white'>4</div>
-                    </div>
+                    </div> */}
                     <div 
                     onClick={() => setOpenNotification(!openNotification)}
                     className='relative cursor-pointer text-xl'>

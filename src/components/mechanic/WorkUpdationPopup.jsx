@@ -88,7 +88,7 @@ const WorkUpdationPopup = ({ close, allocation }) => {
         setIsOpen(true);
     }, []);
     return (
-        <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
             <div className={`flex justify-center items-center sm:block p-4 sm:p-10 rounded-md w-full h-full transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
                 <div className="p-4 xs:p-10 bg-white rounded-md shadow-custom max-w-lg mx-auto min-w-[320px]">
 

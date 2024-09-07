@@ -9,7 +9,6 @@ import CountChart from '../../components/charts/CountChart';
 import AdminServiceBookingPopup from '../../components/admin/AdminServiceBookingPopup';
 import { setCustomerDetails } from '../../redux/features/customersSlice';
 import AdminBreakdownBookingPopup from '../../components/admin/AdminBreakdownBookingPopup';
-import { Outlet } from 'react-router-dom';
 
 const AdminBookingPage = () => {
 

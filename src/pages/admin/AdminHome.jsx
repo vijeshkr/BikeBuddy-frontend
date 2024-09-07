@@ -2,7 +2,6 @@ import React from 'react'
 import SideBar from '../../components/SideBar';
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { TiSpanner } from "react-icons/ti";
 import { SiGooglecloudspanner } from "react-icons/si";
 import { IoPeople } from "react-icons/io5";
 import { IoIosPeople } from "react-icons/io";
@@ -17,7 +16,7 @@ const AdminHome = () => {
 
   // Sidebar data 
   const adminSidebar = [
-    { label: 'Monthly Tracker', icon: <TbLayoutDashboardFilled />, link: '' },
+    { label: 'Dashboard', icon: <TbLayoutDashboardFilled />, link: '' },
     { label: 'Booking Page', icon: <FaRegCalendarAlt />, link: 'admin-booking' },
     { label: 'Services', icon: <SiGooglecloudspanner />, link: 'admin-service' },
     { label: 'Mechanics', icon: <IoPeople />, link: 'admin-mechanics' },

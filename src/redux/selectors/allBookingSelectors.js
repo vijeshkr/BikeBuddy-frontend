@@ -27,6 +27,7 @@ export const selectAdminBookingStats = createSelector(
         Completed: 0,
         Cancelled: 0,
         Unallocated: 0,
+        Unpaid: 0,
       },
       breakdownTrue: 0,
       breakdownFalse: 0,
