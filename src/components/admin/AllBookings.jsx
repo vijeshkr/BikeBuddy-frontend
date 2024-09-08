@@ -87,6 +87,7 @@ const AllBookings = () => {
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {bookings.map((booking) => (
+                                booking?.status !== 'Paid' &&
                                 <tr key={booking._id} className="hover:bg-gray-50">
                                     {/* <td className="px-4 py-3">{booking.customerId.name}</td> */}
                                     <td
@@ -149,6 +150,7 @@ const AllBookings = () => {
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
                         {bookings.map((booking) => (
+                            booking?.status !== 'Paid' &&
                             <div key={booking._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 <div className="mb-2">
                                     <span className='font-medium'>Customer:</span> {booking.customerId.name}

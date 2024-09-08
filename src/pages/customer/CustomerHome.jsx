@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaMotorcycle } from "react-icons/fa";
 import { SiGooglecloudspanner } from "react-icons/si";
 import { FaHistory } from "react-icons/fa";
@@ -7,8 +7,14 @@ import SmallSideBar from '../../components/SmallSideBar';
 import SideBar from '../../components/SideBar';
 import NavBar from '../../components/NavBar';
 import { Outlet } from 'react-router-dom';
+import makeRequest from '../../common/axios';
+import { allNotifications } from '../../redux/features/notificationSlice';
+import { useDispatch } from 'react-redux';
 
 const CustomerHome = () => {
+
+  const dispatch = useDispatch();
+
   // Sidebar data 
   const customerSidebar = [
     { label: 'Services', icon: <SiGooglecloudspanner />, link: '' },
@@ -17,6 +23,20 @@ const CustomerHome = () => {
     { label: 'Profile', icon: <CgProfile />, link: 'profile-page' },
 
   ];
+
+    // Fetching all notifications from the backend
+    useEffect(() => {
+      const fetchNotifications = async () => {
+        try {
+          const response = await makeRequest.get('/get-notifications');
+          dispatch(allNotifications(response.data.data));
+        } catch (error) {
+          console.error('Failed to fetch notifications', error)
+        }
+      }
+  
+      fetchNotifications();
+    },[]);
   return (
     <div className='h-screen w-full bg-slate-100 flex'>
       {/* Sidebar for navigation */}

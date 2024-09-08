@@ -122,7 +122,7 @@ const WorkUpdationPopup = ({ close, allocation }) => {
                     </div>
 
                     {/* Extra work request */}
-                    <div className='mb-6 shadow-custom p-4 rounded-md'>
+                    { !allocation.customerApproval && <div className='mb-6 shadow-custom p-4 rounded-md'>
                         <h3 className='text-sm text-left sm:text-lg font-semibold mb-2'>Work Request</h3>
                         <div className='flex flex-col gap-2'>
                             <textarea
@@ -140,7 +140,7 @@ const WorkUpdationPopup = ({ close, allocation }) => {
                             onClick={() => requestExtraWork()}
                             className='bg-purple-400 hover:bg-purple-500 px-3 py-1 rounded-md text-white'>Request</button>
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>

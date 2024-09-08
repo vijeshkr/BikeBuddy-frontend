@@ -212,10 +212,10 @@ const CurrentBookings = () => {
                                                 Cancel
                                             </button>
                                         )
-                                            : booking.allocation.customerApproval === 'Pending' &&
-                                                booking.status === 'Allocated' ||
+                                            : (booking.status === 'Allocated' ||
                                                 booking.status === 'Progress' ||
-                                                booking.status === 'Pending' ?
+                                                booking.status === 'Pending') &&
+                                                (booking?.allocation?.customerApproval === 'Pending') ?
                                                 <button
                                                     onClick={() => {
                                                         handleOpenApproval(booking.allocation)
@@ -258,7 +258,7 @@ const CurrentBookings = () => {
                                         <span className='font-medium text-black'>Status:</span> {booking.status}
                                     </div>
                                     <div className="text-right">
-                                    {booking.status === 'Unallocated' ? (
+                                        {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => handleBookingCancel(booking._id)}
                                                 className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
@@ -266,10 +266,10 @@ const CurrentBookings = () => {
                                                 Cancel
                                             </button>
                                         )
-                                            : booking.allocation.customerApproval === 'Pending' &&
-                                                booking.status === 'Allocated' ||
+                                            : (booking.status === 'Allocated' ||
                                                 booking.status === 'Progress' ||
-                                                booking.status === 'Pending' ?
+                                                booking.status === 'Pending') &&
+                                                (booking?.allocation?.customerApproval === 'Pending') ?
                                                 <button
                                                     onClick={() => {
                                                         handleOpenApproval(booking.allocation)

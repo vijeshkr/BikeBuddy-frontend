@@ -48,20 +48,6 @@ function App() {
 
   const loading = useSelector((state) => state.loading);
 
-  // Fetching all notifications from the backend
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await makeRequest.get('/get-notifications');
-        dispatch(allNotifications(response.data.data));
-      } catch (error) {
-        console.error('Failed to fetch notifications', error)
-      }
-    }
-
-    fetchNotifications();
-  },[]);
-
   return (
     <>
       {loading && <LoadingIndicator />}

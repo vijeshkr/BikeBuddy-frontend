@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideBar from '../../components/SideBar';
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -11,8 +11,13 @@ import { CgProfile } from "react-icons/cg";
 import { Outlet } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
 import SmallSideBar from '../../components/SmallSideBar';
+import makeRequest from '../../common/axios';
+import { allNotifications } from '../../redux/features/notificationSlice';
+import { useDispatch } from 'react-redux';
 
 const AdminHome = () => {
+
+  const dispatch = useDispatch();
 
   // Sidebar data 
   const adminSidebar = [
@@ -25,6 +30,20 @@ const AdminHome = () => {
     { label: 'Services History', icon: <FaHistory />, link: 'admin-service-history' },
     { label: 'Profile', icon: <CgProfile />, link: 'profile-page' },
   ];
+
+      // Fetching all notifications from the backend
+      useEffect(() => {
+        const fetchNotifications = async () => {
+          try {
+            const response = await makeRequest.get('/get-notifications');
+            dispatch(allNotifications(response.data.data));
+          } catch (error) {
+            console.error('Failed to fetch notifications', error)
+          }
+        }
+    
+        fetchNotifications();
+      },[]);
 
   return (
     <div className='h-screen w-full bg-slate-100 flex'>

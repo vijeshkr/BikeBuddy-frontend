@@ -50,7 +50,6 @@ const ServiceHistory = () => {
             const response = await makeRequest.get(`/get-all-service-history`);
             if (response.data.success) {
                 setServiceHistories(response.data.data);
-                console.log(response.data.data);
             }
         } catch (error) {
             console.error('Error fetching service histories: ', error);
@@ -85,6 +84,7 @@ const ServiceHistory = () => {
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {serviceHistories.map((history, index) => (
+                                history?.allocation?.bookingId?.status === 'Paid' &&
                                 <tr key={history._id} className="hover:bg-gray-50">
                                     <td
                                         className="px-4 py-3 cursor-pointer">{index + 1}</td>
@@ -109,109 +109,9 @@ const ServiceHistory = () => {
                     </table>
 
                     {/* Card format for mobile devices */}
-                    {/* <div className="lg:hidden">
-                        {bookings.map((booking) => (
-                            <div key={booking._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
-                                <div className="mb-2">
-                                    <span className='font-medium'>Customer:</span> {booking.customerId.name}
-                                </div>
-                                <div className="mb-2">
-                                    <span className='font-medium'>Vehicle:</span> {booking.vehicleId.registrationNumber}
-                                </div>
-                                {
-                                    booking.place && <div className="mb-2">
-                                        <span className='font-medium'>Place:</span> {booking.place}
-                                    </div>
-                                }
-                                {
-                                    booking.phone && <div className="mb-2">
-                                        <span className='font-medium'>Phone:</span> {booking.phone}
-                                    </div>
-                                }
-                                {
-                                    booking.description &&
-                                    <div className="mb-2">
-                                        <div className='font-medium underline'>Job description:</div>
-                                        <div className='w-[300px] text-gray-500'>
-                                            {booking.description}
-                                        </div>
-                                    </div>
-                                }
-                                <div className={`mb-2 ${booking.breakdown && 'text-red-600'}`}>
-                                    <span className='font-medium text-black'>Service Type:</span> {booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}
-                                </div>
-                                <div className="mb-2">
-                                    <span className='font-medium'>Booking Date:</span> {new Date(booking.bookingDate).toLocaleDateString()}
-                                </div>
-                                <div className={`mb-2
-                                    ${booking.status === 'Unallocated' && 'text-gray-400'}
-                                    ${booking.status === 'Allocated' && 'text-blue-400'}
-                                    ${booking.status === 'Pending' && 'text-yellow-400'}
-                                    ${booking.status === 'Cancelled' && 'text-red-600'}
-                                    ${booking.status === 'Completed' && 'text-green-600'}`}>
-                                    <span className='font-medium text-black'>Status:</span> {booking.status}
-                                </div>
-                                <div className={`mb-2 flex justify-between items-start`}>
-                                    <div>
-                                        <span className='font-medium text-black'>Mechanic:</span>
-                                        <span
-                                            onClick={() => {
-                                                if (!booking.allocation && booking.status !== 'Cancelled') {
-                                                    handleSelectedBooking(booking._id);
-                                                    openHandleAllocate();
-                                                }
-                                            }}
-                                            className={`px-1.5
-                                    ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-black' : 'text-red-600'}` : 'text-blue-400'}
-                                    ${booking.status === 'Unallocated' && 'text-gray-400'}
-                                    ${booking.status === 'Allocated' && 'text-blue-400'}
-                                    ${booking.status === 'Pending' && 'text-yellow-400'}
-                                    ${booking.status === 'Cancelled' && 'text-gray-400'}
-                                    ${booking.status === 'Completed' && 'text-green-600'}`}
-                                        >
-                                            {booking.allocation ? booking.allocation.mechanicId.name : `${booking.status !== 'Cancelled' ? 'Allocate' : 'Cancelled'}`}
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        className={`px-4 py-3 ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-black' : 'text-red-600'}` : 'text-blue-400'}`}>
-
-                                        {booking.status === 'Unallocated' ? (
-                                            <button
-                                                onClick={() => {
-                                                    if (!booking.allocation) {
-                                                        handleSelectedBooking(booking._id);
-                                                        openHandleAllocate();
-                                                    }
-                                                }}
-                                                className="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500 transition duration-300"
-                                            >
-                                                Allocate
-                                            </button>
-                                        ) : (
-                                            booking.status === 'Completed' ? (
-                                                <button
-                                                    onClick={() => {
-                                                        navigate(`billing/${booking.allocation?._id}`, { replace: true });
-                                                    }}
-                                                    className="bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 transition duration-300"
-                                                >
-                                                    Billing
-                                                </button>
-                                            ) :
-                                                (
-                                                    <span className="text-gray-500">No action</span>
-                                                )
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
-
-                    {/* Card format for mobile devices */}
                     <div className="lg:hidden">
                         {serviceHistories.map((history, index) => (
+                            history?.allocation?.bookingId?.status === 'Paid' &&
                             <div key={history._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 {/* Customer name */}
                                 <div className="mb-2">

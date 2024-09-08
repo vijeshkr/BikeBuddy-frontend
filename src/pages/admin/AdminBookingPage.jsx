@@ -87,8 +87,8 @@ const AdminBookingPage = () => {
           <DataCard status={'Allocated'} count={statusCounts.Allocated} />
           <DataCard status={'In Progress'} count={statusCounts.Progress} />
           <DataCard status={'Pending'} count={statusCounts.Pending} />
-          <DataCard status={'Cancelled'} count={statusCounts.Cancelled} />
           <DataCard status={'Completed'} count={statusCounts.Completed} />
+          <DataCard status={'Unpaid'} count={statusCounts.Unpaid} />
         </div>
         {/* Display all bookings table */}
         <div className='lg:min-w-[700px]'>
