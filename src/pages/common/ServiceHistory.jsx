@@ -3,6 +3,8 @@ import makeRequest from '../../common/axios';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import BillPopup from '../../components/common/BillPopup';
 import ServiceHistoryPopup from '../../components/common/ServiceHistoryPopup';
+import Pagination from '../../components/common/Pagination';
+import SearchBox from '../../components/common/SearchBox';
 
 const ServiceHistory = () => {
 
@@ -18,6 +20,17 @@ const ServiceHistory = () => {
     const [currentAllocation, setCurrentAllocation] = useState('');
     // State to manage current history
     const [currentHistory, setCurrentHistory] = useState(null);
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [historyPerPage] = useState(4);
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Handle open bill popup
     const handleOpenBillPopup = (allocation) => {
@@ -58,6 +71,17 @@ const ServiceHistory = () => {
         }
     };
 
+    // Search logic
+    const searchData = serviceHistories?.filter(history => history?.allocation?.bookingId?.vehicleId?.registrationNumber.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
+        .filter(history => history?.allocation?.bookingId?.status === 'Paid');
+
+    // Pagination logic
+    const indexOfLastHistory = currentPage * historyPerPage;
+    const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
+    const currentPageHistories = searchData?.slice(indexOfFirstHistory, indexOfLastHistory);
+
+    const totalPages = Math.ceil(searchData?.length / historyPerPage);
+
     // Fetch service history when the component mouts or allocation ID changes
     useEffect(() => {
         fetchServiceHistory();
@@ -66,8 +90,12 @@ const ServiceHistory = () => {
         <div className="p-2 lg:shadow-custom rounded-lg">
             {loading && <LoadingIndicator />}
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Service Histories</h3>
-            {!serviceHistories ? (
-                <p className="text-gray-500">No history available.</p>
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
+            </div>
+            {currentPageHistories.length === 0 ? (
+                <p className="text-gray-500 p-4">No history available.</p>
             ) : (
                 <div>
                     {/* Table format for larger screens */}
@@ -83,8 +111,8 @@ const ServiceHistory = () => {
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
-                            {serviceHistories.map((history, index) => (
-                                history?.allocation?.bookingId?.status === 'Paid' &&
+                            {currentPageHistories.map((history, index) => (
+                                // history?.allocation?.bookingId?.status === 'Paid' &&
                                 <tr key={history._id} className="hover:bg-gray-50">
                                     <td
                                         className="px-4 py-3 cursor-pointer">{index + 1}</td>
@@ -110,8 +138,8 @@ const ServiceHistory = () => {
 
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
-                        {serviceHistories.map((history, index) => (
-                            history?.allocation?.bookingId?.status === 'Paid' &&
+                        {searchData.map((history, index) => (
+                            // history?.allocation?.bookingId?.status === 'Paid' &&
                             <div key={history._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 {/* Customer name */}
                                 <div className="mb-2">
@@ -172,6 +200,16 @@ const ServiceHistory = () => {
 
                 </div>
             )}
+
+            {/* Pagination component */}
+            {currentPageHistories.length > 0 &&
+                <div className='p-4 hidden sm:block'>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
+                </div>}
 
             {openBillPopup && <BillPopup close={handleCloseBill} allocationId={currentAllocation} />}
             {openHistoryPopup && <ServiceHistoryPopup close={handleCloseHistory} history={currentHistory} />}

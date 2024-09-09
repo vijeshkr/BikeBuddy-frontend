@@ -4,6 +4,7 @@ import makeRequest from '../../common/axios';
 import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
 import Pagination from '../common/Pagination';
+import SearchBox from '../common/SearchBox';
 
 const MechanicSalary = () => {
     // State for loading
@@ -17,17 +18,27 @@ const MechanicSalary = () => {
 
     // State to store fetched mechanic target data
     const [targets, setTargets] = useState([]);
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [targetsPerPage] = useState(4);
 
+    // Search logic
+    const searchData = targets.filter(target => target?.mechanicId?.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()));
+
     // Pagination logic
     const indexOfLastTarget = currentPage * targetsPerPage;
     const indexOfFirstTarget = indexOfLastTarget - targetsPerPage;
-    const currentPageTargets = targets.slice(indexOfFirstTarget, indexOfLastTarget);
+    const currentPageTargets = searchData.slice(indexOfFirstTarget, indexOfLastTarget);
 
-    const totalPages = Math.ceil(targets.length / targetsPerPage);
+    const totalPages = Math.ceil(searchData.length / targetsPerPage);
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Function for fetch mechanic targets based on filter
     const fetchTargets = async () => {
@@ -87,6 +98,11 @@ const MechanicSalary = () => {
                 </div> */}
             </div>
 
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
+            </div>
+
             {/* Table for large screens */}
             <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
@@ -138,9 +154,9 @@ const MechanicSalary = () => {
                 {loading ? (
                     // Show loading message
                     <p>Loading...</p>
-                ) : targets.length > 0 ? (
+                ) : searchData.length > 0 ? (
                     // Render mechanic target cards for mobile view
-                    targets.map((target) =>
+                    searchData.map((target) =>
                         target.achievement.map((ach) => (
                             <div key={ach.month} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
                                 <h1 className="text-lg font-semibold">{target.mechanicId?.name}</h1>

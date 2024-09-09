@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import makeRequest from '../../common/axios';
 import LoadingIndicatior from '../../components/LoadingIndicator';
 import socket from '../../common/socket';
+import Pagination from '../../components/common/Pagination';
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const MechanicFilteredSpare = () => {
@@ -26,6 +27,10 @@ const MechanicFilteredSpare = () => {
   const [currentImg, setCurrentImg] = useState('');
   // State to manage search
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sparePerPage] = useState(4);
 
   // Function for fetch all spare parts details from the api
   const fetchSpare = async () => {
@@ -78,6 +83,13 @@ const MechanicFilteredSpare = () => {
   const filteredSpare = spareParts
     .filter(item => item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter(item => item.suitable._id === filterSuitable || filterSuitable === '');
+
+  // Pagination logic
+  const indexOfLastSpare = currentPage * sparePerPage;
+  const indexOfFirstSpare = indexOfLastSpare - sparePerPage;
+  const currentPageSpares = filteredSpare.slice(indexOfFirstSpare, indexOfLastSpare);
+
+  const totalPages = Math.ceil(filteredSpare.length / sparePerPage);
 
 
   // Socket io
@@ -162,8 +174,8 @@ const MechanicFilteredSpare = () => {
       </div>
 
       {/* Display spare parts in table for large screens */}
-      {filteredSpare.length === 0 ? 'No spare parts available' :
-        <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
+      {currentPageSpares.length === 0 ? 'No spare parts available' :
+        <div className='xl:border-b'>
           <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
             <thead className='bg-gray-50'>
               <tr className='text-left'>
@@ -175,8 +187,8 @@ const MechanicFilteredSpare = () => {
               </tr>
             </thead>
             <tbody className='bg-white divide-y divide-gray-200'>
-              {filteredSpare.length === 0 ? <div className='p-5'>No spare parts available</div> :
-                filteredSpare.map((spare, index) => (
+              {currentPageSpares.length === 0 ? <div className='p-5'>No spare parts available</div> :
+                currentPageSpares.map((spare, index) => (
                   <tr key={index} className='hover:bg-gray-50'>
                     <td className='px-4 py-3'><img
                       onClick={() => handleOpenImgViewer(spare.image)}
@@ -198,7 +210,7 @@ const MechanicFilteredSpare = () => {
         {
           filteredSpare.map((spare, index) => (
             <div key={index} className='min-w-[260px] text-sm flex justify-between py-4 px-6 shadow-custom'>
-              
+
               <div>
                 <h1 className='font-semibold'>{spare.itemName}</h1>
                 <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>
@@ -218,6 +230,15 @@ const MechanicFilteredSpare = () => {
             </div>
           ))
         }
+      </div>
+
+      {/* Pagination component */}
+      <div className='p-4 hidden sm:block'>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
 
       {/* Image viewer */}

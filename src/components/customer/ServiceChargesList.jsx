@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 import makeRequest from '../../common/axios';
 import LoadingIndicator from '../LoadingIndicator';
+import Pagination from '../common/Pagination';
 
 const ServiceChargesList = ({ close }) => {
     // State to manage loading
@@ -15,6 +16,10 @@ const ServiceChargesList = ({ close }) => {
 
     // State to manage search
     const [searchTerm, setSearchTerm] = useState('');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [worksPerPage] = useState(4);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -38,6 +43,13 @@ const ServiceChargesList = ({ close }) => {
 
     // Search data
     const searchData = serviceCharges.filter(wrk => wrk.workName.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Pagination logic
+    const indexOfLastWork = currentPage * worksPerPage;
+    const indexOfFirstWork = indexOfLastWork - worksPerPage;
+    const currentPageWorks = searchData.slice(indexOfFirstWork, indexOfLastWork);
+
+    const totalPages = Math.ceil(searchData.length / worksPerPage);
 
     useEffect(() => {
         fetchServiceCharges();
@@ -80,7 +92,7 @@ const ServiceChargesList = ({ close }) => {
                                         </div>
                                     </div>
                                     {/* Table section */}
-                                    <div className='overflow-y-auto scrollbar-none max-h-[450px] border-b'>
+                                    <div className='border-b'>
                                         <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
                                             <thead className='bg-gray-50'>
                                                 <tr className='text-left'>
@@ -91,7 +103,7 @@ const ServiceChargesList = ({ close }) => {
                                             </thead>
                                             <tbody className='bg-white divide-y divide-gray-200'>
                                                 {
-                                                    searchData.map((wrk, index) => (
+                                                    currentPageWorks.map((wrk, index) => (
                                                         <tr key={index} className='hover:bg-gray-50'>
                                                             <td className='px-4 py-3'>{wrk.workName}</td>
                                                             <td className='px-4 py-3'>{wrk.suitable}</td>
@@ -118,6 +130,15 @@ const ServiceChargesList = ({ close }) => {
                                     </div>
                                 </div>
                         }
+                    </div>
+
+                    {/* Pagination component */}
+                    <div className='p-4 hidden sm:block'>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                        />
                     </div>
                 </div>}
         </div>

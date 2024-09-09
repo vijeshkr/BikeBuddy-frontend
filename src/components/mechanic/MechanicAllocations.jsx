@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import AllocationDetailsPopup from './AllocationDetailsPopup';
 import WorkUpdationPopup from './WorkUpdationPopup';
 import WorkCompletionPopup from './WorkCompletionPopup';
+import SearchBox from '../common/SearchBox';
 
 const MechanicAllocations = () => {
 
@@ -14,9 +15,20 @@ const MechanicAllocations = () => {
     const [openCompletePopup, setOpenCompletePopup] = useState(false)
     // State to manage selected booking
     const [selectedAllocation, setSelectedAllocation] = useState(null);
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Access allocation details from the Redux store
     const allocations = useSelector((state) => state.allocations.allocations);
+
+    // Search logic
+    const searchData = allocations.filter(allocation => allocation?.bookingId?.vehicleId?.registrationNumber.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
+        .filter(allocation => allocation?.bookingId.status !== 'Cancelled' && allocation?.bookingId.status !== 'Paid');
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Handle selected booking
     const handleSelectedAllocation = (allocationId) => {
@@ -57,7 +69,11 @@ const MechanicAllocations = () => {
     return (
         <div className="p-2 lg:shadow-custom rounded-md">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Allocatted Jobs</h3>
-            {allocations.length === 0 ? (
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
+            </div>
+            {searchData.length === 0 ? (
                 <p className="text-gray-500">No allocations available.</p>
             ) : (
                 <div>
@@ -74,7 +90,7 @@ const MechanicAllocations = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {allocations.map((allocation) => (
+                            {searchData.map((allocation) => (
                                 <tr key={allocation._id} className="hover:bg-gray-50">
                                     <td
                                         onClick={() => {
@@ -133,7 +149,7 @@ const MechanicAllocations = () => {
 
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
-                        {allocations.map((allocation) => (
+                        {searchData.map((allocation) => (
                             <div key={allocation._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 <div className="mb-2">
                                     <span className="font-medium">Vehicle:</span> {allocation.bookingId?.vehicleId?.registrationNumber}
@@ -193,7 +209,7 @@ const MechanicAllocations = () => {
                                 <div className="mb-2">
                                     <span className='font-medium'>Action: </span>
                                     <div>
-                                    {
+                                        {
                                             allocation.bookingId?.status === 'Completed' || allocation.bookingId?.status === 'Unpaid' || allocation.bookingId?.status === 'Paid' ? (<span className='text-gray-400'>No Action</span>) :
                                                 (<div className="px-4 py-3 flex gap-2 items-center">
                                                     <button

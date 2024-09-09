@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 import makeRequest from '../../common/axios';
 import LoadingIndicator from '../LoadingIndicator';
+import Pagination from '../common/Pagination';
 
 const PackageServicesList = ({ close }) => {
     // State to manage loading
@@ -15,6 +16,10 @@ const PackageServicesList = ({ close }) => {
 
     // State to manage search
     const [searchTerm, setSearchTerm] = useState('');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [packagesPerPage] = useState(4);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -38,6 +43,13 @@ const PackageServicesList = ({ close }) => {
 
     // Search data
     const searchData = servicePackages.filter(pkg => pkg.packageName.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Pagination logic
+    const indexOfLastPackage = currentPage * packagesPerPage;
+    const indexOfFirstPackage = indexOfLastPackage - packagesPerPage;
+    const currentPackages = searchData.slice(indexOfFirstPackage, indexOfLastPackage);
+
+    const totalPages = Math.ceil(searchData.length / packagesPerPage);
 
     useEffect(() => {
         fetchServicePackages();
@@ -80,7 +92,7 @@ const PackageServicesList = ({ close }) => {
                                         </div>
                                     </div>
                                     {/* Table section */}
-                                    <div className='overflow-y-auto scrollbar-none max-h-[450px] border-b'>
+                                    <div className='border-b'>
                                         <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
                                             <thead className='bg-gray-50'>
                                                 <tr className='text-left'>
@@ -92,7 +104,7 @@ const PackageServicesList = ({ close }) => {
                                             </thead>
                                             <tbody className='bg-white divide-y divide-gray-200'>
                                                 {
-                                                    searchData.map((pkg, index) => (
+                                                    currentPackages.map((pkg, index) => (
                                                         <tr key={index} className='hover:bg-gray-50'>
                                                             <td className='px-4 py-3'>{pkg.packageName}</td>
                                                             <td className='px-4 py-3 max-w-[350px]'>{pkg.description}</td>
@@ -121,6 +133,15 @@ const PackageServicesList = ({ close }) => {
                                     </div>
                                 </div>
                         }
+                    </div>
+
+                    {/* Pagination component */}
+                    <div className='p-4 hidden sm:block'>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                        />
                     </div>
                 </div>}
         </div>

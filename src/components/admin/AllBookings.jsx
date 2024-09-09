@@ -4,6 +4,7 @@ import BookingDetailsPopup from './BookingDetailsPopup';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../common/Pagination';
+import SearchBox from '../common/SearchBox';
 
 /**
  * AllBookings Component
@@ -24,17 +25,23 @@ const AllBookings = () => {
     const [openBookingDetails, setOpenBookingDetails] = useState(false)
     // State to manage selected booking
     const [selectedBooking, setSelectedBooking] = useState(null);
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [bookingsPerPage] = useState(4);
 
+    // Search logic
+    const searchData = bookings.filter(booking => booking?.vehicleId?.registrationNumber.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
+    .filter(booking => booking.status !== 'Cancelled' && booking.status !== 'Paid');
+
     // Pagination logic
     const indexOfLastBooking = currentPage * bookingsPerPage;
     const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
-    const currentPageBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
+    const currentPageBookings = searchData.slice(indexOfFirstBooking, indexOfLastBooking);
 
-    const totalPages = Math.ceil(bookings.length / bookingsPerPage);
+    const totalPages = Math.ceil(searchData.length / bookingsPerPage);
 
     const navigate = useNavigate();
 
@@ -49,6 +56,11 @@ const AllBookings = () => {
     //         console.error('Error fetching all bookings: ', error);
     //     }
     // };
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Handle open allocate popup
     const openHandleAllocate = () => {
@@ -80,10 +92,15 @@ const AllBookings = () => {
     return (
         <div className="p-2 lg:shadow-custom rounded-md]">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">All Bookings</h3>
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
+            </div>
             {currentPageBookings.length === 0 ? (
                 <p className="text-gray-500">No bookings available.</p>
             ) : (
                 <div>
+
                     {/* Table format for larger screens */}
                     <table className="hidden lg:table w-full divide-y divide-gray-200">
                         <thead className='bg-gray-50'>
@@ -99,7 +116,7 @@ const AllBookings = () => {
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {currentPageBookings.map((booking) => (
-                                booking?.status !== 'Paid' &&
+                                // booking?.status !== 'Paid' &&
                                 <tr key={booking._id} className="hover:bg-gray-50">
                                     {/* <td className="px-4 py-3">{booking.customerId.name}</td> */}
                                     <td
@@ -161,7 +178,7 @@ const AllBookings = () => {
 
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
-                        {bookings.map((booking) => (
+                        {searchData.map((booking) => (
                             booking?.status !== 'Paid' &&
                             <div key={booking._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 <div className="mb-2">
@@ -264,13 +281,13 @@ const AllBookings = () => {
             )}
 
             {/* Pagination component */}
-            <div className='p-4 hidden lg:block'>
+            { currentPageBookings.length > 0 && <div className='p-4 hidden lg:block'>
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={setCurrentPage}
                 />
-            </div>
+            </div>}
 
             {openAllocate && <AllocationPopup close={closeHandleAllocate} booking={selectedBooking} />}
             {openBookingDetails && <BookingDetailsPopup close={closeHandleBookingDetails} booking={selectedBooking} />}

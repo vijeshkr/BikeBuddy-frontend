@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import makeRequest from '../../common/axios';
 import socket from '../../common/socket';
 import Pagination from '../../components/common/Pagination';
+import SearchBox from '../../components/common/SearchBox';
 
 const LeavePage = () => {
     // State to manage all leaves
@@ -10,10 +11,17 @@ const LeavePage = () => {
     const [loading, setLoading] = useState(false);
     // State to manage the selected filter
     const [statusFilter, setStatusFilter] = useState('All');
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [leavesPerPage] = useState(7);
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Fetch function for leave data from the server
     const fetchLeaves = async () => {
@@ -39,10 +47,9 @@ const LeavePage = () => {
         setStatusFilter(event.target.value);
     };
 
-    // Filter leaves based on the selected status
-    const filteredData = leaves.filter(leave =>
-        statusFilter === 'All' || leave.status === statusFilter
-    );
+    // Search and filter logic
+    const filteredData = leaves.filter(leave => leave?.mechanicId?.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
+        .filter(leave => statusFilter === 'All' || leave.status === statusFilter);
 
     // Pagination logic
     const indexOfLastLeave = currentPage * leavesPerPage;
@@ -123,6 +130,11 @@ const LeavePage = () => {
                         <option value='Rejected'>Rejected</option>
                     </select>
                 </div>
+            </div>
+
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
             </div>
 
             {/* Table for large screens */}

@@ -5,6 +5,7 @@ import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
 import UpdateMechanicTargets from '../../components/admin/UpdateMechanicTargets';
 import Pagination from '../../components/common/Pagination';
+import SearchBox from '../../components/common/SearchBox';
 
 const MechanicTargets = () => {
     // State for loading
@@ -20,17 +21,27 @@ const MechanicTargets = () => {
     const [targets, setTargets] = useState([]);
     // State to manage selected target
     const [selectedTarget, setSelectedTarget] = useState(null);
+    // State to manage search
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [targetsPerPage] = useState(4);
 
+    // Search logic
+    const searchData = targets.filter(target => target?.mechanicId?.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()));
+
     // Pagination logic
     const indexOfLastTarget = currentPage * targetsPerPage;
     const indexOfFirstTarget = indexOfLastTarget - targetsPerPage;
-    const currentPageTargets = targets.slice(indexOfFirstTarget, indexOfLastTarget);
+    const currentPageTargets = searchData.slice(indexOfFirstTarget, indexOfLastTarget);
 
-    const totalPages = Math.ceil(targets.length / targetsPerPage);
+    const totalPages = Math.ceil(searchData.length / targetsPerPage);
+
+    // Handle search term
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
     // Toggle visibility of the add new mechanic targets popup
     const handleOpenNewTargetPopup = () => {
@@ -123,6 +134,11 @@ const MechanicTargets = () => {
                 </div>
             </div>
 
+            {/* Search box */}
+            <div>
+                <SearchBox value={searchTerm} onChange={handleSearch} />
+            </div>
+
             {/* Table for large screens */}
             <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
@@ -177,9 +193,9 @@ const MechanicTargets = () => {
             <div className='flex flex-wrap gap-4 lg:hidden w-full'>
                 {loading ? (
                     <p>Loading...</p>
-                ) : targets.length > 0 ? (
+                ) : searchData.length > 0 ? (
                     // Display mechanic targets in cards for small screens
-                    targets.map((target) =>
+                    searchData.map((target) =>
                         target.achievement.map((ach) => (
                             <div key={ach.month} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
                                 <h1 className="text-lg font-semibold">{target.mechanicId?.name}</h1>
