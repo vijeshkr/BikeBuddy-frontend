@@ -7,6 +7,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import swal from 'sweetalert';
 import { toast } from 'react-toastify';
 import UpdatePackagePopup from '../../components/admin/UpdatePackagePopup';
+import Pagination from '../../components/common/Pagination';
 
 const AdminPackageServicePage = () => {
     // State to manage service packages 
@@ -19,6 +20,10 @@ const AdminPackageServicePage = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     // State to manage current package
     const [currentPackage, setCurrentPackage] = useState({});
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [packagesPerPage] = useState(4);
 
     // Handle current package and open update popup
     const handleUpdateOpen = (pkg) => {
@@ -55,6 +60,13 @@ const AdminPackageServicePage = () => {
 
     // Search data
     const searchData = servicePackages.filter(pkg => pkg.packageName.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Pagination logic
+    const indexOfLastPackage = currentPage * packagesPerPage;
+    const indexOfFirstPackage = indexOfLastPackage - packagesPerPage;
+    const currentPackages = searchData.slice(indexOfFirstPackage, indexOfLastPackage);
+
+    const totalPages = Math.ceil(searchData.length / packagesPerPage);
 
     useEffect(() => {
         fetchServicePackages();
@@ -226,7 +238,9 @@ const AdminPackageServicePage = () => {
                                         className='xl:hidden text-xs xs:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Package</button>
                                 </div>
                                 {/* Table section */}
-                                <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
+                                <div
+                                // className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'
+                                >
                                     <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
                                         <thead className='bg-gray-50'>
                                             <tr className='text-left'>
@@ -239,7 +253,7 @@ const AdminPackageServicePage = () => {
                                         </thead>
                                         <tbody className='bg-white divide-y divide-gray-200'>
                                             {
-                                                searchData.map((pkg, index) => (
+                                                currentPackages.map((pkg, index) => (
                                                     <tr key={index} className='hover:bg-gray-50'>
                                                         <td className='px-4 py-3'>{pkg.packageName}</td>
                                                         <td className='px-4 py-3 max-w-[350px] min-w-[150px]'>{pkg.description}</td>
@@ -323,6 +337,14 @@ const AdminPackageServicePage = () => {
 
                 {openAdd && <CreatePackagePopup close={handleClose} fetchPackage={fetchServicePackages} />}
                 {openUpdate && <UpdatePackagePopup close={handleCloseUpdate} pkg={currentPackage} fetchPackage={fetchServicePackages} />}
+            </div>
+            {/* Pagination component */}
+            <div className='p-4 hidden sm:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
         </div>
     )

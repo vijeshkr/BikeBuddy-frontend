@@ -5,12 +5,17 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMechanicDetails } from '../../redux/features/mechanicSlice';
 import { IoSearch } from "react-icons/io5";
+import Pagination from '../../components/common/Pagination';
 
 const MechanicListPage = () => {
   // State to manage loading
   const [loading, setLoading] = useState(false);
   // State to manage search
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [mechanicsPerPage] = useState(4);
 
   // Access mechanics data from the Redux store
   const mechanics = useSelector((state) => state.mechanic.mechanic);
@@ -50,6 +55,13 @@ const MechanicListPage = () => {
     );
   });
 
+  // Pagination logic
+  const indexOfLastMechanic = currentPage * mechanicsPerPage;
+  const indexOfFirstMechanic = indexOfLastMechanic - mechanicsPerPage;
+  const currentPageMechanics = filteredData.slice(indexOfFirstMechanic, indexOfLastMechanic);
+
+  const totalPages = Math.ceil(filteredData.length / mechanicsPerPage);
+
   useEffect(() => {
     fetchMechanics();
   }, [])
@@ -74,9 +86,9 @@ const MechanicListPage = () => {
         }
 
         {/* Showing mechanic data in a table for larger screens */}
-        {filteredData.length > 0 ? (
+        {currentPageMechanics.length > 0 ? (
           <div>
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] hidden lg:flex items-start'>
+            <div className='hidden lg:flex items-start'>
               <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -87,7 +99,7 @@ const MechanicListPage = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredData.map((mechanic) => (
+                  {currentPageMechanics.map((mechanic) => (
                     <tr key={mechanic._id}>
                       <td className="px-4 py-3 whitespace-nowrap">{mechanic.name}</td>
                       <td className="px-4 py-3">{mechanic.email}</td>
@@ -99,6 +111,16 @@ const MechanicListPage = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+
+            {/* Pagination component */}
+            <div className='p-4 hidden lg:block'>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             </div>
 
             {/* Displaying mechanic data in card format for small screens */}

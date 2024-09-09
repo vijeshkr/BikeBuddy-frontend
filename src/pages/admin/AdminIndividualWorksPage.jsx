@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 import { toast } from 'react-toastify';
 import CreateWorkPopup from '../../components/admin/CreateWorkPopup';
 import UpdateWorkPopup from '../../components/admin/UpdateWorkPopup';
+import Pagination from '../../components/common/Pagination';
 
 const AdminIndividualWorksPage = () => {
     // State to manage individual works 
@@ -19,6 +20,10 @@ const AdminIndividualWorksPage = () => {
     const [openUpdate, setOpenUpdate] = useState(false);
     // State to manage current package
     const [currentWork, setCurrentWork] = useState({});
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [worksPerPage] = useState(4);
 
     // Handle current work and open update popup
     const handleUpdateOpen = (wrk) => {
@@ -55,6 +60,13 @@ const AdminIndividualWorksPage = () => {
 
     // Search data
     const searchData = works.filter(wrk => wrk.workName.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Pagination logic
+    const indexOfLastWork = currentPage * worksPerPage;
+    const indexOfFirstWork = indexOfLastWork - worksPerPage;
+    const currentPageWorks = searchData.slice(indexOfFirstWork, indexOfLastWork);
+
+    const totalPages = Math.ceil(searchData.length / worksPerPage);
 
     useEffect(() => {
         fetchAllWorks();
@@ -224,7 +236,9 @@ const AdminIndividualWorksPage = () => {
                                         className='xl:hidden text-xs xs:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Work</button>
                                 </div>
                                 {/* Table section */}
-                                <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
+                                <div 
+                                // className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'
+                                >
                                     <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
                                         <thead className='bg-gray-50'>
                                             <tr className='text-left'>
@@ -236,7 +250,7 @@ const AdminIndividualWorksPage = () => {
                                         </thead>
                                         <tbody className='bg-white divide-y divide-gray-200'>
                                             {
-                                                searchData.map((wrk, index) => (
+                                                currentPageWorks.map((wrk, index) => (
                                                     <tr key={index} className='hover:bg-gray-50'>
                                                         <td className='px-4 py-3'>{wrk.workName}</td>
                                                         <td className='px-4 py-3'>{wrk.suitable}</td>
@@ -313,6 +327,14 @@ const AdminIndividualWorksPage = () => {
 
                 {openAdd && <CreateWorkPopup close={handleClose} fetchWorks={fetchAllWorks} />}
                 {openUpdate && <UpdateWorkPopup close={handleCloseUpdate} wrk={currentWork} fetchWorks={fetchAllWorks} />}
+            </div>
+            {/* Pagination component */}
+            <div className='p-4 hidden sm:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
         </div>
     )

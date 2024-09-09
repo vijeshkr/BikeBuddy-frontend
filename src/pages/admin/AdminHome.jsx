@@ -61,9 +61,12 @@ const AdminHome = () => {
           <NavBar />
         </nav>
 
-        <div className=' w-full h-h-calc flex sm:p-4 gap-5'>
+        <div 
+        className=' w-full h-h-calc flex sm:p-4 gap-5'>
           {/* Outlet */}
-          <main className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'>
+          <main 
+          className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'
+          >
             <Outlet />
           </main>
         </div>

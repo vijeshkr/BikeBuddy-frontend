@@ -12,6 +12,7 @@ import CreateVehiclePopup from '../../components/admin/CreateVehiclePopup';
 import UpdateSparePopup from '../../components/admin/UpdateSparePopup';
 import ImageView from '../../components/common/ImageView';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import Pagination from '../../components/common/Pagination';
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AdminSpareParts = () => {
@@ -50,6 +51,10 @@ const AdminSpareParts = () => {
   const [openImg, setOpenImg] = useState(false);
   // State to manage current image for image view
   const [currentImg, setCurrentImg] = useState('');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sparePerPage] = useState(4);
 
   // Handle open image viewer
   const handleOpenImgViewer = (img) => {
@@ -345,6 +350,13 @@ const AdminSpareParts = () => {
     .filter(item => item.itemName.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter(item => filterSuitable === '' || item.suitable._id === filterSuitable);
 
+  // Pagination logic
+  const indexOfLastSpare = currentPage * sparePerPage;
+  const indexOfFirstSpare = indexOfLastSpare - sparePerPage;
+  const currentPageSpares = filteredData.slice(indexOfFirstSpare, indexOfLastSpare);
+
+  const totalPages = Math.ceil(filteredData.length / sparePerPage);
+
   useEffect(() => {
     fetchSpare();
     fetchVehicles();
@@ -395,8 +407,10 @@ const AdminSpareParts = () => {
           </div>
 
           {/* Table section */}
-          {spareParts.length === 0 ? 'No spare parts available' :
-            <div className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'>
+          {currentPageSpares.length === 0 ? 'No spare parts available' :
+            <div 
+            // className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'
+            >
               <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
                 <thead className='bg-gray-50'>
                   <tr className='text-left'>
@@ -420,8 +434,8 @@ const AdminSpareParts = () => {
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
-                  {filteredData.length === 0 ? <div className='p-5'>No spare parts available</div> :
-                    filteredData.map((spare, index) => (
+                  {currentPageSpares.length === 0 ? <div className='p-5'>No spare parts available</div> :
+                    currentPageSpares.map((spare, index) => (
                       <tr key={index} className='hover:bg-gray-50'>
                         <td className='px-4 py-3'><img
                           onClick={() => handleOpenImgViewer(spare.image)}
@@ -445,6 +459,15 @@ const AdminSpareParts = () => {
                   }
                 </tbody>
               </table>
+
+              {/* Pagination component */}
+              <div className='p-4 hidden sm:block'>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
             </div>
 
           }
@@ -467,7 +490,7 @@ const AdminSpareParts = () => {
               filteredData.map((spare, index) => (
                 <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 px-6 py-4 shadow-custom'>
                   <div className='flex justify-between'>
-                    
+
                     <div>
                       <h1 className='font-semibold'>{spare.itemName}</h1>
                       <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>

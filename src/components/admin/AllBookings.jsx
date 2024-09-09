@@ -3,6 +3,7 @@ import AllocationPopup from './AllocationPopup';
 import BookingDetailsPopup from './BookingDetailsPopup';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../common/Pagination';
 
 /**
  * AllBookings Component
@@ -23,6 +24,17 @@ const AllBookings = () => {
     const [openBookingDetails, setOpenBookingDetails] = useState(false)
     // State to manage selected booking
     const [selectedBooking, setSelectedBooking] = useState(null);
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [bookingsPerPage] = useState(4);
+
+    // Pagination logic
+    const indexOfLastBooking = currentPage * bookingsPerPage;
+    const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+    const currentPageBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
+
+    const totalPages = Math.ceil(bookings.length / bookingsPerPage);
 
     const navigate = useNavigate();
 
@@ -68,7 +80,7 @@ const AllBookings = () => {
     return (
         <div className="p-2 lg:shadow-custom rounded-md]">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">All Bookings</h3>
-            {bookings.length === 0 ? (
+            {currentPageBookings.length === 0 ? (
                 <p className="text-gray-500">No bookings available.</p>
             ) : (
                 <div>
@@ -86,7 +98,7 @@ const AllBookings = () => {
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
-                            {bookings.map((booking) => (
+                            {currentPageBookings.map((booking) => (
                                 booking?.status !== 'Paid' &&
                                 <tr key={booking._id} className="hover:bg-gray-50">
                                     {/* <td className="px-4 py-3">{booking.customerId.name}</td> */}
@@ -250,6 +262,15 @@ const AllBookings = () => {
                     </div>
                 </div>
             )}
+
+            {/* Pagination component */}
+            <div className='p-4 hidden lg:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+            </div>
 
             {openAllocate && <AllocationPopup close={closeHandleAllocate} booking={selectedBooking} />}
             {openBookingDetails && <BookingDetailsPopup close={closeHandleBookingDetails} booking={selectedBooking} />}

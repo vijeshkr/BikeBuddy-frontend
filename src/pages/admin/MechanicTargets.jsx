@@ -4,6 +4,7 @@ import makeRequest from '../../common/axios';
 import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
 import UpdateMechanicTargets from '../../components/admin/UpdateMechanicTargets';
+import Pagination from '../../components/common/Pagination';
 
 const MechanicTargets = () => {
     // State for loading
@@ -19,6 +20,17 @@ const MechanicTargets = () => {
     const [targets, setTargets] = useState([]);
     // State to manage selected target
     const [selectedTarget, setSelectedTarget] = useState(null);
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [targetsPerPage] = useState(4);
+
+    // Pagination logic
+    const indexOfLastTarget = currentPage * targetsPerPage;
+    const indexOfFirstTarget = indexOfLastTarget - targetsPerPage;
+    const currentPageTargets = targets.slice(indexOfFirstTarget, indexOfLastTarget);
+
+    const totalPages = Math.ceil(targets.length / targetsPerPage);
 
     // Toggle visibility of the add new mechanic targets popup
     const handleOpenNewTargetPopup = () => {
@@ -112,7 +124,7 @@ const MechanicTargets = () => {
             </div>
 
             {/* Table for large screens */}
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] items-start hidden lg:flex'>
+            <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -130,8 +142,8 @@ const MechanicTargets = () => {
                             <tr>
                                 <td colSpan="6" className="px-4 py-3 text-center">Loading...</td>
                             </tr>
-                        ) : targets.length > 0 ? (
-                            targets.map((target) => (
+                        ) : currentPageTargets.length > 0 ? (
+                            currentPageTargets.map((target) => (
                                 target.achievement.map((ach) => (
                                     <tr key={ach.month}>
                                         <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name || 'Unknown'}</td>
@@ -141,10 +153,10 @@ const MechanicTargets = () => {
                                         <td className="px-4 py-3">{displayINRCurrency(ach.spareAchievement)}</td>
                                         <td className="px-4 py-3">
                                             <button
-                                            onClick={() => {
-                                                handleSelectedTarget(target._id);
-                                                handleOpenUpdateTargetPopup();
-                                            }}
+                                                onClick={() => {
+                                                    handleSelectedTarget(target._id);
+                                                    handleOpenUpdateTargetPopup();
+                                                }}
                                                 className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
                                             </button>
                                         </td>
@@ -177,10 +189,10 @@ const MechanicTargets = () => {
                                 <div><span className='font-medium text-gray-500 text-sm'>Spare Achievements:</span> {displayINRCurrency(ach.spareAchievement)}</div>
                                 <div><span className='font-medium text-gray-500 text-sm mr-6'>Action</span>
                                     <button
-                                    onClick={() => {
-                                                handleSelectedTarget(target._id);
-                                                handleOpenUpdateTargetPopup();
-                                            }}
+                                        onClick={() => {
+                                            handleSelectedTarget(target._id);
+                                            handleOpenUpdateTargetPopup();
+                                        }}
                                         className='bg-blue-100 p-1.5 rounded-full text-blue-600'><CiEdit />
                                     </button>
                                 </div>
@@ -191,6 +203,15 @@ const MechanicTargets = () => {
                     // Show message if no data is available
                     <p>No data available</p>
                 )}
+            </div>
+
+            {/* Pagination component */}
+            <div className='p-4 hidden lg:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
 
             {openAddNewTargets && <MechanicTargetForm close={handleCloseNewTargetPopup} />}

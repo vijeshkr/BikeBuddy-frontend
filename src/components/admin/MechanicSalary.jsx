@@ -3,6 +3,7 @@ import MechanicTargetForm from '../../components/admin/MechanicTargetForm';
 import makeRequest from '../../common/axios';
 import { CiEdit } from "react-icons/ci";
 import { displayINRCurrency } from '../../common/utils';
+import Pagination from '../common/Pagination';
 
 const MechanicSalary = () => {
     // State for loading
@@ -16,6 +17,17 @@ const MechanicSalary = () => {
 
     // State to store fetched mechanic target data
     const [targets, setTargets] = useState([]);
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [targetsPerPage] = useState(4);
+
+    // Pagination logic
+    const indexOfLastTarget = currentPage * targetsPerPage;
+    const indexOfFirstTarget = indexOfLastTarget - targetsPerPage;
+    const currentPageTargets = targets.slice(indexOfFirstTarget, indexOfLastTarget);
+
+    const totalPages = Math.ceil(targets.length / targetsPerPage);
 
     // Function for fetch mechanic targets based on filter
     const fetchTargets = async () => {
@@ -76,7 +88,7 @@ const MechanicSalary = () => {
             </div>
 
             {/* Table for large screens */}
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] items-start hidden lg:flex'>
+            <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -94,8 +106,8 @@ const MechanicSalary = () => {
                             <tr>
                                 <td colSpan="6" className="px-4 py-3 text-center">Loading...</td>
                             </tr>
-                        ) : targets.length > 0 ? (
-                            targets.map((target) => (
+                        ) : currentPageTargets.length > 0 ? (
+                            currentPageTargets.map((target) => (
                                 target.achievement.map((ach) => (
                                     <tr key={ach.month}>
                                         <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name}</td>
@@ -144,6 +156,15 @@ const MechanicSalary = () => {
                     // Message when no data is available
                     <p>No data available</p>
                 )}
+            </div>
+
+            {/* Pagination component */}
+            <div className='p-4 hidden lg:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
         </div>
     );

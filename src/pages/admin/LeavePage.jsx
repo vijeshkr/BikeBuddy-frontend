@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import makeRequest from '../../common/axios';
 import socket from '../../common/socket';
+import Pagination from '../../components/common/Pagination';
 
 const LeavePage = () => {
     // State to manage all leaves
@@ -9,6 +10,10 @@ const LeavePage = () => {
     const [loading, setLoading] = useState(false);
     // State to manage the selected filter
     const [statusFilter, setStatusFilter] = useState('All');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [leavesPerPage] = useState(7);
 
     // Fetch function for leave data from the server
     const fetchLeaves = async () => {
@@ -38,6 +43,13 @@ const LeavePage = () => {
     const filteredData = leaves.filter(leave =>
         statusFilter === 'All' || leave.status === statusFilter
     );
+
+    // Pagination logic
+    const indexOfLastLeave = currentPage * leavesPerPage;
+    const indexOfFirstLeave = indexOfLastLeave - leavesPerPage;
+    const currentPageLeaves = filteredData.slice(indexOfFirstLeave, indexOfLastLeave);
+
+    const totalPages = Math.ceil(filteredData.length / leavesPerPage);
 
     // Function for handle approval of leave
     const handleApprove = async (leaveId) => {
@@ -74,7 +86,7 @@ const LeavePage = () => {
         }
     }
 
-    
+
     useEffect(() => {
 
         // Socket listner for the newLeaveRequest event
@@ -114,7 +126,7 @@ const LeavePage = () => {
             </div>
 
             {/* Table for large screens */}
-            <div className='lg:overflow-y-auto lg:scrollbar-none xl:h-[485px] items-start hidden lg:flex'>
+            <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -127,7 +139,7 @@ const LeavePage = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {filteredData.length > 0 ? filteredData.map((leave) => (
+                        {currentPageLeaves.length > 0 ? currentPageLeaves.map((leave) => (
                             <tr key={leave._id}>
                                 <td className="px-4 py-3 whitespace-nowrap">{leave.mechanicId.name}</td>
                                 <td className="px-4 py-3">{new Date(leave.startDate).toLocaleDateString()}</td>
@@ -203,6 +215,15 @@ const LeavePage = () => {
                 ) : (
                     <p>No leave records available</p>
                 )}
+            </div>
+
+            {/* Pagination component */}
+            <div className='p-4 hidden lg:block'>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             </div>
         </div>
     );
