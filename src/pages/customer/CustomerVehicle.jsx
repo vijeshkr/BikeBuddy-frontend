@@ -221,7 +221,7 @@ const CustomerVehicle = () => {
                 <div className='max-h-48 overflow-y-auto scrollbar-none'>
                   {
                     myVehicles.map((vehicle, index) => (
-                      <NavLink key={index} index={index === 0}
+                      <NavLink key={vehicle._id}
                         className={({ isActive }) =>
                           isActive ? 'bg-fuchsia-50 p-1 m-1 flex rounded-sm text-fuchsia-800 gap-3' : 'p-1 flex m-1 rounded-sm'
                         }

@@ -3,91 +3,91 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import makeRequest from '../../common/axios';
-import { customerVehicleDetails } from '../../redux/features/customerVehicleSlice';
+import { customerVehicleDetails, replaceCustomerVehicle } from '../../redux/features/customerVehicleSlice';
 import { toast } from 'react-toastify';
 import { addNewBooking } from '../../redux/features/currentBookingSlice';
 
-/**
- * BookService Component
- * 
- * This component allows the customer to book a service for their vehicle.
- * The form includes fields for selecting vehicle, booking date, service type,
- * pickup and drop option, and a description for work.
- * 
- * @returns JSX element
- */
-
 const BookService = () => {
-    // Access user details from the Redux store
+    // Fetching user and vehicle details from Redux store
     const user = useSelector((state) => state.user.user);
-    // Access customer vehicle details from the Redux store
     const myVehicles = useSelector((state) => state.customerVehicle.customerVehicle);
 
     const dispatch = useDispatch();
 
     // State to manage loading
     const [loading, setLoading] = useState(false);
-    // State to manage service packages
+    // State to store service packages from the server
     const [servicePackages, setServicePackages] = useState([]);
 
-    // State to manage form inputs
+    // Form state
     const [vehicleId, setVehicleId] = useState('');
+    const [selectedVehicle, setSelectedVehicle] = useState(null);  // Holds the selected vehicle object
     const [bookingDate, setBookingDate] = useState(null);
     const [serviceType, setServiceType] = useState('');
     const [pickUp, setPickUp] = useState(false);
     const [description, setDescription] = useState('');
 
-    // Handler for vehicle name change
+    // Handler for vehicle selection change
     const handleVehicleChange = (e) => {
-        setVehicleId(e.target.value);
-    }
+        const selectedVehicleId = e.target.value;
+        setVehicleId(selectedVehicleId);
 
-    // Handler for service type change
+        // Find and set the selected vehicle object from the list
+        const foundVehicle = myVehicles.find((vehicle) => vehicle._id === selectedVehicleId);
+        setSelectedVehicle(foundVehicle);
+    };
+
+    // Handler for service type selection change
     const handleServiceTypeChange = (e) => {
         setServiceType(e.target.value);
-    }
+    };
 
-    // Handler for pickup and drop change
-    const hanlderPickUpChange = (e) => {
+    // Handler for pickup and drop checkbox change
+    const handlePickUpChange = (e) => {
         setPickUp(e.target.checked);
-    }
+    };
 
     // Handler for description change
     const handleDescription = (e) => {
         setDescription(e.target.value);
-    }
+    };
 
-    // Handle form submission
+    // Handle form submission for booking service
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const data = {
             customerId: user._id,
-            vehicleId,
+            vehicleId: selectedVehicle._id,
             bookingDate,
             serviceType,
             pickUp,
             description
-        }
+        };
+
         try {
             const response = await makeRequest.post('/add-new-booking', data);
 
             if (response.data.success) {
-                // Show a success message
                 toast.success('Booking created successfully');
+                // Reset form fields after successful booking
                 setVehicleId('');
+                setSelectedVehicle(null);
                 setBookingDate(null);
                 setServiceType('');
                 setPickUp(false);
                 setDescription('');
-                dispatch(addNewBooking(response.data.data));
+                dispatch(addNewBooking(response.data.data.bookingData));
+                dispatch(replaceCustomerVehicle(response.data.data.customerVehicle));
             }
         } catch (error) {
             console.error('Error while creating new package: ', error);
-            //   toast.error(error.response.data.message);
+            // toast.error('Failed to create booking');
+            toast.error(error.response.data.message);
         }
-    }
+    };
 
-    // Function for fetch my vehicles
+    // Fetch user vehicles
     const fetchMyVehicles = async () => {
         setLoading(true);
         try {
@@ -100,13 +100,14 @@ const BookService = () => {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
-    // Function for fetch service packages from the api
+    // Fetch service packages from the server
     const fetchServicePackages = async () => {
         try {
             const response = await makeRequest.get('/get-packages');
             if (response.data.success) {
+                // Reverse the order and set service packages
                 setServicePackages(response.data.data.reverse());
             }
         } catch (error) {
@@ -115,20 +116,25 @@ const BookService = () => {
     };
 
     useEffect(() => {
+        // Fetch vehicles and service packages on component mount
         fetchMyVehicles();
         fetchServicePackages();
-    }, [])
+    }, []);
 
+    // Filter service packages based on whether free service is available
+    const availableServicePackages = selectedVehicle && selectedVehicle.freeServiceEligibility
+        ? servicePackages.filter(pkg => pkg.price === 0)  // Only show free services
+        : servicePackages.filter(pkg => pkg.price > 0);   // Exclude free services
 
     return (
         <form className="p-2 bg-white rounded-md shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
-            <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Book a Service</h2>
+            <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4">Book a Service</h2>
 
-            {/* Vehicle selection */}
+            {/* Vehicle selection dropdown */}
             <div className="flex flex-col mb-4">
                 <p className="text-sm mb-2 text-gray-400">Select Vehicle <span className='text-red-600'>*</span></p>
                 <select
-                    value={vehicleId}
+                    value={vehicleId || ''}
                     onChange={handleVehicleChange}
                     className="text-sm outline-none bg-gray-100 p-2 rounded-md"
                     required
@@ -141,6 +147,7 @@ const BookService = () => {
                     ))}
                 </select>
             </div>
+
             {/* Booking date selection */}
             <div className="flex flex-col mb-4">
                 <label className="text-sm mb-2 text-gray-400">Select Date <span className='text-red-600'>*</span></label>
@@ -155,33 +162,41 @@ const BookService = () => {
                     className="text-sm outline-none bg-gray-100 p-2 rounded-md w-full"
                 />
             </div>
-            {/* Service type selection */}
+
+            {/* Service type selection dropdown */}
             <div className="flex flex-col mb-4">
-                <p className="text-sm mb-2 text-gray-400">Select Service Type <span className='text-red-600'>*</span></p>
+                <p className="text-sm mb-2 text-gray-400">Select Service Type <span className='text-red-600'>*</span>
+                    {/* Free service eligibility message */}
+                    {selectedVehicle && selectedVehicle.freeServiceEligibility && (
+                        <span className="text-green-500 text-sm"> Free service available.</span>
+                    )}
+                </p>
                 <select
-                    value={serviceType}
+                    value={serviceType || ''}
                     onChange={handleServiceTypeChange}
                     required
                     className="text-sm outline-none bg-gray-100 p-2 rounded-md"
                 >
                     <option value="">Select Service Type</option>
-                    {servicePackages.map((pkg) => (
-                        <option
-                            key={pkg._id}
-                            value={pkg._id}>{pkg.packageName}</option>
+                    {availableServicePackages.map((pkg) => (
+                        <option key={pkg._id} value={pkg._id}>
+                            {pkg.packageName} {pkg.price > 0 && `- ₹${pkg.price}`}
+                        </option>
                     ))}
                 </select>
             </div>
-            {/* Pickup and drop option */}
+
+            {/* Pickup and drop checkbox */}
             <div className="flex items-center mb-4">
                 <p className="text-sm mb-2 mr-4 text-gray-400">Pickup and Drop</p>
                 <input
                     type="checkbox"
                     checked={pickUp}
-                    onChange={hanlderPickUpChange}
+                    onChange={handlePickUpChange}
                     className='w-4 h-4'
                 />
             </div>
+
             {/* Work description */}
             <div className="flex flex-col mb-4">
                 <p className="text-sm mb-2 text-gray-400">Description</p>
@@ -192,9 +207,11 @@ const BookService = () => {
                     placeholder='Work description'
                 />
             </div>
+
             {/* Submit button */}
             <button
                 className="w-full bg-primaryColor text-white py-2 rounded-md shadow-md hover:opacity-90 transition duration-300"
+                disabled={loading}  // Disable button when loading
             >
                 Book Now
             </button>

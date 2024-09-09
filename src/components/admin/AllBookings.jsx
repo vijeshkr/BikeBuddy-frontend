@@ -27,6 +27,8 @@ const AllBookings = () => {
     const [selectedBooking, setSelectedBooking] = useState(null);
     // State to manage search
     const [searchTerm, setSearchTerm] = useState('');
+    // State to manage the selected filter
+    const [statusFilter, setStatusFilter] = useState('All');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +36,8 @@ const AllBookings = () => {
 
     // Search logic
     const searchData = bookings.filter(booking => booking?.vehicleId?.registrationNumber.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
-    .filter(booking => booking.status !== 'Cancelled' && booking.status !== 'Paid');
+        .filter(booking => booking.status !== 'Cancelled' && booking.status !== 'Paid')
+        .filter(booking => statusFilter === 'All' || booking.status === statusFilter);
 
     // Pagination logic
     const indexOfLastBooking = currentPage * bookingsPerPage;
@@ -88,13 +91,36 @@ const AllBookings = () => {
         setSelectedBooking(booking);
     };
 
+    // Handle filter change
+    const handleFilterChange = (event) => {
+        setStatusFilter(event.target.value);
+    };
+
 
     return (
         <div className="p-2 lg:shadow-custom rounded-md]">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">All Bookings</h3>
-            {/* Search box */}
-            <div>
-                <SearchBox value={searchTerm} onChange={handleSearch} />
+            <div className='flex flex-col xs:flex-row justify-between items-center'>
+                {/* Search box */}
+                <div>
+                    <SearchBox value={searchTerm} onChange={handleSearch} />
+                </div>
+                {/* Filter Options */}
+                <div className='pb-2'>
+                    <select
+                        value={statusFilter}
+                        onChange={handleFilterChange}
+                        className='bg-primaryColor cursor-pointer outline-none text-sm text-white p-1 rounded-md'
+                    >
+                        <option value='All'>Filter</option>
+                        <option value='Unallocated'>Unallocated</option>
+                        <option value='Allocated'>Allocated</option>
+                        <option value='Progress'>In Progress</option>
+                        <option value='Pending'>Pending</option>
+                        <option value='Completed'>Completed</option>
+                        <option value='Unpaid'>Unpaid</option>
+                    </select>
+                </div>
             </div>
             {currentPageBookings.length === 0 ? (
                 <p className="text-gray-500">No bookings available.</p>
@@ -281,7 +307,7 @@ const AllBookings = () => {
             )}
 
             {/* Pagination component */}
-            { currentPageBookings.length > 0 && <div className='p-4 hidden lg:block'>
+            {currentPageBookings.length > 0 && <div className='p-4 hidden lg:block'>
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

@@ -15,8 +15,15 @@ const customerVehicleSlice = createSlice({
         addCustomerVehicle(state, action) {
             state.customerVehicle.push(action.payload);
         },
+        // Replace customer vehicle details
+        replaceCustomerVehicle(state, action) {
+            const updatedVehicle = action.payload;
+            state.customerVehicle = state.customerVehicle.map(vehicle =>
+                vehicle._id === updatedVehicle._id ? updatedVehicle : vehicle
+            );
+        }
     }
 });
 
-export const { customerVehicleDetails, addCustomerVehicle } = customerVehicleSlice.actions;
+export const { customerVehicleDetails, addCustomerVehicle, replaceCustomerVehicle } = customerVehicleSlice.actions;
 export default customerVehicleSlice.reducer;

@@ -94,7 +94,7 @@ const ServiceHistory = () => {
             <div>
                 <SearchBox value={searchTerm} onChange={handleSearch} />
             </div>
-            {currentPageHistories.length === 0 ? (
+            {currentPageHistories?.length === 0 ? (
                 <p className="text-gray-500 p-4">No history available.</p>
             ) : (
                 <div>
@@ -111,7 +111,7 @@ const ServiceHistory = () => {
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
-                            {currentPageHistories.map((history, index) => (
+                            {currentPageHistories?.map((history, index) => (
                                 // history?.allocation?.bookingId?.status === 'Paid' &&
                                 <tr key={history._id} className="hover:bg-gray-50">
                                     <td
@@ -138,7 +138,7 @@ const ServiceHistory = () => {
 
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
-                        {searchData.map((history, index) => (
+                        {searchData?.map((history, index) => (
                             // history?.allocation?.bookingId?.status === 'Paid' &&
                             <div key={history._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 {/* Customer name */}
@@ -173,7 +173,7 @@ const ServiceHistory = () => {
                                 </div>
                                 {/* Delivered date */}
                                 <div className="mb-2">
-                                    <span className='font-medium'>Booking Date:</span> {new Date(history?.updatedAt).toLocaleDateString()}
+                                    <span className='font-medium'>Delivered Date:</span> {new Date(history?.updatedAt).toLocaleDateString()}
                                 </div>
                                 {/* Job description */}
                                 <div className="mb-2">
@@ -202,7 +202,7 @@ const ServiceHistory = () => {
             )}
 
             {/* Pagination component */}
-            {currentPageHistories.length > 0 &&
+            {currentPageHistories?.length > 0 &&
                 <div className='p-4 hidden sm:block'>
                     <Pagination
                         currentPage={currentPage}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentBookings, updateBookingStatus } from '../../redux/features/currentBookingSlice';
 import CustomerWorkApproval from './CustomerWorkApproval';
 import PaymentPopup from '../../components/customer/PaymentPopup';
+import { replaceCustomerVehicle } from '../../redux/features/customerVehicleSlice';
 
 /**
  * CurrentBookings Component
@@ -91,7 +92,8 @@ const CurrentBookings = () => {
             const response = await makeRequest.patch(`/cancel-booking/${bookingId}`);
 
             if (response.data.success) {
-                dispatch(updateBookingStatus(response.data.data));
+                dispatch(updateBookingStatus(response.data.data.booking));
+                dispatch(replaceCustomerVehicle(response.data.data.customerVehicle));
             }
 
             // Close the loading alert
