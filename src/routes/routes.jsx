@@ -37,6 +37,8 @@ import AdminBookingHome from '../pages/admin/AdminBookingHome';
 import ServiceHistory from '../pages/common/ServiceHistory';
 import MechanicTargets from '../pages/admin/MechanicTargets';
 import MechanicSalary from '../components/admin/MechanicSalary';
+import SuccessPage from '../pages/customer/SuccessPage';
+import CancelPage from '../pages/customer/CancelPage';
 
 const router = createBrowserRouter([
     {
@@ -195,6 +197,14 @@ const router = createBrowserRouter([
                 element: <ServiceHistory />
             },
         ]
+    },
+    {
+        path: "success",
+        element: <SuccessPage />
+    },
+    {
+        path: "cancel",
+        element: <CancelPage />
     },
     {
         path: '/login',

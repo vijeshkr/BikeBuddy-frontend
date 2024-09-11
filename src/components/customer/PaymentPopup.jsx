@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import makeRequest from '../../common/axios';
 import LoadingIndicator from '../LoadingIndicator';
 import { displayINRCurrency } from '../../common/utils';
+import { loadStripe } from '@stripe/stripe-js';
 
 const PaymentPopup = ({ close, allocation }) => {
   // State to manage popup visibility and loading
@@ -41,15 +42,39 @@ const PaymentPopup = ({ close, allocation }) => {
     const sparePartsTotal = serviceHistory?.allocation?.partsUsed?.reduce((total, part) => total + part.totalPartCost, 0) || 0;
     const extraWorksTotal = serviceHistory?.extraWorks?.reduce((total, work) => total + work.price, 0) || 0;
     const otherChargesTotal = (serviceHistory?.pickUpCharge || 0) +
-                              (serviceHistory?.breakdownCharge || 0) +
-                              (serviceHistory?.serviceCharge || 0) +
-                              (serviceHistory?.GST || 0);
+      (serviceHistory?.breakdownCharge || 0) +
+      (serviceHistory?.serviceCharge || 0) +
+      (serviceHistory?.GST || 0);
 
     return sparePartsTotal + extraWorksTotal + otherChargesTotal;
   };
 
   // Compute total amount and store in a variable
   const totalAmount = calculateTotal();
+
+  // Handle payment
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      // Load stripe using public key from environment variable.
+      const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+      const stripe = await stripePromise;
+
+      // Send a post request to the backend to create a stripe payment session
+      const response = await makeRequest.post('/create-payment-session', {
+        allocationId: allocation._id,
+        totalAmount,
+      });
+
+      // Redirect the user to stripe checkout page using the session ID returned by the backend.
+      await stripe.redirectToCheckout({ sessionId: response.data.id });
+
+    } catch (error) {
+      console.error('Error creating payment session:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
@@ -175,13 +200,14 @@ const PaymentPopup = ({ close, allocation }) => {
           {/* Pay button */}
           <div className="w-full bg-white p-4 border-t">
             <button
+              onClick={handlePayment}
               className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition-colors"
             >
               Pay {displayINRCurrency(totalAmount)}
             </button>
           </div>
         </div>
-        }
+      }
     </div>
   );
 };

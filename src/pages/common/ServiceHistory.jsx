@@ -62,7 +62,7 @@ const ServiceHistory = () => {
             // API call
             const response = await makeRequest.get(`/get-all-service-history`);
             if (response.data.success) {
-                setServiceHistories(response.data.data);
+                setServiceHistories(response.data.data.reverse());
             }
         } catch (error) {
             console.error('Error fetching service histories: ', error);
@@ -112,7 +112,7 @@ const ServiceHistory = () => {
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {currentPageHistories?.map((history, index) => (
-                                // history?.allocation?.bookingId?.status === 'Paid' &&
+                                history?.allocation?.bookingId?.status === 'Paid' &&
                                 <tr key={history._id} className="hover:bg-gray-50">
                                     <td
                                         className="px-4 py-3 cursor-pointer">{index + 1}</td>
@@ -139,7 +139,7 @@ const ServiceHistory = () => {
                     {/* Card format for mobile devices */}
                     <div className="lg:hidden">
                         {searchData?.map((history, index) => (
-                            // history?.allocation?.bookingId?.status === 'Paid' &&
+                            history?.allocation?.bookingId?.status === 'Paid' &&
                             <div key={history._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
                                 {/* Customer name */}
                                 <div className="mb-2">
