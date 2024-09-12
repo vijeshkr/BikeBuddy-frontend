@@ -8,7 +8,7 @@ import makeRequest from '../../common/axios';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
-const SignUp = () => {
+const AdminRegistration = () => {
 
     const navigate = useNavigate();
 
@@ -83,7 +83,7 @@ const SignUp = () => {
         e.preventDefault();
 
         // Role
-        const role = 'customer';
+        const role = 'admin';
 
         // Clear previous errors
         setGeneralError('');
@@ -132,7 +132,7 @@ const SignUp = () => {
                     <h1 className='text-white font-semibold text-3xl'>Bike<span className='text-black'>Buddy</span></h1>
                 </div>
                 <div className='bg-white flex flex-col py-8 px-10 rounded-2xl w-[350px] xs:w-[400px] shadow-lg'>
-                    <h1 className='text-xl font-semibold pb-5 text-center'>Create your account</h1>
+                    <h1 className='text-xl font-semibold pb-5 text-center'>Create admin account</h1>
                     <form onSubmit={handleSubmit} action="" className='flex flex-col gap-5'>
                         <div>
                             <input type="text"
@@ -211,4 +211,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp;
+export default AdminRegistration;

@@ -39,6 +39,7 @@ import MechanicTargets from '../pages/admin/MechanicTargets';
 import MechanicSalary from '../components/admin/MechanicSalary';
 import SuccessPage from '../pages/customer/SuccessPage';
 import CancelPage from '../pages/customer/CancelPage';
+import AdminRegistration from '../pages/admin/AdminRegistration';
 
 const router = createBrowserRouter([
     {
@@ -52,6 +53,14 @@ const router = createBrowserRouter([
             {
                 path: 'profile-page',
                 element: <ProfilePage />
+            },
+            {
+                path: "success",
+                element: <SuccessPage />
+            },
+            {
+                path: "cancel",
+                element: <CancelPage />
             },
             {
                 path: '',
@@ -199,14 +208,6 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "success",
-        element: <SuccessPage />
-    },
-    {
-        path: "cancel",
-        element: <CancelPage />
-    },
-    {
         path: '/login',
         element: (
             <AuthGuard>
@@ -219,6 +220,14 @@ const router = createBrowserRouter([
         element: (
             <AuthGuard>
                 <SignUp />
+            </AuthGuard>
+        )
+    },
+    {
+        path: '/create-super-user',
+        element: (
+            <AuthGuard>
+                <AdminRegistration />
             </AuthGuard>
         )
     },
