@@ -63,7 +63,7 @@ const CreateWorkPopup = ({ close, fetchWorks }) => {
             <option value="Bike">Bike</option>
             <option value="Both">Both</option>
           </select>
-          <button className='text-sm bg-primaryColor p-2 rounded-sm text-white w-full'>Create</button>
+          <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm w-full'>Create</button>
         </form>
       </div>
     </div>

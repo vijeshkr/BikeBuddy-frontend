@@ -105,7 +105,7 @@ const Login = () => {
 
 
     return (
-        <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
+        <div className='bg-bb-theme-900 h-screen w-full flex flex-col pt-8 xs:pt-16'>
             {/* Showing loading indicator during api call */}
             {loading && <LoadingIndicator />}
             <div className='flex flex-col gap-5 justify-center items-center'>
@@ -148,13 +148,13 @@ const Login = () => {
                         {passwordErrors.number && <p className='text-red-500 text-xs'>{passwordErrors.number}</p>}
                         {passwordErrors.special && <p className='text-red-500 text-xs'>{passwordErrors.special}</p>}
                         <div>
-                            <Link to={'/forgot-password'}><p className='text-primaryColor text-end font-semibold text-sm'>Forgot Password ?</p></Link>
+                            <Link to={'/forgot-password'}><p className='text-bb-theme-900 text-end font-semibold text-sm'>Forgot Password ?</p></Link>
                         </div>
                         {/* Display general error if any */}
                         {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
-                        <button className='bg-primaryColor text-white py-1.5 rounded-md'>Sign In</button>
+                        <button className='bg-bb-theme-900 text-white py-1.5 rounded-md'>Sign In</button>
                         <div className='text-sm pb-14'>
-                            <p className='text-center font-semibold text-gray-500'>Don't have an account ? <Link to={'/register'}><span className='text-primaryColor'>Get Started</span></Link></p>
+                            <p className='text-center font-semibold text-gray-500'>Don't have an account ? <Link to={'/register'}><span className='text-bb-theme-900'>Get Started</span></Link></p>
                         </div>
                     </form>
                 </div>

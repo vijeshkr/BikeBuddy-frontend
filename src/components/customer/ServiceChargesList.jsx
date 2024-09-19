@@ -19,7 +19,7 @@ const ServiceChargesList = ({ close }) => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [worksPerPage] = useState(4);
+    const [worksPerPage] = useState(8);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -92,19 +92,19 @@ const ServiceChargesList = ({ close }) => {
                                         </div>
                                     </div>
                                     {/* Table section */}
-                                    <div className='border-b'>
-                                        <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
-                                            <thead className='bg-gray-50'>
+                                    <div>
+                                        <table className='hidden sm:table w-full divide-y divide-gray-200 min-w-[455px]'>
+                                            <thead className='bg-bb-theme-50'>
                                                 <tr className='text-left'>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Suitable</th>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-16'>Price</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Name</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Suitable</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider min-w-16'>Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody className='bg-white divide-y divide-gray-200'>
                                                 {
                                                     currentPageWorks.map((wrk, index) => (
-                                                        <tr key={index} className='hover:bg-gray-50'>
+                                                        <tr key={index} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                                             <td className='px-4 py-3'>{wrk.workName}</td>
                                                             <td className='px-4 py-3'>{wrk.suitable}</td>
                                                             <td className='px-4 py-3'><span>&#8377; </span>{wrk.price}</td>
@@ -118,7 +118,7 @@ const ServiceChargesList = ({ close }) => {
                                     <div className='sm:hidden overflow-y-auto scrollbar-none max-h-[450px]'>
                                         {
                                             searchData.map((wrk, index) => (
-                                                <div key={index} className='min-w-[260px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
+                                                <div key={index} className='min-w-[260px] text-sm flex flex-col gap-3 p-2 border mb-4 rounded-lg'>
                                                     <h1 className='font-semibold'>{wrk.workName}</h1>
                                                     <h3>Suitable for {wrk.suitable}</h3>
                                                     <div className='flex justify-between'>

@@ -128,7 +128,7 @@ const CreateNewUser = ({role}) => {
     };
 
     return (
-        <div className='bg-white flex flex-col px-5 w-full'>
+        <div className='bg-white flex flex-col p-4 w-full rounded-lg'>
             <h1 className='text-xl font-semibold pb-5'>Create new {role}</h1>
             <form onSubmit={handleSubmit} action="" className='flex flex-col gap-5'>
                 <div>
@@ -197,7 +197,7 @@ const CreateNewUser = ({role}) => {
                 {/* Display general error if any */}
                 {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
 
-                <button className='bg-primaryColor text-white py-1.5 rounded-md'>Create</button>
+                <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Create</button>
 
             </form>
         </div>

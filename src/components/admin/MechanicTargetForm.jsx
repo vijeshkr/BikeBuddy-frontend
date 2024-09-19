@@ -113,7 +113,7 @@ const MechanicTargetPopup = ({ close }) => {
                             id="baseSalary"
                             value={baseSalary}
                             onChange={(e) => setBaseSalary(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
 
@@ -127,7 +127,7 @@ const MechanicTargetPopup = ({ close }) => {
                             id="labourTarget"
                             value={labourTarget}
                             onChange={(e) => setLabourTarget(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
 
@@ -141,7 +141,7 @@ const MechanicTargetPopup = ({ close }) => {
                             id="spareTarget"
                             value={spareTarget}
                             onChange={(e) => setSpareTarget(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
 
@@ -155,15 +155,14 @@ const MechanicTargetPopup = ({ close }) => {
                             id="incentivePercentage"
                             value={incentivePercentage}
                             onChange={(e) => setIncentivePercentage(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
 
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className={`w-full text-sm sm:text-base bg-blue-400 hover:bg-blue-500 text-white tracking-wider py-2 rounded-lg shadow-custom transition-transform transform hover:scale-105 ${loading ? 'opacity-50' : ''
-                            }`}
+                        className={`w-full text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white tracking-wider py-2 rounded-lg shadow-md transition-transform transform hover:scale-105 ${loading ? 'opacity-50' : ''}`}
                         disabled={loading}
                     >
                         {loading ? 'Submitting...' : 'Add Target'}

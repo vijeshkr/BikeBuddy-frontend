@@ -62,7 +62,7 @@ const MechanicSalary = () => {
 
     return (
 
-        <div className='py-4'>
+        <div className='p-4 mt-4 bg-white rounded-lg'>
             <div className='flex justify-between items-center'>
                 {/* Title */}
                 <h1 className='font-semibold text-xl xs:text-2xl pb-4'>Salary</h1>
@@ -106,14 +106,14 @@ const MechanicSalary = () => {
             {/* Table for large screens */}
             <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-bb-theme-50">
                         <tr>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Basic Salary</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Labour Achievements</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Incentive</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Achievement</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Name</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Basic Salary</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Labour Achievements</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Incentive</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider w-40">Achievement</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Total</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -125,7 +125,7 @@ const MechanicSalary = () => {
                         ) : currentPageTargets.length > 0 ? (
                             currentPageTargets.map((target) => (
                                 target.achievement.map((ach) => (
-                                    <tr key={ach.month}>
+                                    <tr key={ach.month} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                         <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name}</td>
                                         <td className="px-4 py-3">{displayINRCurrency(target.baseSalary)}</td>
                                         <td className="px-4 py-3">{displayINRCurrency(ach.labourAchievement)}</td>
@@ -158,7 +158,7 @@ const MechanicSalary = () => {
                     // Render mechanic target cards for mobile view
                     searchData.map((target) =>
                         target.achievement.map((ach) => (
-                            <div key={ach.month} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
+                            <div key={ach.month} className="border p-4 rounded-md w-full xs:w-[300px] min-w-[300px]">
                                 <h1 className="text-lg font-semibold">{target.mechanicId?.name}</h1>
                                 <div><span className='font-medium text-gray-500 text-sm'>Basic Salary:</span> {displayINRCurrency(target.baseSalary)}</div>
                                 <div><span className='font-medium text-gray-500 text-sm'>Labour Achievements:</span> {displayINRCurrency(ach.labourAchievement)}</div>

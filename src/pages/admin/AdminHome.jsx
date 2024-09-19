@@ -46,7 +46,8 @@ const AdminHome = () => {
       },[]);
 
   return (
-    <div className='h-screen w-full bg-slate-100 flex'>
+    <div className='h-screen w-full bg-bg-color flex'>
+
       {/* Sidebar for navigation */}
       <aside>
         <div >
@@ -62,15 +63,14 @@ const AdminHome = () => {
         </nav>
 
         <div 
-        className=' w-full h-h-calc flex sm:p-4 gap-5'>
+        className=' w-full h-h-calc flex gap-5'>
           {/* Outlet */}
           <main 
-          className='h-full flex-1 overflow-y-auto bg-white p-5 scrollbar-none'
+          className='h-full flex-1 overflow-y-auto p-5 scrollbar-none'
           >
             <Outlet />
           </main>
         </div>
-
 
       </div>
     </div>

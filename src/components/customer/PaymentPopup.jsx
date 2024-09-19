@@ -201,7 +201,7 @@ const PaymentPopup = ({ close, allocation }) => {
           <div className="w-full bg-white p-4 border-t">
             <button
               onClick={handlePayment}
-              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition-colors"
+              className="w-full bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white py-2 rounded-lg shadow-md transition-colors"
             >
               Pay {displayINRCurrency(totalAmount)}
             </button>

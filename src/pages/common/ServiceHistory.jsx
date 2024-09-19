@@ -25,7 +25,7 @@ const ServiceHistory = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [historyPerPage] = useState(4);
+    const [historyPerPage] = useState(10);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -87,7 +87,7 @@ const ServiceHistory = () => {
         fetchServiceHistory();
     }, []);
     return (
-        <div className="p-2 lg:shadow-custom rounded-lg">
+        <div className="p-2 shadow-custom bg-white rounded-lg">
             {loading && <LoadingIndicator />}
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Service Histories</h3>
             {/* Search box */}
@@ -100,20 +100,20 @@ const ServiceHistory = () => {
                 <div>
                     {/* Table format for larger screens */}
                     <table className="hidden lg:table w-full divide-y divide-gray-200">
-                        <thead className='bg-gray-50'>
+                        <thead className='bg-bb-theme-50'>
                             <tr className="text-left">
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Type</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mechanic</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bill</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">No</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Vehicle</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Service Type</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Booking Date</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Mechanic</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Bill</th>
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {currentPageHistories?.map((history, index) => (
                                 history?.allocation?.bookingId?.status === 'Paid' &&
-                                <tr key={history._id} className="hover:bg-gray-50">
+                                <tr key={history._id} className="hover:bg-bb-theme-50 even:bg-gray-50">
                                     <td
                                         className="px-4 py-3 cursor-pointer">{index + 1}</td>
                                     <td
@@ -129,7 +129,7 @@ const ServiceHistory = () => {
                                         className={`px-4 py-3 `}>
                                         <button
                                             onClick={() => handleOpenBillPopup(history?.allocation?._id)}
-                                            className='bg-purple-600 hover:bg-purple-700 px-2 py-1 rounded-md text-white'>View bill</button>
+                                            className='px-2 py-1 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>View bill</button>
                                     </td>
                                 </tr>
                             ))}
@@ -140,7 +140,7 @@ const ServiceHistory = () => {
                     <div className="lg:hidden">
                         {searchData?.map((history, index) => (
                             history?.allocation?.bookingId?.status === 'Paid' &&
-                            <div key={history._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
+                            <div key={history._id} className="bg-white text-sm sm:text-base rounded-lg p-4 mb-4 border border-gray-200">
                                 {/* Customer name */}
                                 <div className="mb-2">
                                     <span className='font-medium'>Customer:</span> {history?.allocation?.bookingId?.customerId?.name}
@@ -176,21 +176,26 @@ const ServiceHistory = () => {
                                     <span className='font-medium'>Delivered Date:</span> {new Date(history?.updatedAt).toLocaleDateString()}
                                 </div>
                                 {/* Job description */}
-                                <div className="mb-2">
-                                    <span className="font-medium">Job Description:</span> {history?.allocation?.bookingId?.description}
-                                </div>
+                                {
+                                    history?.allocation?.bookingId?.description &&
+                                    <div className="mb-2">
+                                        <span className="font-medium">Job Description:</span> {history?.allocation?.bookingId?.description}
+                                    </div>}
                                 {/* Mechanic */}
                                 <div className="mb-2">
                                     <span className='font-medium'>Mechanic:</span> {history?.allocation?.mechanicId?.name}
                                 </div>
                                 {/* Next service advice */}
-                                <div className="mb-2">
-                                    <span className="font-medium">Service Advice:</span> {history?.allocation?.serviceAdvice}
-                                </div>
+                                {
+                                    history?.allocation?.serviceAdvice &&
+                                    <div className="mb-2">
+                                        <span className="font-medium">Service Advice:</span> {history?.allocation?.serviceAdvice}
+                                    </div>
+                                }
                                 <div className="mb-2">
                                     <button
                                         onClick={() => handleOpenBillPopup(history?.allocation?._id)}
-                                        className='bg-purple-600 hover:bg-purple-700 px-2 py-1 rounded-md text-white'>
+                                        className='px-2 py-1 rounded-md text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>
                                         View Bill
                                     </button>
                                 </div>
@@ -203,7 +208,7 @@ const ServiceHistory = () => {
 
             {/* Pagination component */}
             {currentPageHistories?.length > 0 &&
-                <div className='p-4 hidden sm:block'>
+                <div className='p-4 hidden lg:block'>
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}

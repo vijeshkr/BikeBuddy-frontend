@@ -123,7 +123,7 @@ const SignUp = () => {
     };
 
     return (
-        <div className='bg-primaryColor min-h-screen w-full flex flex-col py-8 xs:pt-16'>
+        <div className='bg-bb-theme-900 min-h-screen w-full flex flex-col py-8 xs:pt-16'>
             {/* Showing loading indicator during api call */}
             {loading && <LoadingIndicator />}
             <div className='flex flex-col gap-5 justify-center items-center'>
@@ -200,9 +200,9 @@ const SignUp = () => {
                         {/* Display general error if any */}
                         {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
 
-                        <button className='bg-primaryColor text-white py-1.5 rounded-md'>Sign Up</button>
+                        <button className='bg-bb-theme-900 text-white py-1.5 rounded-md'>Sign Up</button>
                         <div className='text-sm pb-14'>
-                            <p className='text-center font-semibold text-gray-500'>Already have an account ? <Link to={'/login'}><span className='text-primaryColor'>Login Now</span></Link></p>
+                            <p className='text-center font-semibold text-gray-500'>Already have an account ? <Link to={'/login'}><span className='text-bb-theme-900'>Login Now</span></Link></p>
                         </div>
                     </form>
                 </div>

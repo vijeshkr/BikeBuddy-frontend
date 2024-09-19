@@ -32,7 +32,7 @@ const VerifiedStatus = () => {
         verifyEmail();
     }, [token]);
     return (
-        <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
+        <div className='bg-bb-theme-900 h-screen w-full flex flex-col pt-8 xs:pt-16'>
             <div className='flex flex-col gap-5 justify-center items-center'>
                 <div className='flex flex-col items-center gap-2'>
                     <Logo width={"145"} height={"77"} />
@@ -50,9 +50,9 @@ const VerifiedStatus = () => {
                     </div>
                     {
                         data.success ?
-                            <Link to={'/login'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
+                            <Link to={'/login'}><button className='bg-bb-theme-900 text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
                             :
-                            <Link to={'/register'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Signup</button></Link>
+                            <Link to={'/register'}><button className='bg-bb-theme-900 text-white py-1.5 rounded-md w-full'>Back to Signup</button></Link>
                     }
                 </div>
             </div>

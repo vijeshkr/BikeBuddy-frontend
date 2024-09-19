@@ -16,7 +16,7 @@ const LeavePage = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [leavesPerPage] = useState(7);
+    const [leavesPerPage] = useState(10);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -112,7 +112,7 @@ const LeavePage = () => {
 
     return (
 
-        <div className='py-4'>
+        <div className='p-4 bg-white mt-4 rounded-lg'>
             <div className='flex justify-between items-center'>
                 <h1 className='font-semibold text-xl xs:text-2xl pb-4'>Leaves</h1>
                 {/* Filter Options */}
@@ -122,7 +122,7 @@ const LeavePage = () => {
                         id='statusFilter'
                         value={statusFilter}
                         onChange={handleFilterChange}
-                        className='bg-primaryColor cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-sm'
+                        className='bg-bb-theme-500 cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
                     >
                         <option value='All'>All</option>
                         <option value='Pending'>Pending</option>
@@ -140,19 +140,19 @@ const LeavePage = () => {
             {/* Table for large screens */}
             <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-bb-theme-50">
                         <tr>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Date</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Days</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Status</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Name</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Start Date</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">End Date</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Days</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Reason</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider w-40">Status</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {currentPageLeaves.length > 0 ? currentPageLeaves.map((leave) => (
-                            <tr key={leave._id}>
+                            <tr key={leave._id} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                 <td className="px-4 py-3 whitespace-nowrap">{leave.mechanicId.name}</td>
                                 <td className="px-4 py-3">{new Date(leave.startDate).toLocaleDateString()}</td>
                                 <td className="px-4 py-3">{new Date(leave.endDate).toLocaleDateString()}</td>
@@ -194,7 +194,7 @@ const LeavePage = () => {
             <div className='flex flex-wrap gap-4 lg:hidden w-full'>
                 {filteredData.length > 0 ? (
                     filteredData.map((leave) => (
-                        <div key={leave._id} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
+                        <div key={leave._id} className="border p-4 rounded-lg w-full xs:w-[300px] min-w-[300px]">
                             <h1 className="text-lg font-semibold">{leave.mechanicId.name}</h1>
                             <div><strong className='font-medium text-gray-500 text-sm'>Start Date:</strong> {new Date(leave.startDate).toLocaleDateString()}</div>
                             <div><strong className='font-medium text-gray-500 text-sm'>End Date:</strong> {new Date(leave.endDate).toLocaleDateString()}</div>

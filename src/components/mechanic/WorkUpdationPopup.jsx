@@ -107,17 +107,17 @@ const WorkUpdationPopup = ({ close, allocation }) => {
                     {/* Status updation */}
                     <div className='mb-6 shadow-custom p-4 rounded-md'>
                         <h3 className='text-sm text-left sm:text-lg font-semibold mb-2'>Update Status</h3>
-                        <div className='flex justify-between'>
+                        <div className='flex justify-between items-center'>
                             <select
                                 onChange={handleStatusChange}
-                                className="text-sm outline-none bg-purple-100 p-2 rounded-md">
+                                className="text-sm outline-none bg-bb-theme-50 p-2 rounded-md">
                                 <option value=''>Select status</option>
                                 {allocation.bookingId?.status !== 'Progress' && <option value='Progress'>In Progress</option>}
                                 {allocation.bookingId?.status !== 'Pending' && <option value='Pending'>Pending</option>}
                             </select>
                             <button
                                 onClick={() => updateStatus()}
-                                className='bg-purple-400 hover:bg-purple-500 px-3 py-1 rounded-md text-white'>Update</button>
+                                className='text-white px-3 py-1 rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Update</button>
                         </div>
                     </div>
 
@@ -138,7 +138,7 @@ const WorkUpdationPopup = ({ close, allocation }) => {
 
                             <button 
                             onClick={() => requestExtraWork()}
-                            className='bg-purple-400 hover:bg-purple-500 px-3 py-1 rounded-md text-white'>Request</button>
+                            className='px-3 py-1.5 text-white rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Request</button>
                         </div>
                     </div>}
                 </div>

@@ -133,7 +133,7 @@ const AllocationPopup = ({ close, booking }) => {
                     </select>
                 </div>
                 <button
-                    className="w-full text-sm sm:text-base bg-blue-400 hover:bg-blue-500 text-white tracking-wider py-2 rounded-lg shadow-custom transition-transform transform hover:scale-105"
+                    className={`w-full text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white tracking-wider py-2 rounded-lg shadow-md transition-transform transform hover:scale-105`}
                     onClick={handleSubmit}
                 >
                     Allocate

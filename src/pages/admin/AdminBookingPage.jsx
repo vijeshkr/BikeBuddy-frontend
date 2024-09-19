@@ -103,14 +103,14 @@ const AdminBookingPage = () => {
         </div>
         {/* New booking buttons for service and breakdown */}
         <div className='bg-white rounded-xl w-full p-4 shadow-custom'>
-          <h1 className='text-xl font-medium'>New booking</h1>
+          <h1 className='text-lg font-medium'>New booking</h1>
           <div className='flex justify-evenly mt-4 min-w-[290px] xl:min-w-[220px]'>
             <button
               onClick={handleOpenServiceBooking}
-              className='px-2 py-1 my-2 rounded-md bg-blue-200'>Service</button>
+              className='px-2 py-1 my-2 rounded-md bg-blue-200 hover:bg-blue-300 active:bg-blue-400 transition duration-300'>Service</button>
             <button
               onClick={handleOpenBreakdownBooking}
-              className='px-2 py-1 my-2 rounded-md bg-yellow-200'>Breakdown</button>
+              className='px-2 py-1 my-2 rounded-md bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 transition duration-300'>Breakdown</button>
           </div>
         </div>
       </div>

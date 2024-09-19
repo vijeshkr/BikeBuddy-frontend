@@ -4,6 +4,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLeaves, updateLeaveStatus } from '../../redux/features/leavesSlice';
 import socket from '../../common/socket';
+import Pagination from '../common/Pagination';
 
 const MechanicLeaveHistory = () => {
 
@@ -16,6 +17,10 @@ const MechanicLeaveHistory = () => {
 
     // State to manage the selected filter
     const [statusFilter, setStatusFilter] = useState('All');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [leavesPerPage] = useState(10);
 
     // Function for fetch mechanic leave history from the server
     const fetchLeaves = async () => {
@@ -60,6 +65,13 @@ const MechanicLeaveHistory = () => {
         statusFilter === 'All' || leave.status === statusFilter
     );
 
+    // Pagination logic
+    const indexOfLastLeave = currentPage * leavesPerPage;
+    const indexOfFirstLeave = indexOfLastLeave - leavesPerPage;
+    const currentPageLeaves = filteredLeaves.slice(indexOfFirstLeave, indexOfLastLeave);
+
+    const totalPages = Math.ceil(filteredLeaves.length / leavesPerPage);
+
     return (
         <div>
             {loading && <LoadingIndicator />}
@@ -73,7 +85,7 @@ const MechanicLeaveHistory = () => {
                         id='statusFilter'
                         value={statusFilter}
                         onChange={handleFilterChange}
-                        className='bg-primaryColor cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded'
+                        className='bg-bb-theme-500 cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
                     >
                         <option value='All'>All</option>
                         <option value='Pending'>Pending</option>
@@ -84,21 +96,21 @@ const MechanicLeaveHistory = () => {
             </div>
 
             {/* Table for the desktop view */}
-            <div className='hidden sm:flex overflow-y-auto scrollbar-none  max-h-[500px]'>
-                <table className='w-full divide-gray-200 shadow-custom'>
-                    <thead className='bg-gray-50'>
+            <div className='hidden sm:block'>
+                <table className='w-full divide-gray-200'>
+                    <thead className='bg-bb-theme-50'>
                         <tr className='text-left'>
-                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>No</th>
-                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Start Date</th>
-                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>End Date</th>
-                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Days</th>
-                            <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Status</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>No</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Start Date</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>End Date</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Days</th>
+                            <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Status</th>
                         </tr>
                     </thead>
                     <tbody className='bg-white divide-y divide-gray-200' >
                         {filteredLeaves.length === 0 ? <tr className='p-5'><td>No leave history available</td></tr> :
-                            filteredLeaves.map((leave, index) => (
-                                <tr key={leave._id} className='hover:bg-gray-50'>
+                            currentPageLeaves.map((leave, index) => (
+                                <tr key={leave._id} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                     <td className='px-4 py-3 text-slate-600'>{index + 1}</td>
                                     <td className='px-4 py-3 text-slate-600'>{new Date(leave.startDate).toLocaleDateString()}</td>
                                     <td className='px-4 py-3 text-slate-600'>{new Date(leave.endDate).toLocaleDateString()}</td>
@@ -109,14 +121,22 @@ const MechanicLeaveHistory = () => {
                             ))}
                     </tbody>
                 </table>
+                {/* Pagination component */}
+                {currentPageLeaves.length > 0 && <div className='p-4 hidden sm:block'>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
+                </div>}
             </div>
 
             {/* Leve history for small screens */}
 
             <div className='sm:hidden'>
                 {filteredLeaves.length === 0 ? <div className='p-5'>No leave history available</div> :
-                    filteredLeaves.map((leave, index) => (
-                        <div key={leave._id} className='flex justify-between shadow-custom my-4 px-3 py-2 rounded-md'>
+                    currentPageLeaves.map((leave, index) => (
+                        <div key={leave._id} className='flex justify-between border my-4 px-3 py-2 rounded-md'>
                             <div>
                                 <p className='font-medium text-lg'>{`${new Date(leave.startDate).toLocaleDateString() + `-` + new Date(leave.endDate).toLocaleDateString()}`}</p>
                                 <p>{`${leave.days === 0.5 ? `Half day` : `${leave.days} Days`}`}</p>

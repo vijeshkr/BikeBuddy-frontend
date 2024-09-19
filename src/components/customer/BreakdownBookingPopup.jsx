@@ -181,7 +181,7 @@ const BreakdownBookingPopup = ({ close }) => {
           </div>
           {/* Submit button */}
           <button
-            className="w-full bg-primaryColor text-white py-2 rounded-md shadow-md hover:opacity-90 transition duration-300"
+            className="w-full bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white py-1.5 rounded-lg shadow-md"
           >
             Book Now
           </button>

@@ -129,7 +129,7 @@ const WorkCompletionPopup = ({ close, allocation }) => {
                                     <select
                                         value={selectedPartId}
                                         onChange={(e) => setSelectedPartId(e.target.value)}
-                                        className="shadow-sm mr-2 text-sm outline-none bg-purple-100 p-2 rounded-md w-full"
+                                        className="shadow-sm mr-2 text-sm outline-none bg-bb-theme-50 p-2 rounded-md w-full"
                                     >
                                         <option value="">Select Part</option>
                                         {availableParts.map(part => (
@@ -140,14 +140,14 @@ const WorkCompletionPopup = ({ close, allocation }) => {
                                         type="number"
                                         value={quantity}
                                         onChange={(e) => setQuantity(e.target.value)}
-                                        className="w-20 p-2 border rounded-md shadow-sm bg-purple-100 text-sm"
+                                        className="w-20 p-2 border rounded-md shadow-sm bg-bb-theme-50 outline-none text-sm"
                                         placeholder="Qty"
                                         min="1"
                                     />
                                     <button
                                         type="button"
                                         onClick={handleAddPart}
-                                        className="ml-2 bg-purple-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-purple-700 text-sm"
+                                        className="ml-2 text-white px-4 py-1.5 rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm"
                                     >
                                         Add
                                     </button>
@@ -167,7 +167,7 @@ const WorkCompletionPopup = ({ close, allocation }) => {
                             </div>
                             {/* Submit button */}
                             <button
-                                className="w-full bg-purple-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-purple-700 text-sm"
+                                className="w-full text-white px-3 py-1.5 rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm"
                             >
                                 Submit
                             </button>

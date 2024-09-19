@@ -54,7 +54,7 @@ const AdminSpareParts = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [sparePerPage] = useState(4);
+  const [sparePerPage] = useState(10);
 
   // Handle open image viewer
   const handleOpenImgViewer = (img) => {
@@ -369,7 +369,7 @@ const AdminSpareParts = () => {
       {/* All spare parts section */}
       <div className='flex-1'>
 
-        <div>
+        <div className='bg-white p-4 rounded-lg'>
           <div className='py-2 flex justify-between flex-wrap gap-2'>
             {spareParts.length !== 0 &&
               <div className='border rounded-md px-2 flex items-center justify-between max-w-[250px]'>
@@ -386,15 +386,15 @@ const AdminSpareParts = () => {
             <div className='flex gap-1'>
               <button
                 onClick={handleOpenVehicle}
-                className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Vehicle</button>
+                className='xl:hidden py-1 text-xs sm:text-sm px-2 rounded-md text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Create Vehicle</button>
               <button
                 onClick={handleOpenSpare}
-                className='xl:hidden py-1 text-xs sm:text-sm bg-primaryColor text-white px-2 rounded-md'>Create Spare</button>
+                className='xl:hidden py-1 text-xs sm:text-sm px-2 rounded-md text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Create Spare</button>
               {spareParts.length !== 0 &&
                 <div className='flex xs:hidden justify-end'>
                   <select
                     onChange={handleFilterChange}
-                    className='bg-primaryColor text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
+                    className='bg-bb-theme-500 text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
                     <option value="">Suitable</option>
                     {allVehicles.map((vehicle, index) => (
                       <option
@@ -408,18 +408,18 @@ const AdminSpareParts = () => {
 
           {/* Table section */}
           {currentPageSpares.length === 0 ? 'No spare parts available' :
-            <div 
+            <div
             // className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'
             >
               <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
-                <thead className='bg-gray-50'>
+                <thead className='bg-bb-theme-50'>
                   <tr className='text-left'>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Image</th>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Image</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Name</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>
                       <select
                         onChange={handleFilterChange}
-                        className='bg-gray-50 cursor-pointer text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                        className='bg-bb-theme-50 cursor-pointer text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>
                         <option value="">Suitable</option>
                         {allVehicles.map((vehicle, index) => (
                           <option
@@ -428,15 +428,15 @@ const AdminSpareParts = () => {
                         ))}
                       </select>
                     </th>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Stocks</th>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-16'>Price</th>
-                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Action</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Stocks</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider min-w-16'>Price</th>
+                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Action</th>
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
                   {currentPageSpares.length === 0 ? <div className='p-5'>No spare parts available</div> :
                     currentPageSpares.map((spare, index) => (
-                      <tr key={index} className='hover:bg-gray-50'>
+                      <tr key={index} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                         <td className='px-4 py-3'><img
                           onClick={() => handleOpenImgViewer(spare.image)}
                           className='h-12 w-12 rounded-full object-cover cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
@@ -477,7 +477,7 @@ const AdminSpareParts = () => {
               {spareParts.length !== 0 &&
                 <select
                   onChange={handleFilterChange}
-                  className='bg-primaryColor text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
+                  className='bg-bb-theme-500 text-white py-1 px-2 text-xs rounded-md cursor-pointer'>
                   <option value="">Suitable</option>
                   {allVehicles.map((vehicle, index) => (
                     <option
@@ -488,11 +488,11 @@ const AdminSpareParts = () => {
             </div>
             {
               filteredData.map((spare, index) => (
-                <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 px-6 py-4 shadow-custom'>
+                <div key={index} className='min-w-[320px] text-sm flex flex-col gap-3 px-6 py-4 border border-gray-200 mb-4 rounded-lg'>
                   <div className='flex justify-between'>
 
                     <div>
-                      <h1 className='font-semibold'>{spare.itemName}</h1>
+                      <h1 className='font-medium'>{spare.itemName}</h1>
                       <h3 className='text-gray-500'>Suitable for {spare.suitable.name}</h3>
                       <p>{spare.stock === 0 ? <p className='text-red-500'>Out of stock</p> : `Stock : ${spare.stock}`}</p>
                     </div>
@@ -529,7 +529,7 @@ const AdminSpareParts = () => {
         {/* Create new spare parts section */}
         <form
           onSubmit={handleSubmitSpareForm}
-          className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
+          className='hidden xl:flex flex-col gap-2 bg-white p-4 rounded-lg min-w-[320px]'>
           <h1 className='p-2 font-semibold text-lg'>Create New Spare</h1>
 
           <div className='relative w-36'>
@@ -591,14 +591,14 @@ const AdminSpareParts = () => {
             value={data.price}
             name='price'
             className='text-sm outline-none border p-2 rounded-md' placeholder='Price' type="number" />
-          <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
+          <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Create</button>
         </form>
 
         {/* Create new vehicle section */}
 
         <form
           onSubmit={handleSubmitVehicleForm}
-          className='hidden xl:flex flex-col gap-2 bg-gray-10 px-2 rounded-sm min-w-[320px]'>
+          className='hidden xl:flex flex-col gap-2 bg-gray-10 p-4 min-w-[320px] bg-white rounded-lg'>
           <h1 className='p-2 font-semibold text-lg'>Create New Vehicle</h1>
           <div className='relative w-36'>
             <label htmlFor="uploadVehicleImage" className='w-36'>
@@ -634,7 +634,7 @@ const AdminSpareParts = () => {
             value={vehicleName}
             name='name'
             className='text-sm outline-none border p-2 rounded-md' placeholder='Vehicle name' type="text" />
-          <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>Create</button>
+          <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Create</button>
         </form>
       </div>
       {openSpare && <CreateSparePopup close={handleClose} fetchSpare={fetchSpare} allVehicles={allVehicles} />}

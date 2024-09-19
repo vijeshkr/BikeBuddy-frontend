@@ -1,6 +1,6 @@
 const DataCard = ({status, count}) => {
     return (
-        <div className="rounded-2xl odd:bg-purple-200 even:bg-yellow-200 p-4 flex-1 min-w-[100px] shadow-custom">
+        <div className="rounded-2xl odd:bg-[#CFCEFF] even:bg-[#FAE27C] p-4 flex-1 min-w-[100px] shadow-custom">
             {/* <div className="flex justify-between items-center">
                 <span className="text-[10px] bg-white px-2 py-1 rounded-full text-green-600">
                     2024/25

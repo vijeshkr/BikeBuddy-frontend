@@ -15,12 +15,14 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         }
     }
     return (
-        <div className='flex justify-between p-4'>
+        <div className='flex justify-between p-2'>
             {/* Previous button */}
             <button
              onClick={handlePreviousPage}
              disabled={currentPage === 1}
-             className="px-3 py-1 border rounded-l-md disabled:bg-gray-300"
+             className="px-2 py-1 border rounded-l-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600
+              hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm
+               disabled:from-transparent disabled:to-transparent disabled:bg-bb-theme-100 disabled:text-bb-theme-400"
             >
                 Previous
             </button>
@@ -31,7 +33,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     <button
                         key={index + 1}
                         onClick={() => onPageChange(index + 1)}
-                        className={`px-3 py-1 border rounded-md ${currentPage === index + 1 ? 'bg-blue-500 text-white' : ''}`}
+                        className={`px-3 py-1 border rounded-md text-sm shadow-sm ${currentPage === index + 1 ? 'text-bb-theme-400 bg-bb-theme-100 cursor-default' :'bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white'}`}
                         >
                         {index + 1}
                     </button>
@@ -42,7 +44,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded-md disabled:bg-gray-300"
+            className="px-2 py-1 border rounded-l-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600
+             hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm
+              disabled:from-transparent disabled:to-transparent disabled:bg-bb-theme-100 disabled:text-bb-theme-400"
             >
                 Next
             </button>

@@ -146,7 +146,7 @@ const CustomerVehicle = () => {
             <div className="flex flex-col">
               <label
                 className="text-sm mb-1 text-gray-400"
-                htmlFor="registrationDate">Registration Date</label>
+                htmlFor="registrationDate">Registration Date <span className='text-red-600'>*</span></label>
               <DatePicker
                 selected={registrationDate}
                 dateFormat="dd/MM/yyyy"
@@ -166,7 +166,7 @@ const CustomerVehicle = () => {
             <div className="flex flex-col">
               <label
                 className={`text-sm mb-1 text-gray-400 `}
-                htmlFor="registrationNumber">Registration Number</label>
+                htmlFor="registrationNumber">Registration Number <span className='text-red-600'>*</span></label>
 
               <input
                 value={regNumber}
@@ -181,7 +181,7 @@ const CustomerVehicle = () => {
             </div>
 
             <div className="flex flex-col">
-              <p className="text-sm mb-1 text-gray-400">Model</p>
+              <p className="text-sm mb-1 text-gray-400">Model <span className='text-red-600'>*</span></p>
               <select
                 value={model}
                 onChange={handleOnChangeModel}
@@ -197,12 +197,12 @@ const CustomerVehicle = () => {
             {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
 
 
-            <button className='bg-primaryColor hover:bg-opacity-95 active:bg-primaryColor py-1 w-full text-white rounded-md'>{loading ? 'Creating...' : 'Create Vehicle'}</button>
+            <button className='w-full py-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>{loading ? 'Creating...' : 'Create Vehicle'}</button>
           </form>
         </div>
 
         {/* Profile info and my vehicles */}
-        <div className='shadow-custom flex flex-col gap-3 p-4 rounded-lg min-w-[350px] max-w-sm flex-1'>
+        <div className='shadow-custom flex flex-col gap-3 p-4 rounded-lg bg-white min-w-[350px] max-w-sm flex-1'>
           <div>
             <img className='h-36 w-36 object-cover rounded-full border'
               src={
@@ -223,7 +223,7 @@ const CustomerVehicle = () => {
                     myVehicles.map((vehicle, index) => (
                       <NavLink key={vehicle._id}
                         className={({ isActive }) =>
-                          isActive ? 'bg-fuchsia-50 p-1 m-1 flex rounded-sm text-fuchsia-800 gap-3' : 'p-1 flex m-1 rounded-sm'
+                          isActive ? 'bg-bb-theme-200 p-1 m-1 flex rounded-md text-bb-theme-700 gap-3' : 'p-1 flex m-1 rounded-sm'
                         }
                         to={`my-vehicle/${vehicle._id}`}>
                         <button className='w-full'>
@@ -243,7 +243,7 @@ const CustomerVehicle = () => {
         </div>
         {/* Outlet */}
         {myVehicles.length !== 0 &&
-          <div className='flex-1 shadow-custom p-4 rouded-lg min-w-[350px] max-w-sm'>
+          <div className='flex-1 shadow-custom p-4 rounded-lg bg-white min-w-[350px] max-w-sm'>
             <Outlet />
           </div>}
       </div>

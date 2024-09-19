@@ -178,7 +178,7 @@ const CurrentBookings = () => {
 
 
     return (
-        <div className="p-2 shadow-custom rounded-md min-w-[320px]">
+        <div className="p-4 shadow-custom rounded-lg bg-white min-w-[320px]">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Current Bookings</h3>
             {bookings.length === 0 ? (
                 <p className="text-gray-500">No current bookings available.</p>
@@ -186,30 +186,32 @@ const CurrentBookings = () => {
                 <div>
                     {/* Table format for larger screens */}
                     <table className="hidden min-w-[520px] lg:table w-full divide-y divide-gray-200">
-                        <thead className='bg-gray-50'>
+                        <thead className='bg-bb-theme-50'>
                             <tr className="text-left">
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Type</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Vehicle</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Service Type</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Status</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {bookings.map((booking) => (
-                                <tr key={booking._id} className="hover:bg-gray-50">
+                                <tr key={booking._id} className="hover:bg-bb-theme-50 even:bg-gray-50">
                                     <td className="px-4 py-3">{booking.vehicleId.registrationNumber}</td>
                                     <td className={`px-4 py-3 ${booking.breakdown && 'text-red-600'}`}>{booking.breakdown ? 'Breakdown' : booking.serviceType?.packageName}</td>
                                     <td className={`px-4 py-3 
                                         ${booking.status === 'Unallocated' && 'text-gray-400'}
                                         ${booking.status === 'Allocated' && 'text-blue-400'}
                                         ${booking.status === 'Pending' && 'text-yellow-400'}
+                                        ${booking.status === 'Progress' && 'text-green-300'}
                                         ${booking.status === 'Cancelled' && 'text-red-600'}
+                                        ${booking.status === 'Unpaid' && 'text-red-600'}
                                         ${booking.status === 'Completed' && 'text-green-600'}`}>{booking.status}</td>
                                     <td className="px-4 py-3 text-gray-400">
                                         {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => handleBookingCancel(booking._id)}
-                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
+                                                className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition duration-300"
                                             >
                                                 Cancel
                                             </button>
@@ -222,15 +224,15 @@ const CurrentBookings = () => {
                                                     onClick={() => {
                                                         handleOpenApproval(booking.allocation)
                                                     }}
-                                                    className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
-                                                    New Request
+                                                    className='bg-blue-600 px-3 py-1 text-white rounded-md hover:bg-blue-700 transition duration-300'>
+                                                    Approval
                                                 </button>
                                                 : booking.status === 'Unpaid' ?
                                                     <button
                                                         onClick={() => {
                                                             handleOpenPaymentPopup(booking.allocation);
                                                         }}
-                                                        className='bg-green-400 px-3 py-1 text-white rounded hover:bg-green-500'>
+                                                        className='bg-green-600 px-3 py-1 text-white rounded-md hover:bg-green-700 transition duration-300'>
                                                         Payment
                                                     </button>
                                                     : 'No action'}
@@ -256,6 +258,7 @@ const CurrentBookings = () => {
                                     ${booking.status === 'Allocated' && 'text-blue-400'}
                                     ${booking.status === 'Pending' && 'text-yellow-400'}
                                     ${booking.status === 'Cancelled' && 'text-red-600'}
+                                    ${booking.status === 'Unpaid' && 'text-red-600'}
                                     ${booking.status === 'Completed' && 'text-green-600'}`}>
                                         <span className='font-medium text-black'>Status:</span> {booking.status}
                                     </div>
@@ -263,7 +266,7 @@ const CurrentBookings = () => {
                                         {booking.status === 'Unallocated' ? (
                                             <button
                                                 onClick={() => handleBookingCancel(booking._id)}
-                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300"
+                                                className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition duration-300"
                                             >
                                                 Cancel
                                             </button>
@@ -276,15 +279,15 @@ const CurrentBookings = () => {
                                                     onClick={() => {
                                                         handleOpenApproval(booking.allocation)
                                                     }}
-                                                    className='bg-blue-400 px-3 py-1 text-white rounded hover:bg-blue-500'>
-                                                    New Request
+                                                    className='bg-blue-600 px-3 py-1 text-white rounded-md hover:bg-blue-700'>
+                                                    Approval
                                                 </button>
                                                 : booking.status === 'Unpaid' ?
                                                     <button
                                                         onClick={() => {
                                                             handleOpenPaymentPopup(booking.allocation);
                                                         }}
-                                                        className='bg-green-400 px-3 py-1 text-white rounded hover:bg-green-500'>
+                                                        className='bg-green-600 px-3 py-1 text-white rounded-md hover:bg-green-700'>
                                                         Payment
                                                     </button>
                                                     : 'No action'}

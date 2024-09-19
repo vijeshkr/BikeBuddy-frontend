@@ -19,7 +19,7 @@ const PackageServicesList = ({ close }) => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [packagesPerPage] = useState(4);
+    const [packagesPerPage] = useState(5);
 
     // Handle search term
     const handleSearch = (e) => {
@@ -92,20 +92,20 @@ const PackageServicesList = ({ close }) => {
                                         </div>
                                     </div>
                                     {/* Table section */}
-                                    <div className='border-b'>
-                                        <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
-                                            <thead className='bg-gray-50'>
+                                    <div>
+                                        <table className='hidden sm:table w-full divide-y divide-gray-200 min-w-[455px]'>
+                                            <thead className='bg-bb-theme-50'>
                                                 <tr className='text-left'>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Description</th>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Suitable</th>
-                                                    <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-16'>Price</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Name</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Description</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Suitable</th>
+                                                    <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider min-w-16'>Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody className='bg-white divide-y divide-gray-200'>
                                                 {
                                                     currentPackages.map((pkg, index) => (
-                                                        <tr key={index} className='hover:bg-gray-50'>
+                                                        <tr key={index} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                                             <td className='px-4 py-3'>{pkg.packageName}</td>
                                                             <td className='px-4 py-3 max-w-[350px]'>{pkg.description}</td>
                                                             <td className='px-4 py-3'>{pkg.suitable}</td>
@@ -120,7 +120,7 @@ const PackageServicesList = ({ close }) => {
                                     <div className='sm:hidden overflow-y-auto scrollbar-none max-h-[450px]'>
                                         {
                                             searchData.map((pkg, index) => (
-                                                <div key={index} className='min-w-[260px] text-sm flex flex-col gap-3 p-2 shadow-custom'>
+                                                <div key={index} className='min-w-[260px] text-sm flex flex-col gap-3 p-2 border mb-4 rounded-lg'>
                                                     <h1 className='font-semibold'>{pkg.packageName}</h1>
                                                     <p className='text-gray-500'>{pkg.description}</p>
                                                     <h3>Suitable for {pkg.suitable}</h3>

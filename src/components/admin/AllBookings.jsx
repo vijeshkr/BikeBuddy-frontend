@@ -32,7 +32,7 @@ const AllBookings = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [bookingsPerPage] = useState(4);
+    const [bookingsPerPage] = useState(10);
 
     // Search logic
     const searchData = bookings.filter(booking => booking?.vehicleId?.registrationNumber.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
@@ -98,7 +98,7 @@ const AllBookings = () => {
 
 
     return (
-        <div className="p-2 lg:shadow-custom rounded-md]">
+        <div className="p-4 lg:shadow-custom rounded-lg bg-white">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">All Bookings</h3>
             <div className='flex flex-col xs:flex-row justify-between items-center'>
                 {/* Search box */}
@@ -110,7 +110,7 @@ const AllBookings = () => {
                     <select
                         value={statusFilter}
                         onChange={handleFilterChange}
-                        className='bg-primaryColor cursor-pointer outline-none text-sm text-white p-1 rounded-md'
+                        className='bg-bb-theme-500 cursor-pointer outline-none text-sm text-white p-1 rounded-md'
                     >
                         <option value='All'>Filter</option>
                         <option value='Unallocated'>Unallocated</option>
@@ -129,21 +129,21 @@ const AllBookings = () => {
 
                     {/* Table format for larger screens */}
                     <table className="hidden lg:table w-full divide-y divide-gray-200">
-                        <thead className='bg-gray-50'>
+                        <thead className='bg-bb-theme-50'>
                             <tr className="text-left">
                                 {/* <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th> */}
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Type</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mechanic</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Vehicle</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Service Type</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Booking Date</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Status</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Mechanic</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className='bg-white divide-y divide-gray-200'>
                             {currentPageBookings.map((booking) => (
                                 // booking?.status !== 'Paid' &&
-                                <tr key={booking._id} className="hover:bg-gray-50">
+                                <tr key={booking._id} className="hover:bg-bb-theme-50 even:bg-gray-50">
                                     {/* <td className="px-4 py-3">{booking.customerId.name}</td> */}
                                     <td
                                         onClick={() => {
@@ -158,12 +158,14 @@ const AllBookings = () => {
                                         ${booking.status === 'Unallocated' && 'text-gray-400'}
                                         ${booking.status === 'Allocated' && 'text-blue-400'}
                                         ${booking.status === 'Pending' && 'text-yellow-400'}
+                                        ${booking.status === 'Progress' && 'text-green-300'}
                                         ${booking.status === 'Cancelled' && 'text-red-600'}
+                                        ${booking.status === 'Unpaid' && 'text-red-600'}
                                         ${booking.status === 'Completed' && 'text-green-600'}`}>
                                         {booking.status}
                                     </td>
                                     <td
-                                        className={`px-4 py-3 ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-gray-400' : 'text-red-600'}` : 'text-blue-400'}`}>
+                                        className={`px-4 py-3 ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-gray-400' : 'text-red-600'}` : ''}`}>
                                         {booking.allocation ? booking.allocation.mechanicId.name : booking.status}
                                     </td>
                                     <td
@@ -177,7 +179,7 @@ const AllBookings = () => {
                                                         openHandleAllocate();
                                                     }
                                                 }}
-                                                className="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500 transition duration-300"
+                                                className="bg-bb-theme-500 text-white px-3 py-1 rounded-md hover:bg-bb-theme-600 active:bg-bb-theme-700 transition duration-300"
                                             >
                                                 Allocate
                                             </button>
@@ -187,13 +189,13 @@ const AllBookings = () => {
                                                     onClick={() => {
                                                         navigate(`billing/${booking.allocation?._id}`, { replace: true });
                                                     }}
-                                                    className="bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 transition duration-300"
+                                                    className="bg-green-600 text-white px-5 py-1 rounded-md hover:bg-green-700 transition duration-300"
                                                 >
                                                     Billing
                                                 </button>
                                             ) :
                                                 (
-                                                    <span className="text-gray-500">No action</span>
+                                                    <span className="text-gray-400">No action</span>
                                                 )
                                         )}
                                     </td>
@@ -206,7 +208,7 @@ const AllBookings = () => {
                     <div className="lg:hidden">
                         {searchData.map((booking) => (
                             booking?.status !== 'Paid' &&
-                            <div key={booking._id} className="bg-white text-sm sm:text-base shadow-custom rounded-lg p-4 mb-4 border border-gray-200">
+                            <div key={booking._id} className="bg-white text-sm sm:text-base rounded-lg p-4 mb-4 border border-gray-200">
                                 <div className="mb-2">
                                     <span className='font-medium'>Customer:</span> {booking.customerId.name}
                                 </div>
@@ -242,7 +244,9 @@ const AllBookings = () => {
                                     ${booking.status === 'Unallocated' && 'text-gray-400'}
                                     ${booking.status === 'Allocated' && 'text-blue-400'}
                                     ${booking.status === 'Pending' && 'text-yellow-400'}
+                                    ${booking.status === 'Progress' && 'text-green-300'}
                                     ${booking.status === 'Cancelled' && 'text-red-600'}
+                                    ${booking.status === 'Unpaid' && 'text-red-600'}
                                     ${booking.status === 'Completed' && 'text-green-600'}`}>
                                     <span className='font-medium text-black'>Status:</span> {booking.status}
                                 </div>
@@ -257,12 +261,8 @@ const AllBookings = () => {
                                                 }
                                             }}
                                             className={`px-1.5
-                                    ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-black' : 'text-red-600'}` : 'text-blue-400'}
-                                    ${booking.status === 'Unallocated' && 'text-gray-400'}
-                                    ${booking.status === 'Allocated' && 'text-blue-400'}
-                                    ${booking.status === 'Pending' && 'text-yellow-400'}
-                                    ${booking.status === 'Cancelled' && 'text-gray-400'}
-                                    ${booking.status === 'Completed' && 'text-green-600'}`}
+                                    ${!booking.allocation ? `${booking.status !== 'Cancelled' ? 'cursor-pointer text-black' : 'text-red-600'}` : 'text-black'}
+                                    ${booking.status === 'Unallocated' && 'text-gray-400'}`}
                                         >
                                             {booking.allocation ? booking.allocation.mechanicId.name : `${booking.status !== 'Cancelled' ? 'Allocate' : 'Cancelled'}`}
                                         </span>
@@ -279,7 +279,7 @@ const AllBookings = () => {
                                                         openHandleAllocate();
                                                     }
                                                 }}
-                                                className="bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500 transition duration-300"
+                                                className="bg-bb-theme-500 text-white px-3 py-1 rounded-md hover:bg-bb-theme-600 transition duration-300"
                                             >
                                                 Allocate
                                             </button>
@@ -289,7 +289,7 @@ const AllBookings = () => {
                                                     onClick={() => {
                                                         navigate(`billing/${booking.allocation?._id}`, { replace: true });
                                                     }}
-                                                    className="bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 transition duration-300"
+                                                    className="bg-green-600 text-white px-5 py-1 rounded-md hover:bg-green-700 transition duration-300"
                                                 >
                                                     Billing
                                                 </button>

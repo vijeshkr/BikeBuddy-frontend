@@ -194,7 +194,7 @@ const BillingPage = () => {
                                 />
                                 <button
                                     onClick={handleChangeBreakdownCharge}
-                                    className="ml-2 bg-purple-600 text-white px-4 py-1.5 rounded-md hover:bg-purple-700 transition-colors"
+                                    className="ml-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm px-3 py-2 transition-colors flex-shrink-0"
                                 >
                                     Add
                                 </button>
@@ -216,7 +216,7 @@ const BillingPage = () => {
                                 />
                                 <button
                                     onClick={handleChangePickUpCharge}
-                                    className="ml-2 bg-purple-600 text-white px-4 py-1.5 rounded-md hover:bg-purple-700 transition-colors"
+                                    className="ml-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm px-3 py-2 transition-colors flex-shrink-0"
                                 >
                                     Add
                                 </button>
@@ -262,7 +262,7 @@ const BillingPage = () => {
                                 <button
                                     type="button"
                                     onClick={handleAddWork}
-                                    className="bg-purple-600 text-white px-3 py-1.5 rounded-md hover:bg-purple-700 transition-colors flex-shrink-0"
+                                    className="rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm px-3 py-2 transition-colors flex-shrink-0"
                                 >
                                     Add Work
                                 </button>
@@ -326,7 +326,7 @@ const BillingPage = () => {
                         </div>
                         <button
                             onClick={() => setSparePartsVisible(true)}
-                            className="mt-4 w-full bg-purple-600 text-white px-3 py-1.5 rounded-md hover:bg-purple-700 transition-colors mb-3"
+                            className="mt-4 w-full p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm transition-colors mb-3"
                         >
                             View Spare Parts
                         </button>
@@ -334,7 +334,7 @@ const BillingPage = () => {
                         <button
                             type="submit"
                             onClick={handleSubmit}
-                            className="w-full bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 transition-colors"
+                            className="w-full p-2 rounded-md text-sm text-white bg-gradient-to-b from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 active:from-green-700 active:to-green-800 shadow-sm transition-colors"
                         >
                             Complete Work
                         </button>
@@ -376,7 +376,7 @@ const BillingPage = () => {
                         </div>
                         <button
                             onClick={() => setSparePartsVisible(false)}
-                            className="mt-4 w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                            className="mt-4 w-full p-2 rounded-md text-sm text-white bg-gradient-to-b from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 active:from-red-700 active:to-red-800 shadow-sm transition-colors"
                         >
                             Close
                         </button>

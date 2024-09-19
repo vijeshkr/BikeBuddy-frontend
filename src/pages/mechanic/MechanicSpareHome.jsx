@@ -49,7 +49,7 @@ const MechanicSpareHome = () => {
       <div className='flex justify-end'>
         <button
           onClick={() => handleFilterSpare('')}
-          className='bg-primaryColor px-2 py-1 text-white rounded-md text-sm xs:text-base'>All Spares</button>
+          className='px-2 py-1 text-white rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>All Spares</button>
       </div>
 
       {/* Container to display all vehicles */}
@@ -58,7 +58,7 @@ const MechanicSpareHome = () => {
           allVehicles.map((vehicle, index) => (
             <div
               onClick={() => handleFilterSpare(vehicle._id)}
-              className='flex flex-col justify-center items-center shadow-custom gap-2 cursor-pointer p-2'
+              className='flex flex-col justify-center items-center shadow-custom gap-2 cursor-pointer p-2 bg-white rounded-lg'
               key={index}>
               <img
                 className='w-80 h-60 object-contain'

@@ -113,7 +113,7 @@ const ResetPassword = () => {
 
 
     return (
-        <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
+        <div className='bg-bb-theme-900 h-screen w-full flex flex-col pt-8 xs:pt-16'>
             {/* If loading is true dispay the loading indicator */}
             {loading && <LoadingIndicator />}
             <div className='flex flex-col gap-5 justify-center items-center'>
@@ -163,7 +163,7 @@ const ResetPassword = () => {
                             {confirmPasswordError && <p className='text-red-500 text-xs'>{confirmPasswordError}</p>}
                             {/* Display general error if any */}
                             {generalError && <p className='text-red-500 text-xs'>{generalError}</p>}
-                            <button className='bg-primaryColor text-white py-1.5 rounded-md'>Reset Password</button>
+                            <button className='bg-bb-theme-900 text-white py-1.5 rounded-md'>Reset Password</button>
 
                         </form>
                     </div>

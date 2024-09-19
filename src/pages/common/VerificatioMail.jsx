@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const VerificationMail = () => {
 
     return (
-        <div className='bg-primaryColor h-screen w-full flex flex-col pt-8 xs:pt-16'>
+        <div className='bg-bb-theme-900 h-screen w-full flex flex-col pt-8 xs:pt-16'>
             <div className='flex flex-col gap-5 justify-center items-center'>
                 <div className='flex flex-col items-center gap-2'>
                     <Logo width={"145"} height={"77"} />
@@ -18,7 +18,7 @@ const VerificationMail = () => {
                         <img className='object-cover h-48' src={verificationMailImg} alt="" />
                     </div>
                     <p className='text-sm font-medium pb-5 text-center'>We have sent a verification link to your email.</p>
-                    <Link to={'/login'}><button className='bg-primaryColor text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
+                    <Link to={'/login'}><button className='bg-bb-theme-900 text-white py-1.5 rounded-md w-full'>Back to Login</button></Link>
 
                 </div>
             </div>

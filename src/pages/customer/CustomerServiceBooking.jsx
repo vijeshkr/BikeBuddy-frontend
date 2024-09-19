@@ -47,13 +47,13 @@ const CustomerServiceBooking = () => {
       <div className='flex gap-2 sm:justify-end justify-center mb-4'>
         <button 
         onClick={handleOpenPackage}
-        className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Our Packages</button>
+        className='text-xs sm:text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white px-2 py-1 rounded-lg shadow-md'>Our Packages</button>
         <button
         onClick={handleOpenServiceCharges} 
-        className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Service Charges</button>
+        className='text-xs sm:text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white px-2 py-1 rounded-lg shadow-md'>Service Charges</button>
         <button 
                 onClick={handleOpenBreakdown}
-        className='text-xs sm:text-base bg-purple-200 hover:bg-purple-300 active:bg-purple-200 py-1 px-2 rounded-md text-primaryColor'>Book a Breakdown</button>
+        className='text-xs sm:text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white px-2 py-1 rounded-lg shadow-md'>Book a Breakdown</button>
       </div>
 
       <div className='flex flex-wrap gap-2 justify-center'>

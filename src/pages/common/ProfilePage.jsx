@@ -253,7 +253,7 @@ const ProfilePage = () => {
 
         {/* Current user details  */}
 
-        <div className='shadow-custom flex flex-col gap-4 flex-1 p-4 md:h-[470px] min-w-[300px] '>
+        <div className='shadow-custom bg-white rounded-lg flex flex-col gap-4 flex-1 p-4 md:h-[470px] min-w-[300px] '>
           <div>
             <img className='h-36 w-36 object-cover rounded-full border'
               src={
@@ -266,7 +266,7 @@ const ProfilePage = () => {
           <div className='flex flex-col gap-4'>
             <h1 className='text-xl font-semibold'>{user.name}</h1>
 
-            <p className='text-sm text-gray-400 py-3'>Contact Details</p>
+            <p className='text-sm text-text-extra-soft py-3'>Contact Details</p>
 
             <div className='flex items-center gap-2'>
               <span className='pt-1 text-lg'><IoMailOutline /></span>
@@ -287,7 +287,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Update profile */}
-        <form onSubmit={handleSubmitUpdateProfile} encType="multipart/form-data" className='flex flex-col gap-5 flex-1 shadow-custom  p-4 md:h-[470px] min-w-[300px]'>
+        <form onSubmit={handleSubmitUpdateProfile} encType="multipart/form-data" className='bg-white rounded-lg flex flex-col gap-5 flex-1 shadow-custom  p-4 md:h-[470px] min-w-[300px]'>
 
           <div className='relative flex'>
 
@@ -304,7 +304,7 @@ const ProfilePage = () => {
 
               <span
                 onClick={openUpdatePhoto}
-                className='text-2xl absolute bottom-0 right-0 border rounded-full p-2 bg-blue-100 active:bg-blue-200 cursor-pointer'>
+                className='text-2xl absolute bottom-0 right-0 border rounded-full p-2 bg-bb-theme-100 active:bg-bb-theme-200 cursor-pointer'>
                 <FaCloudUploadAlt />
               </span>
             </div>
@@ -312,10 +312,11 @@ const ProfilePage = () => {
             {/* Profile pic update or remove */}
             <div className={`flex flex-col justify-center items-center gap-2 p-2 text-xs ${!updatePhoto ? `hidden` : ``}`}>
 
-              <label className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Update photo
+              <label className='border p-1 rounded-md cursor-pointer text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Update photo
                 <input ref={fileInputRef} onChange={(e) => handleProfilePictureChange(e)} type="file" className='hidden' />
               </label>
-              <span onClick={removePhoto} className='border p-1 rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200 active:bg-gray-300'>Remove photo</span>
+
+              <span onClick={removePhoto} className='border p-1 rounded-md cursor-pointer text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Remove photo</span>
             </div>
           </div>
 
@@ -360,14 +361,14 @@ const ProfilePage = () => {
             type="text"
             placeholder='Location' />
 
-          <button className='border hover:bg-opacity-95 active:bg-primaryColor p-1 rounded-sm text-sm bg-primaryColor text-white'>Update profile</button>
+          <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Update profile</button>
 
         </form>
 
 
 
         {/* Reset password */}
-        <form onSubmit={handleSubmitPasswordChange} className='flex flex-col gap-6 shadow-custom flex-1 p-4 text-sm lg:h-[470px] min-w-[300px]'>
+        <form onSubmit={handleSubmitPasswordChange} className='flex flex-col bg-white rounded-lg gap-6 shadow-custom flex-1 p-4 text-sm lg:h-[470px] min-w-[300px]'>
           {/* Old password */}
           <div
             className={`flex border-b border-black items-center text-sm ${Object.keys(oldPasswordErrors).length ? 'border-red-500' : `${oldPassword && Object.keys(oldPasswordErrors).length === 0 ? 'border-green-500' : ''}`}`}>
@@ -437,7 +438,7 @@ const ProfilePage = () => {
           {/* Display general error if any */}
           {generalPasswordError && <p className='text-red-500 text-xs'>{generalPasswordError}</p>}
 
-          <button className='border hover:bg-opacity-95 active:bg-primaryColor p-1 rounded-sm text-sm bg-primaryColor text-white'>Reset password</button>
+          <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Reset password</button>
         </form>
       </div>
 

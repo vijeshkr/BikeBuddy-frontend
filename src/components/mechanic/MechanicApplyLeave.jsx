@@ -65,7 +65,7 @@ const MechanicApplyLeave = () => {
   }
 
   return (
-    <div>
+    <div className='shadow-custom p-4 rounded-lg bg-white pb-10'>
       <form
         onSubmit={handlSubmit}
         className='space-y-4'>
@@ -125,10 +125,10 @@ const MechanicApplyLeave = () => {
           <textarea
             value={leaveReason}
             onChange={handleLeaveReason}
-            className='border h-32 rounded-md p-2 text-sm outline-none' placeholder='Reason for leave'></textarea>
+            className='border h-32 rounded-md p-2 text-sm outline-none resize-none' placeholder='Reason for leave'></textarea>
         </div>
         {/* Submit button */}
-        <button className='bg-primaryColor text-white py-1 px-8 rounded-md'>Apply</button>
+        <button className='px-8 py-1 text-white rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>Apply</button>
 
 
       </form>

@@ -113,11 +113,11 @@ const MechanicDashboard = () => {
               <h3 className='font-semibold'>Targets</h3>
               <div className='flex items-center gap-2 text-sm'>
                 <div className='bg-[#0ea5e9] h-4 w-4 rounded-full'></div>
-                <span>{displayINRCurrency(targets?.achievement[0]?.labourTarget)}</span>
+                <span className='text-gray-400'>{displayINRCurrency(targets?.achievement[0]?.labourTarget)}</span>
               </div>
               <div className='flex items-center gap-2 text-sm'>
                 <div className='bg-[#7c3aed] h-4 w-4 rounded-full'></div>
-                <span>{displayINRCurrency(targets?.achievement[0]?.spareTarget)}</span>
+                <span className='text-gray-400'>{displayINRCurrency(targets?.achievement[0]?.spareTarget)}</span>
               </div>
             </div>
             {/* Achievements */}
@@ -125,11 +125,11 @@ const MechanicDashboard = () => {
               <h3 className='font-semibold'>Achievements</h3>
               <div className='flex items-center gap-2 text-sm'>
                 <div className='bg-[#0ea5e9] h-4 w-4 rounded-full'></div>
-                <span>{displayINRCurrency(targets?.achievement[0]?.labourAchievement)}</span>
+                <span className='text-gray-400'>{displayINRCurrency(targets?.achievement[0]?.labourAchievement)}</span>
               </div>
               <div className='flex items-center gap-2 text-sm'>
                 <div className='bg-[#7c3aed] h-4 w-4 rounded-full'></div>
-                <span>{displayINRCurrency(targets?.achievement[0]?.spareAchievement)}</span>
+                <span className='text-gray-400'>{displayINRCurrency(targets?.achievement[0]?.spareAchievement)}</span>
               </div>
             </div>
           </div>

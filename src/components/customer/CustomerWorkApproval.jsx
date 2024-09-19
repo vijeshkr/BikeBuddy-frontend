@@ -35,11 +35,11 @@ const CustomerWorkApproval = ({ close, allocation }) => {
     return (
         <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
             <div className={`flex justify-center items-center sm:block p-4 sm:p-10 rounded-md w-full h-full transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
-                <div className="p-4 xs:p-10 bg-white rounded-md shadow-custom max-w-lg mx-auto min-w-[320px]">
+                <div className="p-4 xs:p-10 bg-white rounded-lg shadow-custom max-w-lg mx-auto min-w-[320px]">
 
                     {/* Title and close button */}
                     <div className='flex justify-between items-center'>
-                        <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Work request</h2>
+                        <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4 ">Additional Work Request</h2>
                         <span
                             className='text-black text-2xl pb-2 cursor-pointer'
                             onClick={() => {
@@ -49,11 +49,11 @@ const CustomerWorkApproval = ({ close, allocation }) => {
                         >&times;</span>
                     </div>
                     {/* Work description and amount */}
-                    <div className='mb-6 shadow-custom p-4 rounded-md max-h-[450px] overflow-y-auto scrollbar-none'>
+                    <div className='mb-6 border p-4 rounded-md max-h-[450px] overflow-y-auto scrollbar-none'>
                         <div className='space-y-2'>
-                            <p className='text-lg text-gray-800 font-medium'>Description</p>
+                            <p className='text-lg font-medium'>Description</p>
                             <p>{allocation.extraWorkDescription}</p>
-                            <p><span className='text-lg text-gray-800 font-medium'>Estimation amount :</span> &#8377; {allocation.extraWorkEstimationAmount}</p>
+                            <p><span className='text-lg font-medium'>Estimation amount :</span> &#8377; {allocation.extraWorkEstimationAmount}</p>
                         </div>
                         <div className='flex justify-center gap-4 my-4'>
                             <button
@@ -63,7 +63,7 @@ const CustomerWorkApproval = ({ close, allocation }) => {
                                     setTimeout(close, 300);
                                 }}
                                 disabled={loading}
-                                className='bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500'>Approve</button>
+                                className='bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700'>Approve</button>
                             <button
                                 onClick={() => {
                                     handleApproval('Rejected')
@@ -71,7 +71,7 @@ const CustomerWorkApproval = ({ close, allocation }) => {
                                     setTimeout(close, 300);
                                 }}
                                 disabled={loading}
-                                className='bg-red-400 text-white px-3 py-1 rounded hover:bg-red-500'>Reject</button>
+                                className='bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700'>Reject</button>
                         </div>
                     </div>
 

@@ -4,7 +4,7 @@ const AllocationDetailsPopup = ({ close, allocation }) => {
 
     return (
         <div className="fixed p-5 xs:p-10 inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-            <div className="bg-white p-5 xs:p-10 rounded-xl shadow-xl w-full max-w-md h-full relative overflow-y-auto scrollbar-none">
+            <div className="bg-white p-5 xs:p-10 rounded-xl shadow-xl w-full max-w-md max-h-full relative overflow-y-auto scrollbar-none">
                 <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-2xl transition-colors"
                     onClick={close}

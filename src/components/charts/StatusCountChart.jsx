@@ -22,7 +22,7 @@ const StatusCountChart = () => {
     }
   };
 
-   // Define data for the pie chart based on the booking status counts from Redux
+  // Define data for the pie chart based on the booking status counts from Redux
   const data = [
     { value: statusCounts.Unallocated },
     { value: statusCounts.Allocated },
@@ -33,7 +33,7 @@ const StatusCountChart = () => {
   ];
 
   // Define colors for each slice of the pie chart
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#9003fc', '#f803fc'];
+  const COLORS = ['#9ca3af', '#0088FE', '#86efac', '#facc15', '#16a34a', '#dc2626'];
 
   // Fetch bookings when the component mounts
   useEffect(() => {
@@ -65,31 +65,31 @@ const StatusCountChart = () => {
         {/* Left section */}
         <div>
           <div className='flex items-center gap-2'>
-            <div className='h-4 w-4 rounded-full bg-[#0088FE]'></div>
-            <span className='text-[#0088FE]'>Unallocated</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <div className='h-4 w-4 rounded-full bg-[#00C49F]'></div>
-            <span className='text-[#00C49F]'>Allocated</span>
+            <div className='h-4 w-4 rounded-full bg-[#9ca3af]'></div>
+            <span className='text-[#9ca3af]'>Unallocated</span>
           </div>
           <div className='flex items-center gap-2'>
             <div className='h-4 w-4 rounded-full bg-[#0088FE]'></div>
-            <span className='text-[#FFBB28]'>In Progress</span>
+            <span className='text-[#0088FE]'>Allocated</span>
+          </div>
+          <div className='flex items-center gap-2'>
+            <div className='h-4 w-4 rounded-full bg-[#86efac]'></div>
+            <span className='text-[#86efac]'>In Progress</span>
           </div>
         </div>
         {/* Right section */}
         <div>
           <div className='flex items-center gap-2'>
-            <div className='h-4 w-4 rounded-full bg-[#00C49F]'></div>
-            <span className='text-[#FF8042]'>Pending</span>
+            <div className='h-4 w-4 rounded-full bg-[#facc15]'></div>
+            <span className='text-[#facc15]'>Pending</span>
           </div>
           <div className='flex items-center gap-2'>
-            <div className='h-4 w-4 rounded-full bg-[#0088FE]'></div>
-            <span className='text-[#9003fc]'>Completed</span>
+            <div className='h-4 w-4 rounded-full bg-[#16a34a]'></div>
+            <span className='text-[#16a34a]'>Completed</span>
           </div>
           <div className='flex items-center gap-2'>
-            <div className='h-4 w-4 rounded-full bg-[#00C49F]'></div>
-            <span className='text-[#f803fc]'>Unpaid</span>
+            <div className='h-4 w-4 rounded-full bg-[#dc2626]'></div>
+            <span className='text-[#dc2626]'>Unpaid</span>
           </div>
         </div>
       </div>

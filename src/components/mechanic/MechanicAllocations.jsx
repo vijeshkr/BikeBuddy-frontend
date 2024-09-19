@@ -75,7 +75,7 @@ const MechanicAllocations = () => {
     };
 
     return (
-        <div className="p-2 lg:shadow-custom rounded-md">
+        <div className="p-4 lg:shadow-custom rounded-lg bg-white">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Allocatted Jobs</h3>
             <div className='flex flex-col xs:flex-row justify-between items-center'>
                 {/* Search box */}
@@ -87,7 +87,7 @@ const MechanicAllocations = () => {
                     <select
                         value={statusFilter}
                         onChange={handleFilterChange}
-                        className='bg-primaryColor cursor-pointer outline-none text-sm text-white p-1 rounded-md'
+                        className='bg-bb-theme-500 cursor-pointer outline-none text-sm text-white p-1 rounded-md'
                     >
                         <option value='All'>Filter</option>
                         <option value='Allocated'>Allocated</option>
@@ -103,19 +103,19 @@ const MechanicAllocations = () => {
                 <div>
                     {/* Table format for larger screens */}
                     <table className="hidden lg:table w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-bb-theme-50">
                             <tr className="text-left">
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Type</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approval</th>
-                                {/* <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th> */}
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Vehicle</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Service Type</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Approval</th>
+                                {/* <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Booking Date</th> */}
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Status</th>
+                                <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {searchData.map((allocation) => (
-                                <tr key={allocation._id} className="hover:bg-gray-50">
+                                <tr key={allocation._id} className="hover:bg-bb-theme-50 even:bg-gray-50">
                                     <td
                                         onClick={() => {
                                             handleSelectedAllocation(allocation._id);
@@ -127,7 +127,7 @@ const MechanicAllocations = () => {
                                     <td className={`px-4 py-3 ${allocation.bookingId.breakdown && 'text-red-600'}`}>
                                         {allocation.bookingId?.breakdown ? 'Breakdown' : allocation.bookingId?.serviceType?.packageName}
                                     </td>
-                                    <td className={`px-4 py-3 ${allocation.customerApproval === 'Pending' ? 'text-yellow-400' :
+                                    <td className={`px-4 py-3 ${allocation.customerApproval === 'Pending' ? 'text-yellow-500' :
                                         allocation.customerApproval === 'Approved' ? 'text-green-600' :
                                             allocation.customerApproval === 'Rejected' ? 'text-red-600' : 'text-gray-400'}`}>
                                         {allocation.customerApproval ? allocation.customerApproval : 'No request'}
@@ -138,7 +138,7 @@ const MechanicAllocations = () => {
                                     <td className={`px-4 py-3
                                         ${allocation.bookingId.status === 'Allocated' && 'text-gray-400'}
                                         ${allocation.bookingId.status === 'Pending' && 'text-yellow-400'}
-                                        ${allocation.bookingId.status === 'Progress' && 'text-cyan-500'}
+                                        ${allocation.bookingId.status === 'Progress' && 'text-green-300'}
                                         ${allocation.bookingId.status === 'Cancelled' && 'text-red-600'}
                                         ${allocation.bookingId.status === 'Completed' && 'text-green-600'}`}>
                                         {allocation.bookingId.status}
@@ -152,7 +152,7 @@ const MechanicAllocations = () => {
                                                             handleSelectedAllocation(allocation._id);
                                                             openHandleUpdatePopup();
                                                         }}
-                                                        className={`text-sm bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500 transition duration-300`}>
+                                                        className={`text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 active:bg-blue-800 transition duration-300`}>
                                                         Update
                                                     </button>
                                                     <button
@@ -160,7 +160,7 @@ const MechanicAllocations = () => {
                                                             handleSelectedAllocation(allocation._id);
                                                             openHandleCompletePopup();
                                                         }}
-                                                        className={`text-sm bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition duration-300`}>
+                                                        className={`text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 active:bg-green-800 transition duration-300`}>
                                                         Complete
                                                     </button>
                                                 </div>)
@@ -215,7 +215,7 @@ const MechanicAllocations = () => {
                                             <span className=" text-gray-700 ml-4">{allocation.extraWorkEstimationAmount}</span>
                                         </div>
                                         <div className="mb-4">
-                                            <span className="font-semibold text-text-sm sm:text-base ">Customer Approval Status:</span>
+                                            <span className="font-semibold text-sm sm:text-base ">Customer Approval Status:</span>
                                             <span className={`ml-4 ${allocation.customerApproval === 'Pending' ? 'text-yellow-500' :
                                                 allocation.customerApproval === 'Approved' ? 'text-green-600' : 'text-red-600'}
                             }`}>{allocation.customerApproval}</span>
@@ -241,7 +241,7 @@ const MechanicAllocations = () => {
                                                             handleSelectedAllocation(allocation._id);
                                                             openHandleUpdatePopup();
                                                         }}
-                                                        className={`text-sm bg-blue-400 text-white px-3 py-1 rounded hover:bg-blue-500 transition duration-300`}>
+                                                        className={`text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition duration-300`}>
                                                         Update
                                                     </button>
                                                     <button
@@ -249,7 +249,7 @@ const MechanicAllocations = () => {
                                                             handleSelectedAllocation(allocation._id);
                                                             openHandleCompletePopup();
                                                         }}
-                                                        className={`text-sm bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition duration-300`}>
+                                                        className={`text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition duration-300`}>
                                                         Complete
                                                     </button>
                                                 </div>)

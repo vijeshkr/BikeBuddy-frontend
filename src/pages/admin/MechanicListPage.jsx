@@ -15,7 +15,7 @@ const MechanicListPage = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [mechanicsPerPage] = useState(4);
+  const [mechanicsPerPage] = useState(9);
 
   // Access mechanics data from the Redux store
   const mechanics = useSelector((state) => state.mechanic.mechanic);
@@ -66,9 +66,9 @@ const MechanicListPage = () => {
     fetchMechanics();
   }, [])
   return (
-    <div className='flex gap-4 flex-wrap'>
+    <div className='flex gap-4 flex-wrap mt-4'>
       {loading && <LoadingIndicator />}
-      <div className='min-w-[340px] lg:min-w-[700px] p-4 rounded-md'>
+      <div className='min-w-[340px] lg:min-w-[700px] p-4 bg-white rounded-lg'>
         {mechanics.length !== 0 &&
           <div className='mb-3'>
             <div className='border rounded-md px-2 flex items-center justify-between max-w-[250px]'>
@@ -90,17 +90,17 @@ const MechanicListPage = () => {
           <div>
             <div className='hidden lg:flex items-start'>
               <table className="w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-bb-theme-50">
                   <tr>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Place</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Name</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Email</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Phone</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Place</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {currentPageMechanics.map((mechanic) => (
-                    <tr key={mechanic._id}>
+                    <tr key={mechanic._id} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                       <td className="px-4 py-3 whitespace-nowrap">{mechanic.name}</td>
                       <td className="px-4 py-3">{mechanic.email}</td>
                       <td className="px-4 py-3">{mechanic.phone ? mechanic.phone :
@@ -126,11 +126,11 @@ const MechanicListPage = () => {
             {/* Displaying mechanic data in card format for small screens */}
             <div className="lg:hidden flex flex-wrap gap-4">
               {filteredData.map((mechanic) => (
-                <div key={mechanic._id} className="bg-white shadow-custom rounded-lg p-4 mb-4 w-full md:w-[300px] min-w-[300px]">
+                <div key={mechanic._id} className="bg-white border rounded-lg p-4 mb-4 w-full md:w-[300px] min-w-[300px]">
                   <h3 className="text-lg font-semibold mb-2">{mechanic.name}</h3>
-                  <p className="text-gray-700 mb-1"><strong>Email:</strong> {mechanic.email}</p>
-                  <p className="text-gray-700 mb-1"><strong>Phone:</strong> {mechanic.phone ? mechanic.phone : <span className="text-red-500">N/A</span>}</p>
-                  <p className="text-gray-700 mb-1"><strong>Place:</strong> {mechanic.place ? mechanic.place : <span className="text-red-500">N/A</span>}</p>
+                  <p className="text-bb-theme-950 mb-1"><strong>Email:</strong> {mechanic.email}</p>
+                  <p className="text-bb-theme-950 mb-1"><strong>Phone:</strong> {mechanic.phone ? mechanic.phone : <span className="text-red-500">N/A</span>}</p>
+                  <p className="text-bb-theme-950 mb-1"><strong>Place:</strong> {mechanic.place ? mechanic.place : <span className="text-red-500">N/A</span>}</p>
                 </div>
               ))}
             </div>
@@ -143,7 +143,7 @@ const MechanicListPage = () => {
       </div>
 
       {/* Component for creating new user */}
-      <div className='min-w-[340px] lg:min-w-[400px] p-4 rounded-md'>
+      <div className='min-w-[340px] lg:min-w-[400px]'>
         <CreateNewUser role={'mechanic'} />
       </div>
     </div>

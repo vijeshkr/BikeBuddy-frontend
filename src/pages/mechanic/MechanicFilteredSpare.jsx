@@ -147,7 +147,7 @@ const MechanicFilteredSpare = () => {
   });
 
   return (
-    <div>
+    <div className='bg-white p-4 rounded-lg shadow-custom'>
       {loading && <LoadingIndicatior />}
       <div className='py-2 flex justify-between flex-wrap gap-2'>
         {/* Search input field */}
@@ -167,7 +167,7 @@ const MechanicFilteredSpare = () => {
         <div>
           <button
             onClick={handleFilterSpare}
-            className='bg-primaryColor text-white text-sm xs:text-base py-1 px-2 rounded-md'>
+            className='px-2 py-1 text-white rounded-md text-sm bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>
             {filterSuitable !== '' ? 'All Spares' : 'Filter'}
           </button>
         </div>
@@ -175,21 +175,21 @@ const MechanicFilteredSpare = () => {
 
       {/* Display spare parts in table for large screens */}
       {currentPageSpares.length === 0 ? 'No spare parts available' :
-        <div className='xl:border-b'>
+        <div>
           <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
-            <thead className='bg-gray-50'>
+            <thead className='bg-bb-theme-50'>
               <tr className='text-left'>
-                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Image</th>
-                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Name</th>
-                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Suitable</th>
-                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Stocks</th>
-                <th className='px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-16'>Price</th>
+                <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Image</th>
+                <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Name</th>
+                <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Suitable</th>
+                <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Stocks</th>
+                <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider min-w-16'>Price</th>
               </tr>
             </thead>
             <tbody className='bg-white divide-y divide-gray-200'>
               {currentPageSpares.length === 0 ? <div className='p-5'>No spare parts available</div> :
                 currentPageSpares.map((spare, index) => (
-                  <tr key={index} className='hover:bg-gray-50'>
+                  <tr key={index} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                     <td className='px-4 py-3'><img
                       onClick={() => handleOpenImgViewer(spare.image)}
                       className='h-12 w-12 rounded-full object-cover cursor-pointer' src={`${backendUrl}/images/${spare.image}`} alt="" /></td>
@@ -209,7 +209,7 @@ const MechanicFilteredSpare = () => {
       <div className='sm:hidden'>
         {
           filteredSpare.map((spare, index) => (
-            <div key={index} className='min-w-[260px] text-sm flex justify-between py-4 px-6 shadow-custom'>
+            <div key={index} className='min-w-[260px] text-sm flex justify-between py-4 px-6 border rounded-lg mb-4'>
 
               <div>
                 <h1 className='font-semibold'>{spare.itemName}</h1>

@@ -26,7 +26,7 @@ const MechanicTargets = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [targetsPerPage] = useState(4);
+    const [targetsPerPage] = useState(10);
 
     // Search logic
     const searchData = targets.filter(target => target?.mechanicId?.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()));
@@ -89,7 +89,7 @@ const MechanicTargets = () => {
     }, [selectedMonth, selectedYear]);
 
     return (
-        <div className='py-4'>
+        <div className='p-4 mt-4 rounded-lg bg-white'>
             <div className='flex justify-between items-center'>
                 {/* Title */}
                 <h1 className='font-semibold text-xl xs:text-2xl pb-4'>Targets</h1>
@@ -99,7 +99,7 @@ const MechanicTargets = () => {
                         <select
                             value={selectedMonth}
                             onChange={(e) => setSelectedMonth(e.target.value)}
-                            className='bg-primaryColor cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
+                            className='bg-bb-theme-500 cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
                         >
                             <option value=''>Month</option>
                             {Array.from({ length: 12 }, (_, i) => (
@@ -114,7 +114,7 @@ const MechanicTargets = () => {
                         <select
                             value={selectedYear}
                             onChange={(e) => setSelectedYear(e.target.value)}
-                            className='bg-primaryColor cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
+                            className='bg-bb-theme-500 cursor-pointer outline-none text-xs xs:text-sm text-white p-1 rounded-md'
                         >
                             <option value=''>Year</option>
                             {Array.from({ length: 10 }, (_, i) => (
@@ -127,7 +127,7 @@ const MechanicTargets = () => {
                     {/* Button to open add new mechanic targets popup */}
                     <button
                         onClick={handleOpenNewTargetPopup}
-                        className='py-1 px-2 bg-primaryColor text-xs xs:text-sm text-white rounded-md'
+                        className='py-1 px-2 bg-bb-theme-500 hover:bg-bb-theme-600 active:bg-bb-theme-700 text-xs xs:text-sm text-white rounded-md'
                     >
                         Add New
                     </button>
@@ -142,14 +142,14 @@ const MechanicTargets = () => {
             {/* Table for large screens */}
             <div className='items-start hidden lg:flex'>
                 <table className="w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-bb-theme-50">
                         <tr>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Labour Target</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Achievements</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Spare Target</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Achievements</th>
-                            <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Name</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Labour Target</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Achievements</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Spare Target</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider w-40">Achievements</th>
+                            <th className="px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -161,7 +161,7 @@ const MechanicTargets = () => {
                         ) : currentPageTargets.length > 0 ? (
                             currentPageTargets.map((target) => (
                                 target.achievement.map((ach) => (
-                                    <tr key={ach.month}>
+                                    <tr key={ach.month} className='hover:bg-bb-theme-50 even:bg-gray-50'>
                                         <td className="px-4 py-3 whitespace-nowrap">{target.mechanicId?.name || 'Unknown'}</td>
                                         <td className="px-4 py-3">{displayINRCurrency(ach.labourTarget)}</td>
                                         <td className="px-4 py-3">{displayINRCurrency(ach.labourAchievement)}</td>
@@ -197,7 +197,7 @@ const MechanicTargets = () => {
                     // Display mechanic targets in cards for small screens
                     searchData.map((target) =>
                         target.achievement.map((ach) => (
-                            <div key={ach.month} className="border p-4 rounded-md shadow-custom w-full xs:w-[300px] min-w-[300px]">
+                            <div key={ach.month} className="border p-4 rounded-md w-full xs:w-[300px] min-w-[300px]">
                                 <h1 className="text-lg font-semibold">{target.mechanicId?.name}</h1>
                                 <div><span className='font-medium text-gray-500 text-sm'>Labour Target:</span> {displayINRCurrency(ach.labourTarget)}</div>
                                 <div><span className='font-medium text-gray-500 text-sm'>Labour Achievements:</span> {displayINRCurrency(ach.labourAchievement)}</div>

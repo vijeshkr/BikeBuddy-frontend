@@ -127,7 +127,7 @@ const BookService = () => {
         : servicePackages.filter(pkg => pkg.price > 0);   // Exclude free services
 
     return (
-        <form className="p-2 bg-white rounded-md shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
+        <form className="p-4 bg-white rounded-lg shadow-custom max-w-lg mx-auto" onSubmit={handleSubmit}>
             <h2 className="text-xl text-center sm:text-left sm:text-2xl font-semibold mb-4">Book a Service</h2>
 
             {/* Vehicle selection dropdown */}
@@ -210,7 +210,7 @@ const BookService = () => {
 
             {/* Submit button */}
             <button
-                className="w-full bg-primaryColor text-white py-2 rounded-md shadow-md hover:opacity-90 transition duration-300"
+                className="w-full bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 text-white py-1.5 rounded-lg shadow-md"
                 disabled={loading}  // Disable button when loading
             >
                 Book Now

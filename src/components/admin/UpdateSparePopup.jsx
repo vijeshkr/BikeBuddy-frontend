@@ -95,7 +95,7 @@ const UpdateSparePopup = ({ close, spare, fetchSpare }) => {
                         />
                     </div>
 
-                    <button className='text-sm bg-primaryColor btext-sm g-primaryColor p-2 rounded-sm text-white'>
+                    <button className='p-2 rounded-md text-sm text-white bg-gradient-to-b from-bb-theme-500 to-bb-theme-600 hover:from-bb-theme-600 hover:to-bb-theme-700 active:from-bb-theme-700 active:to-bb-theme-800 shadow-sm'>
                         {loading ? 'Updating...' : 'Update'}
                     </button>
                 </form>
