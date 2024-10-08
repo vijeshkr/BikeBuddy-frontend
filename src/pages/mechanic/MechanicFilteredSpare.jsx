@@ -30,7 +30,7 @@ const MechanicFilteredSpare = () => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [sparePerPage] = useState(4);
+  const [sparePerPage] = useState(8);
 
   // Function for fetch all spare parts details from the api
   const fetchSpare = async () => {

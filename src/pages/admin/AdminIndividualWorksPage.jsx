@@ -239,7 +239,7 @@ const AdminIndividualWorksPage = () => {
                                 <div
                                 // className='xl:overflow-y-auto xl:scrollbar-none xl:max-h-[505px] xl:border-b'
                                 >
-                                    <table className='hidden sm:table w-full divide-y divide-gray-200 shadow-custom min-w-[455px]'>
+                                    <table className='hidden sm:table w-full divide-y divide-gray-200 min-w-[455px]'>
                                         <thead className='bg-bb-theme-50'>
                                             <tr className='text-left'>
                                                 <th className='px-3 py-3 text-left text-xs font-medium text-bb-theme-500 uppercase tracking-wider'>Name</th>

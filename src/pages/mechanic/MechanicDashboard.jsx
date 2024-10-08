@@ -48,7 +48,6 @@ const MechanicDashboard = () => {
       // API call
       const response = await makeRequest.get(`/get-mechanic-target/${user._id}`);
       if (response.data.success) {
-        console.log(response.data.data)
         setTargets(response.data.data);
         const data = response.data.data;
 

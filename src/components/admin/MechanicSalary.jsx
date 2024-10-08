@@ -23,7 +23,7 @@ const MechanicSalary = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const [targetsPerPage] = useState(4);
+    const [targetsPerPage] = useState(10);
 
     // Search logic
     const searchData = targets.filter(target => target?.mechanicId?.name.toLowerCase().includes(searchTerm.toLocaleLowerCase()));

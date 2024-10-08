@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AllocationDetailsPopup from './AllocationDetailsPopup';
 import WorkUpdationPopup from './WorkUpdationPopup';
 import WorkCompletionPopup from './WorkCompletionPopup';
 import SearchBox from '../common/SearchBox';
+import socket from '../../common/socket';
+import { addOneAllocation } from '../../redux/features/allocationsSlice';
 
 const MechanicAllocations = () => {
 
@@ -19,6 +21,8 @@ const MechanicAllocations = () => {
     const [searchTerm, setSearchTerm] = useState('');
     // State to manage the selected filter
     const [statusFilter, setStatusFilter] = useState('All');
+
+    const dispatch = useDispatch();
 
     // Access allocation details from the Redux store
     const allocations = useSelector((state) => state.allocations.allocations);
@@ -74,6 +78,18 @@ const MechanicAllocations = () => {
         setStatusFilter(event.target.value);
     };
 
+    useEffect(() => {
+
+        socket.on('jobAllocation', (allocatedJob) => {
+            dispatch(addOneAllocation(allocatedJob));
+        });
+
+        // Clean up socket event listener
+        return () => {
+            socket.off('jobAllocation');
+        }
+    });
+
     return (
         <div className="p-4 lg:shadow-custom rounded-lg bg-white">
             <h3 className="text-xl sm:text-2xl text-center sm:text-left font-semibold mb-4">Allocatted Jobs</h3>
@@ -127,7 +143,7 @@ const MechanicAllocations = () => {
                                     <td className={`px-4 py-3 ${allocation.bookingId.breakdown && 'text-red-600'}`}>
                                         {allocation.bookingId?.breakdown ? 'Breakdown' : allocation.bookingId?.serviceType?.packageName}
                                     </td>
-                                    <td className={`px-4 py-3 ${allocation.customerApproval === 'Pending' ? 'text-yellow-500' :
+                                    <td className={`px-4 py-3 ${allocation.customerApproval === 'Pending' ? 'text-yellow-400' :
                                         allocation.customerApproval === 'Approved' ? 'text-green-600' :
                                             allocation.customerApproval === 'Rejected' ? 'text-red-600' : 'text-gray-400'}`}>
                                         {allocation.customerApproval ? allocation.customerApproval : 'No request'}
@@ -216,7 +232,7 @@ const MechanicAllocations = () => {
                                         </div>
                                         <div className="mb-4">
                                             <span className="font-semibold text-sm sm:text-base ">Customer Approval Status:</span>
-                                            <span className={`ml-4 ${allocation.customerApproval === 'Pending' ? 'text-yellow-500' :
+                                            <span className={`ml-4 ${allocation.customerApproval === 'Pending' ? 'text-yellow-400' :
                                                 allocation.customerApproval === 'Approved' ? 'text-green-600' : 'text-red-600'}
                             }`}>{allocation.customerApproval}</span>
                                         </div>
