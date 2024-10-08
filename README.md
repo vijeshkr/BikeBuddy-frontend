@@ -1,7 +1,5 @@
 # BIKEBUDDY - Two-Wheeler Garage Management System
 
-![BIKEBUDDY Logo](path/to/logo.png) <!-- Replace with actual logo path -->
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
